@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Le cabinet — Ottavi Law Firm Inc.</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&amp;family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="background: #F7F5EE; color: #2E2E2E; font-family: 'Lato', sans-serif;">
+  <dc-import name="Header" lang="fr" active="cabinet" hint-size="100%,90px"></dc-import>
+
+  <main>
+    <!-- Logo lockup -->
+    <section style="background: #2E2E2E; color: #FFFFFF;">
+      <div style="max-width: 1240px; margin: 0 auto; padding: clamp(64px, 9vw, 120px) 24px; box-sizing: border-box; display: flex; align-items: stretch; justify-content: center; gap: clamp(28px, 8vw, 120px);">
+        <span aria-hidden="true" style="display: flex; gap: 8px;"><span style="width: 3px; background: #9B3F78;"></span><span style="width: 3px; background: #9B3F78;"></span></span>
+        <h1 style="margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; text-align: center;">
+          <span style="font-family: 'Cinzel', serif; font-weight: 400; font-size: clamp(48px, 8vw, 104px); line-height: 1; letter-spacing: 0.14em; color: #D9CC8C;">OTTAVI</span>
+          <span style="font-family: 'Cinzel', serif; font-weight: 400; font-size: clamp(13px, 1.6vw, 20px); letter-spacing: 0.5em; color: #FFFFFF;">LAW FIRM INC.</span>
+        </h1>
+        <span aria-hidden="true" style="display: flex; gap: 8px;"><span style="width: 3px; background: #9B3F78;"></span><span style="width: 3px; background: #9B3F78;"></span></span>
+      </div>
+    </section>
+
+    <!-- Lawyer -->
+    <section>
+      <div style="max-width: 1240px; margin: 0 auto; padding: clamp(56px, 7vw, 104px) 24px; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 48px 80px; align-items: center;">
+        <div role="img" aria-label="Photo de Me Vanessa Poughon" style="flex: 0 1 380px; aspect-ratio: 4 / 5; background: #E9E5D9; border: 1px solid #CFCAB9; display: flex; align-items: center; justify-content: center;">
+          <span style="font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #5A5650;">[Photo actuelle du site]</span>
+        </div>
+        <div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+          <h2 style="margin: 0; font-family: 'Cinzel', serif; font-weight: 400; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.15;">Me Vanessa Poughon</h2>
+          <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: #9B3F78;">Immigration canadienne</p>
+          <dl style="margin: 8px 0 0; display: flex; flex-direction: column; border-top: 1px solid #CFCAB9;">
+            <div style="padding: 18px 0; display: flex; flex-direction: column; gap: 6px; border-bottom: 1px solid #CFCAB9;">
+              <dt style="font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5650;">Barreau</dt>
+              <dd style="margin: 0; font-size: 16px; line-height: 1.6;">Avocate au Barreau du Québec · Numéro de membre 381467-0<br>(Non membre du Barreau de l'Alberta)</dd>
+            </div>
+            <div style="padding: 18px 0; display: flex; flex-direction: column; gap: 6px; border-bottom: 1px solid #CFCAB9;">
+              <dt style="font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5650;">Adresse</dt>
+              <dd style="margin: 0; font-size: 16px; line-height: 1.6;">204, rue du Saint-Sacrement, bureau 300<br>Montréal (Québec) H2Y 2S9</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dc-import name="Footer" lang="fr" hint-size="100%,420px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1700}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

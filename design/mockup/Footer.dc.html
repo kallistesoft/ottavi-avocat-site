@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Pied de page Ottavi</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&amp;family=Lato:wght@400;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<footer style="background: #232323; color: #E8E4DA; font-family: 'Lato', sans-serif; border-top: 1px solid #45423C;">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 64px 24px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 48px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 40px 64px;">
+      <div style="flex: 2 1 280px; display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span aria-hidden="true" style="display: flex; gap: 4px; height: 52px;"><span style="width: 2px; background: #9B3F78;"></span><span style="width: 2px; background: #9B3F78;"></span></span>
+          <span style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-family: 'Cinzel', serif; font-size: 30px; line-height: 1; letter-spacing: 0.2em; color: #D9CC8C;">OTTAVI</span>
+            <span style="font-family: 'Cinzel', serif; font-size: 10px; line-height: 1; letter-spacing: 0.52em; color: #FFFFFF;">LAW FIRM INC.</span>
+          </span>
+        </div>
+        <a href="https://systeme.io" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #6E6A62; color: #CFCBC0; text-decoration: none; font-size: 12px; letter-spacing: 0.1em;">[Badge affilié Systeme.io]</a>
+      </div>
+      <nav aria-label="{{navLabel}}" style="flex: 1 1 160px; display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: #D9CC8C; margin-bottom: 8px;">{{navTitle}}</span>
+        <sc-for list="{{links}}" as="l" hint-placeholder-count="4">
+          <a href="{{l.href}}" style="display: inline-flex; align-items: center; min-height: 36px; color: #E8E4DA; text-decoration: none; font-size: 15px;">{{l.label}}</a>
+        </sc-for>
+      </nav>
+      <div style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 12px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: #D9CC8C; margin-bottom: 4px;">{{contactTitle}}</span>
+        <address style="font-style: normal; font-size: 15px; line-height: 1.6; color: #E8E4DA;">204, rue du Saint-Sacrement, bureau 300<br>Montréal (Québec) H2Y 2S9</address>
+        <a href="mailto:contact@ottavi.ca" style="display: inline-flex; align-items: center; gap: 10px; min-height: 36px; color: #E8E4DA; text-decoration: none; font-size: 15px;">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9CC8C" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="1"></rect><path d="M3 7l9 6 9-6"></path></svg>
+          contact@ottavi.ca
+        </a>
+        <a href="https://www.instagram.com/poughon_immigration" style="display: inline-flex; align-items: center; gap: 10px; min-height: 36px; color: #E8E4DA; text-decoration: none; font-size: 15px;">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9CC8C" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.8"></circle></svg>
+          Instagram · @poughon_immigration
+        </a>
+      </div>
+    </div>
+    <div style="border-top: 1px solid #45423C; padding-top: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; font-size: 13px; line-height: 1.6; color: #CFCBC0;">
+      <sc-if value="{{fr}}" hint-placeholder-val="{{true}}">
+        <span>Me Vanessa Poughon, avocate au Barreau du Québec · n° de membre 381467-0 · Non membre du Barreau de l'Alberta.</span>
+      </sc-if>
+      <sc-if value="{{en}}" hint-placeholder-val="{{false}}">
+        <span>Vanessa Poughon, lawyer, member of the Barreau du Québec · no. 381467-0 · Not a member of the Law Society of Alberta.</span>
+      </sc-if>
+      <span>© 2026 Ottavi Law Firm Inc.</span>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["fr","en"],"default":"fr"},"$preview":{"width":1440,"height":420}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const en = (this.props.lang ?? 'fr') === 'en';
+    const links = en
+      ? [
+          { label: 'Home', href: 'Home-EN.dc.html' },
+          { label: 'Services', href: 'Services.dc.html' },
+          { label: 'Resources', href: 'Ressources.dc.html' },
+          { label: 'The firm', href: 'Cabinet.dc.html' },
+          { label: 'Contact', href: 'Contact.dc.html' }
+        ]
+      : [
+          { label: 'Accueil', href: 'Main.dc.html' },
+          { label: 'Services', href: 'Services.dc.html' },
+          { label: 'Ressources', href: 'Ressources.dc.html' },
+          { label: 'Le cabinet', href: 'Cabinet.dc.html' },
+          { label: 'Contact', href: 'Contact.dc.html' }
+        ];
+    return {
+      en,
+      fr: !en,
+      links,
+      navLabel: en ? 'Footer' : 'Pied de page',
+      navTitle: en ? 'Navigate' : 'Navigation',
+      contactTitle: en ? 'Contact' : 'Nous joindre'
+    };
+  }
+}
+</script>
+</body>
+</html>
