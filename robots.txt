@@ -1,0 +1,3 @@
+# Test site: keep it out of search engines until it replaces www.vpavocat.com.
+User-agent: *
+Disallow: /
