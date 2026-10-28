@@ -27,7 +27,6 @@ python3 -m http.server 8000
 
 ## Still to do
 
-- The Systeme.io affiliate badge is a labelled placeholder
 - The newsletter, guide and CV forms have no backend yet: connect them to systeme.io
 
 ## Hosting
