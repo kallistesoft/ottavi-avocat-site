@@ -2,6 +2,11 @@
    Light and editorial: ivory background, ink text, plum (#9B3F78) as the single accent.
    Fonts: Fraunces (headings), Inter (text). */
 :root {
+  --dark: #1F1A1C;
+  --dark-2: #2B2327;
+  --on-dark: #F4EFEA;
+  --on-dark-2: #C9BEC3;
+  --plum-on-dark: #D98DBC;
   --bg: #FAF7F2;
   --surface: #FFFFFF;
   --tint: #F3EEE6;
@@ -365,3 +370,22 @@ a.way:hover { border-color: var(--plum); color: var(--ink); }
   *, *::before, *::after { transition: none !important; }
   .ebook-cover { transform: none; }
 }
+
+/* Dark accents: inner page title bands, the home "Votre avocate" block, the 1 h consultation */
+.section.dark, .page-head {
+  background: radial-gradient(900px 420px at 88% 0%, rgba(155, 63, 120, .38), transparent 65%), var(--dark);
+  color: var(--on-dark);
+}
+.page-head { border-bottom: 0; }
+.section.dark h1, .section.dark h2, .section.dark h3, .page-head h1 { color: #fff; }
+.section.dark .eyebrow, .page-head .eyebrow, .section.dark .mini-title { color: var(--plum-on-dark); }
+.section.dark .lead, .page-head .lead, .section.dark p, .about.wrap p { color: var(--on-dark-2); }
+.section.dark .link-arrow { color: var(--plum-on-dark); }
+.section.dark .link-arrow:hover { color: #fff; }
+.section.dark .about-quote { background: var(--dark-2); color: #fff; box-shadow: none; border-left-color: var(--plum-on-dark); }
+.section.dark .about-quote cite { color: var(--plum-on-dark); }
+.section.dark .price-card { background: var(--dark-2); border-color: #3A3036; box-shadow: none; }
+.section.dark .price-card .price-amount { color: #fff; }
+.section.dark .price-unit, .section.dark .price-note { color: var(--on-dark-2); }
+.section.dark :focus-visible, .page-head :focus-visible { outline-color: var(--plum-on-dark); }
+.section.dark + .final-cta, .section.dark + .section.dark { border-top: 1px solid #3A3036; }
