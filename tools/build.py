@@ -5,6 +5,7 @@ Usage: python3 tools/build.py
 Templates use root-absolute links ("/services/"); they are rewritten to relative links on output so the site
 works at a domain root or in a subfolder.
 """
+import hashlib
 import os
 import posixpath
 import re
@@ -12,6 +13,12 @@ import re
 from content import (AUDIT, CALENDLY, CALENDLY_FLASH, EBOOK, EMAIL, INSTA, PAGES, PHONE, TEL, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def asset_version(rel_path):
+    """Short hash of an asset, added as ?v= so browsers fetch the new file after each change."""
+    with open(os.path.join(ROOT, rel_path), 'rb') as f:
+        return hashlib.sha256(f.read()).hexdigest()[:8]
 
 ICONS = {
     'mail': '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
@@ -507,8 +514,8 @@ def render(lang, page):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/site.css">
-<script src="/assets/site.js" defer></script>
+<link rel="stylesheet" href="/assets/site.css?v={asset_version("assets/site.css")}">
+<script src="/assets/site.js?v={asset_version("assets/site.js")}" defer></script>
 </head>
 <body class="page-{page}">
 {header(lang, page)}
