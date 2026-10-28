@@ -325,3 +325,10 @@ address { font-style: normal; }
 .split-main h3.eyebrow { font-family: var(--sans); margin-top: 8px; }
 .facts-list dd a { color: var(--charcoal); }
 .facts-list dd a:hover { color: var(--plum); }
+
+/* Two consultations (1 h and flash 20 min) */
+.cards.four .card { flex-basis: 260px; }
+.consult-2 .wrap { border-top: 1px solid var(--line-dark-2); }
+.contact-card { flex-basis: 320px; }
+.price, .amount { flex-wrap: wrap; row-gap: 2px; }
+.price-amount { white-space: nowrap; }
