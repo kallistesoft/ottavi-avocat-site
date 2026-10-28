@@ -223,7 +223,7 @@ def home(lang):
   </div>
 </section>
 
-<section class="section tint">
+<section class="section dark">
   <div class="wrap about">
     <div class="about-text">
       <span class="eyebrow">{t["aboutEyebrow"]}</span>
@@ -301,9 +301,9 @@ def services(lang):
              ('alberta', 'Ebook')]
     chip_html = ''.join(f'<a href="#{a}">{label}</a>' for a, label in chips)
 
-    def offer_block(anchor, title, body, price_html, btn_href, btn_label, extra='', side_extra='', tint=False):
+    def offer_block(anchor, title, body, price_html, btn_href, btn_label, extra='', side_extra='', tint=False, dark=False):
         external = '' if btn_href.startswith('/') else ' rel="noopener"'
-        return f'''<section id="{anchor}" class="section offer{' tint' if tint else ''}">
+        return f'''<section id="{anchor}" class="section offer{' tint' if tint else ''}{' dark' if dark else ''}">
   <div class="wrap offer-grid">
     <div class="offer-main">
       <h2>{title}</h2>
@@ -326,7 +326,7 @@ def services(lang):
       <p class="fine">{t["auditDisclaimer"]}</p>''',
         side_extra=f'<p class="callout">{t["auditBonus"]}</p>')
     consult = offer_block('consultations', t['consult'], f'<p class="lead">{t["consultBlurb"]}</p>',
-                          price(t['consultPrice'], t['taxes']), CALENDLY, t['consultCta'], tint=True)
+                          price(t['consultPrice'], t['taxes']), CALENDLY, t['consultCta'], dark=True)
     flash = offer_block('flash', t['flash'], f'<p class="lead">{t["flashBlurb"]}</p>',
                         price(t['flashPrice'], t['taxes']), CALENDLY_FLASH, t['consultCta'])
     mandate = offer_block('mandat', t['mandate'], f'<p class="lead">{t["mandateBlurb"]}</p>',
