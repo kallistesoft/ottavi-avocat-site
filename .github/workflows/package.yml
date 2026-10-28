@@ -21,7 +21,7 @@ jobs:
       - run: |
           mkdir site
           rsync -a --exclude site --exclude .git --exclude .github --exclude design --exclude tools \
-            --exclude README.md ./ site/
+            --exclude README.md --exclude FOLLOW-UP.md ./ site/
       - uses: actions/upload-artifact@v4
         with:
           name: ottavi-site
