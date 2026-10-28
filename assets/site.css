@@ -292,7 +292,6 @@ address { font-style: normal; }
 .footer-brand .brand-name { font-size: 30px; }
 .footer-brand .brand-sub { font-size: 10px; }
 .footer-brand .brand-text { gap: 4px; }
-.badge { align-self: flex-start; display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #6E6A62; color: var(--text-light-2); text-decoration: none; font-size: 12px; letter-spacing: 0.1em; }
 .footer-col-title { font-size: 12px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
 .footer-nav { flex: 1 1 160px; display: flex; flex-direction: column; gap: 4px; }
 .footer-nav a, .footer-contact a { display: inline-flex; align-items: center; gap: 10px; min-height: 36px; color: var(--text-light); text-decoration: none; font-size: 15px; }
