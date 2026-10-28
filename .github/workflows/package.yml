@@ -1,0 +1,28 @@
+# The site is hosted by the client, not deployed from here. Every push to main
+# builds "ottavi-site", a zip of the files to upload to the client's hosting
+# (Actions run page → Artifacts).
+name: Package site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Plain HTML, no build step: copy the site without repo-only files.
+      - run: |
+          mkdir site
+          rsync -a --exclude site --exclude .git --exclude .github --exclude design \
+            --exclude README.md ./ site/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ottavi-site
+          path: site
