@@ -74,7 +74,7 @@ def header(lang, page):
       </nav>
       <div class="header-actions">
         <div class="lang" role="group" aria-label="{t["langLabel"]}">{lang_item("fr")}<span class="sep" aria-hidden="true"></span>{lang_item("en")}</div>
-        <a class="btn btn-primary btn-sm" href="{u["services"]}#consultations">{t["cta"]}</a>
+        <a class="btn btn-primary btn-sm" href="{CALENDLY}" rel="noopener">{t["cta"]}</a>
       </div>
     </div>
   </div>
@@ -110,8 +110,8 @@ def footer(lang):
   </div>
 </footer>
 <div class="mobile-bar">
-  <a class="btn btn-ghost" href="{URL[lang]["services"]}#audit">{t["mobileAudit"]}</a>
-  <a class="btn btn-primary" href="{URL[lang]["services"]}#consultations">{t["mobileBook"]}</a>
+  <a class="btn btn-ghost" href="{AUDIT}" rel="noopener">{t["mobileAudit"]}</a>
+  <a class="btn btn-primary" href="{CALENDLY}" rel="noopener">{t["mobileBook"]}</a>
 </div>'''
 
 
