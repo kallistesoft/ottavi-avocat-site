@@ -22,13 +22,12 @@ python3 -m http.server 8000
 ## Links
 
 - Consultation: the Calendly link used by the province quiz
-- Audit: `https://a5c6-contact.systeme.io/ec75652d`
+- Audit payment: `https://a5c6-contact.systeme.io/auditpaiement` (content taken from her audit page `/ec75652d`)
 - Alberta ebook: `https://a5c6-contact.systeme.io/guidealberta`
 
 ## Still to do
 
-- Email `contact@ottavi.ca` is a placeholder
-- Photo of the lawyer and the Systeme.io affiliate badge are labelled placeholders
+- The Systeme.io affiliate badge is a labelled placeholder
 - The newsletter, guide and CV forms have no backend yet: connect them to systeme.io
 
 ## Hosting
