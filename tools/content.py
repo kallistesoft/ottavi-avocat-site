@@ -114,7 +114,7 @@ T = {
 T['fr'].update(
     heroTitle="Immigrer au Canada,<br><em>accompagné par une avocate.</em>",
     heroPrimary='Réserver une consultation', heroSecondary="Faire l'Audit Éclair · 49 $",
-    trust=["Membre du Barreau du Québec · n°&nbsp;381467&#8209;0", "9 ans d'expérience en droit criminel et immigration", "Accompagnement à distance, où que vous soyez"],
+    trust=["Membre du Barreau du Québec · n°&nbsp;381467&#8209;0", "9 ans d'expérience comme avocate en France et au Québec", "Accompagnement à distance, où que vous soyez"],
     chooseEyebrow='Services', chooseTitle='Par où commencer ?',
     chooseLead="Choisissez l'accompagnement qui correspond à votre situation.",
     needs={'audit': "Je veux savoir si mon profil intéresse le Canada", 'flash': "J'ai quelques questions précises",
@@ -142,7 +142,7 @@ T['fr'].update(
 T['en'].update(
     heroTitle='Immigrate to Canada,<br><em>with a lawyer by your side.</em>',
     heroPrimary='Book a consultation', heroSecondary='Take the Express Audit · $49',
-    trust=['Member of the Barreau du Québec · no.&nbsp;381467&#8209;0', '9 years of experience in criminal and immigration law', 'Remote support, wherever you are'],
+    trust=['Member of the Barreau du Québec · no.&nbsp;381467&#8209;0', '9 years of experience as a lawyer in France and Québec', 'Remote support, wherever you are'],
     chooseEyebrow='Services', chooseTitle='Where to start?',
     chooseLead='Pick the support that fits your situation.',
     needs={'audit': "I want to know whether Canada is interested in my profile", 'flash': 'I have a few specific questions',
