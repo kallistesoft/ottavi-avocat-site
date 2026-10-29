@@ -32,7 +32,7 @@ python3 -m http.server 8000
 ## Links
 
 - Consultation: the Calendly link used by the province quiz
-- Audit payment: `https://a5c6-contact.systeme.io/auditpaiement` (content taken from her audit page `/ec75652d`)
+- Audit payment: `https://a5c6-contact.systeme.io/commande` (content taken from her audit page `/ec75652d`)
 - Alberta ebook: `https://a5c6-contact.systeme.io/guidealberta`
 
 ## Still to do

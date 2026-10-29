@@ -40,10 +40,10 @@ Not an option: posting the forms to her systeme.io API, because the key would be
 ## 3. Before switching `www`
 
 - [ ] She approves https://new.vpavocat.com
-- [ ] Real test purchase from the new site: audit (`auditpaiement` → payment → thank-you → confirmation email)
+- [ ] Real test purchase from the new site: audit (`commande` → payment → thank-you → confirmation email)
 - [ ] Ebook purchase path checked (`guidealberta` → `guidealbertaachat` → `guidealbertamerci`)
 - [ ] Find where she shares `www.vpavocat.com/audit_travailleur` or `/commande` (Instagram, emails, ads); add
-      redirect pages to `a5c6-contact.systeme.io/auditpaiement` on the new site
+      redirect pages to `a5c6-contact.systeme.io/commande` on the new site
 - [ ] Update the old thank-you links if anything points to them (see section 1)
 
 ## 4. The switch (GoDaddy DNS: user types the SMS code to save)

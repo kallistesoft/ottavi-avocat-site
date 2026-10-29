@@ -8,7 +8,7 @@ PHONE = '+1 579-372-8150'
 TEL = 'tel:+15793728150'
 CALENDLY = 'https://calendly.com/vanessa-poughon-avocat/consultation-immigration-canadienne-60-mn'
 CALENDLY_FLASH = 'https://calendly.com/vanessa-poughon-avocat/consultation-flash-20mn-150-taxes'
-AUDIT = 'https://a5c6-contact.systeme.io/auditpaiement'
+AUDIT = 'https://a5c6-contact.systeme.io/commande'
 EBOOK = 'https://a5c6-contact.systeme.io/guidealberta'
 INSTA = 'https://www.instagram.com/poughon_immigration'
 
