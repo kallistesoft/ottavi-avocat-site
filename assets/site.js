@@ -1,4 +1,4 @@
-// Mobile menu, and a notice on the sign-up forms until they are connected to systeme.io.
+// Mobile menu, and a notice on the newsletter form until it links to systeme.io.
 (function () {
   var header = document.querySelector('.site-header');
   var button = header && header.querySelector('.menu-btn');
@@ -23,7 +23,7 @@
     });
   }
 
-  // These forms have no backend yet: say so instead of reloading the page.
+  // This form has no backend yet: say so instead of reloading the page.
   document.querySelectorAll('form[data-pending]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();

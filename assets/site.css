@@ -253,16 +253,11 @@ a:not([class]):focus-visible, .link-arrow:focus-visible { border-radius: 4px; }
 @media (max-width: 760px) { .newsletter { grid-template-columns: 1fr; } }
 
 /* Forms */
-input[type="email"], input[type="text"] {
+input[type="email"] {
   min-height: 50px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: var(--radius-sm); background: #fff;
   font: 16px var(--sans); color: var(--ink); transition: border-color .2s, box-shadow .2s;
 }
 input:focus { outline: none; border-color: var(--plum); box-shadow: 0 0 0 3px var(--plum-tint); }
-.form-card { display: flex; flex-direction: column; gap: 16px; padding: 32px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
-.field { display: flex; flex-direction: column; gap: 6px; flex: 1 1 160px; min-width: 0; }
-.field label { font-size: 14px; font-weight: 600; }
-.field .req { font-weight: 400; color: var(--ink-3); }
-.field-row { display: flex; flex-wrap: wrap; gap: 16px; }
 .form-msg { flex-basis: 100%; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--plum-tint); color: var(--ink); font-size: 15px; }
 
 /* Services page */
@@ -290,10 +285,9 @@ input:focus { outline: none; border-color: var(--plum); box-shadow: 0 0 0 3px va
 }
 
 /* Resources page */
-.res-detail { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 72px); align-items: start; }
-.res-info { display: flex; flex-wrap: wrap; gap: 28px; }
-.res-info > div:last-child { flex: 1 1 260px; display: flex; flex-direction: column; gap: 14px; }
-@media (max-width: 860px) { .res-detail { grid-template-columns: 1fr; } }
+.res-info { display: flex; flex-wrap: wrap; gap: 28px 40px; align-items: flex-start; }
+.res-info > div:last-child { flex: 1 1 280px; max-width: 640px; display: flex; flex-direction: column; gap: 14px; }
+.res-info .btn { align-self: flex-start; margin-top: 6px; }
 
 /* Firm page */
 .lawyer { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 80px); align-items: start; }

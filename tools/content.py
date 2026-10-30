@@ -8,7 +8,10 @@ PHONE = '+1 579-372-8150'
 TEL = 'tel:+15793728150'
 CALENDLY = 'https://calendly.com/vanessa-poughon-avocat/consultation-immigration-canadienne-60-mn'
 CALENDLY_FLASH = 'https://calendly.com/vanessa-poughon-avocat/consultation-flash-20mn-150-taxes'
-AUDIT = 'https://a5c6-contact.systeme.io/commande'
+AUDIT = 'https://a5c6-contact.systeme.io/audit_travailleur'
+AUDIT_STUDENT = 'https://a5c6-contact.systeme.io/audit_etudiant'
+GUIDE_FREE = 'https://a5c6-contact.systeme.io/guidegratuit'
+CV_FREE = 'https://a5c6-contact.systeme.io/cvcanadien-e5451c58'
 EBOOK = 'https://a5c6-contact.systeme.io/guidealberta'
 INSTA = 'https://www.instagram.com/poughon_immigration'
 
@@ -27,8 +30,8 @@ T = {
         bar="Avocate au Barreau du Québec · Numéro de membre 381467&#8209;0",
         notAlberta="(Non membre du Barreau de l'Alberta)",
         photo='[Photo actuelle du site]', photoLabel='Photo de Me Vanessa Poughon',
-        req='(requis)', email='Courriel', first='Prénom', last='Nom',
-        audit="Audit Éclair d'Éligibilité", auditBlurb="Un questionnaire de 3 minutes, une analyse personnelle de vos réponses et un bilan détaillé en moins d'une semaine.",
+        email='Courriel',
+        audit="Audit Éclair — Travailleur", auditBlurb="Un questionnaire de 3 minutes, une analyse personnelle de vos réponses et un bilan détaillé en moins d'une semaine.",
         auditSteps=["Réglez votre audit", "Répondez à mon questionnaire (3 minutes)", "J'analyse personnellement vos réponses en moins d'une semaine", "Vous recevez votre bilan détaillé : vos points forts, vos points faibles et les programmes ciblés"],
         auditPrice='49 $', auditUnit='CAD + tx', auditEuro='environ 30 €', auditCta="Réserver votre audit", auditCardCta='Obtenir un audit', heroAudit='Audit Éclair · 49 $ CAD',
         auditPitch="Avant de dépenser des milliers de dollars ou de perdre des mois dans des démarches d'immigration, savez-vous si votre profil intéresse le Canada ?",
@@ -55,7 +58,6 @@ T = {
         guide='Guide « Immigrer au Canada » (édition 2026)',
         guidePoints=["Les 5 principales voies d'immigration", "Le fonctionnement d'Entrée express", "Les 5 erreurs qui coûtent cher aux candidats"],
         guideCta='Recevoir le guide', free='Gratuit', cv='Modèle de CV au format canadien', cvCta='Recevoir le modèle',
-        cvForm='Recevoir le modèle de CV',
         eyebrow='Me Vanessa Poughon, avocate', h1='Immigration <span>canadienne</span>',
         mailMe='Contactez-moi par courriel', facts='Coordonnées professionnelles',
         nlBlurb='Abonnez-vous à notre newsletter pour vous tenir informé des derniers changements en immigration canadienne.',
@@ -72,8 +74,8 @@ T = {
         bar='Member of the Barreau du Québec · Member no. 381467&#8209;0',
         notAlberta='(Not a member of the Law Society of Alberta)',
         photo='[Current site photo]', photoLabel='Photo of Vanessa Poughon',
-        req='(required)', email='Email', first='First name', last='Last name',
-        audit='Express Eligibility Audit', auditBlurb='A 3-minute questionnaire, a personal analysis of your answers and a detailed report within a week.',
+        email='Email',
+        audit='Express Audit — Worker', auditBlurb='A 3-minute questionnaire, a personal analysis of your answers and a detailed report within a week.',
         auditSteps=['Pay for your audit', 'Answer my questionnaire (3 minutes)', 'I personally analyze your answers within a week', 'You receive your detailed report: your strengths, your weaknesses and the programs to target'],
         auditPrice='$49', auditUnit='CAD + tax', auditEuro='about €30', auditCta='Book your audit', auditCardCta='Get an audit', heroAudit='Express audit · CAD $49',
         auditPitch='Before spending thousands of dollars or losing months on immigration procedures, do you even know whether Canada is interested in your profile?',
@@ -100,7 +102,6 @@ T = {
         guide='“Immigrating to Canada” guide (2026 edition)',
         guidePoints=['The 5 main immigration pathways', 'How Express Entry works', 'The 5 costliest mistakes applicants make'],
         guideCta='Get the guide', free='Free', cv='Canadian-format CV template', cvCta='Get the template',
-        cvForm='Get the CV template',
         eyebrow='Vanessa Poughon, lawyer', h1='Canadian <span>immigration</span>',
         mailMe='Contact me by email', facts='Professional details',
         nlBlurb='Subscribe to our newsletter to stay informed about the latest changes in Canadian immigration.',
@@ -117,7 +118,7 @@ T['fr'].update(
     trust=["Membre du Barreau du Québec · n°&nbsp;381467&#8209;0", "9 ans d'expérience comme avocate en France et au Québec", "Accompagnement à distance, où que vous soyez"],
     chooseEyebrow='Services', chooseTitle='Par où commencer ?',
     chooseLead="Choisissez l'accompagnement qui correspond à votre situation.",
-    needs={'audit': "Je veux savoir si mon profil intéresse le Canada", 'flash': "J'ai quelques questions précises",
+    needs={'audit': "Je veux savoir si mon profil intéresse le Canada", 'student': "Je veux étudier au Canada", 'flash': "J'ai quelques questions précises",
            'consult': "Je veux évaluer mon projet et définir ma stratégie", 'mandate': "Je veux être accompagné de A à Z"},
     seeAll='Voir le détail des services',
     aboutEyebrow='Votre avocate', aboutCta='Découvrir le cabinet',
@@ -145,7 +146,7 @@ T['en'].update(
     trust=['Member of the Barreau du Québec · no.&nbsp;381467&#8209;0', '9 years of experience as a lawyer in France and Québec', 'Remote support, wherever you are'],
     chooseEyebrow='Services', chooseTitle='Where to start?',
     chooseLead='Pick the support that fits your situation.',
-    needs={'audit': "I want to know whether Canada is interested in my profile", 'flash': 'I have a few specific questions',
+    needs={'audit': "I want to know whether Canada is interested in my profile", 'student': 'I want to study in Canada', 'flash': 'I have a few specific questions',
            'consult': 'I want to assess my project and set my strategy', 'mandate': 'I want support from start to finish'},
     seeAll='See all services in detail',
     aboutEyebrow='Your lawyer', aboutCta='About the firm',
@@ -166,4 +167,24 @@ T['en'].update(
     cabinetLead='Strategic, rigorous and human legal support in Canadian immigration law.',
     resourcesLead='Free resources to prepare your project with confidence.',
     per='', priceFrom='',
+)
+
+# Free resources and student audit: visitors continue on her systeme.io pages.
+T['fr'].update(
+    resNote='Indiquez votre courriel sur la page suivante pour recevoir le document.',
+    student='Audit Étudiant', studentCardCta="Faire l'audit", studentCta="Faire l'audit",
+    studentBlurb="Sécurisez votre projet d'études avant d'investir des milliers de dollars.",
+    studentPitch="Vous souhaitez faire des études au Canada ? Ne tentez pas votre chance au hasard avec l'immigration canadienne : un dossier mal préparé, c'est un refus quasi assuré. Sécurisez votre projet d'études avant d'investir des milliers de dollars.",
+    studentListTitle="Que contient l'audit",
+    studentPoints=["Diagnostic d'admissibilité stratégique", "Détection des points faibles de votre dossier", "Feuille de route personnalisée", "Conseils pour votre demande de permis"],
+    studentBonus="<strong>Le bonus de l'audit :</strong> si vous nous confiez ensuite la prise en charge complète de votre dossier, les 49 $ de cet audit sont intégralement déduits de votre prestation.",
+)
+T['en'].update(
+    resNote='Enter your email on the next page to receive the document.',
+    student='Student Audit', studentCardCta='Take the audit', studentCta='Take the audit',
+    studentBlurb='Secure your study project before investing thousands of dollars.',
+    studentPitch="Want to study in Canada? Don't leave Canadian immigration to chance: a poorly prepared application is almost certain to be refused. Secure your study project before investing thousands of dollars.",
+    studentListTitle="What the audit includes",
+    studentPoints=['Strategic eligibility diagnosis', 'Identifying the weak points of your application', 'A personalized roadmap', 'Advice for your permit application'],
+    studentBonus="<strong>The audit bonus:</strong> if you then entrust us with your entire application, the $49 for this audit is fully deducted from our fee.",
 )

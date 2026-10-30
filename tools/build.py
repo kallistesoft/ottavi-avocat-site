@@ -10,7 +10,8 @@ import os
 import posixpath
 import re
 
-from content import (AUDIT, CALENDLY, CALENDLY_FLASH, EBOOK, EMAIL, INSTA, PAGES, PHONE, TEL, T, URL)
+from content import (AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, PAGES,
+                     PHONE, TEL, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -142,12 +143,15 @@ def price(amount, unit='', note=''):
 
 
 def offers(lang):
-    """The 4 ways to work with her, from the lightest to the most complete."""
+    """The ways to work with her, from the lightest to the most complete."""
     t, u = T[lang], URL[lang]
     return [
         dict(key='audit', need=t['needs']['audit'], title=t['audit'], blurb=t['auditBlurb'],
              price=price(t['auditPrice'], t['auditUnit'], t['auditEuro']),
              href=f'{u["services"]}#audit', cta=t['auditCardCta']),
+        dict(key='student', need=t['needs']['student'], title=t['student'], blurb=t['studentBlurb'],
+             price=price(t['auditPrice'], t['auditUnit']),
+             href=f'{u["services"]}#audit-etudiant', cta=t['studentCardCta']),
         dict(key='flash', need=t['needs']['flash'], title=t['flash'], blurb=t['flashBlurb'],
              price=price(t['flashPrice'], t['taxes']), href=CALENDLY_FLASH, cta=t['consultCta']),
         dict(key='consult', need=t['needs']['consult'], title=t['consult'], blurb=t['consultBlurb'],
@@ -163,7 +167,7 @@ def form_note(lang):
 
 
 def resource_cards(lang, heading='h3'):
-    t, u = T[lang], URL[lang]
+    t = T[lang]
     return f'''<div class="res-grid">
       <article class="res-card">
         <div class="res-thumb guide" aria-hidden="true"><span>Immigrer au Canada</span><small>Édition 2026</small></div>
@@ -171,7 +175,7 @@ def resource_cards(lang, heading='h3'):
           <span class="tag">{t["free"]}</span>
           <{heading}>{t["guide"]}</{heading}>
           <ul class="checks">{li(t["guidePoints"], "checks")}</ul>
-          <a class="link-arrow" href="{u["ressources"]}#guide">{t["guideCta"]}{ico("arrow", 18)}</a>
+          <a class="link-arrow" href="{GUIDE_FREE}" rel="noopener">{t["guideCta"]}{ico("arrow", 18)}</a>
         </div>
       </article>
       <article class="res-card">
@@ -179,7 +183,7 @@ def resource_cards(lang, heading='h3'):
         <div class="res-body">
           <span class="tag">{t["free"]}</span>
           <{heading}>{t["cv"]}</{heading}>
-          <a class="link-arrow" href="{u["ressources"]}#cv">{t["cvCta"]}{ico("arrow", 18)}</a>
+          <a class="link-arrow" href="{CV_FREE}" rel="noopener">{t["cvCta"]}{ico("arrow", 18)}</a>
         </div>
       </article>
     </div>'''
@@ -304,7 +308,7 @@ def final_cta(lang):
 def services(lang):
     t, u = T[lang], URL[lang]
     steps = ''.join(f'<li><span class="n">{i}</span><span>{s}</span></li>' for i, s in enumerate(t["auditSteps"], 1))
-    chips = [('audit', t['audit']), ('consultations', t['consult']), ('flash', t['flash']), ('mandat', t['mandate']),
+    chips = [('audit', t['audit']), ('audit-etudiant', t['student']), ('consultations', t['consult']), ('flash', t['flash']), ('mandat', t['mandate']),
              ('alberta', 'Ebook')]
     chip_html = ''.join(f'<a href="#{a}">{label}</a>' for a, label in chips)
 
@@ -332,6 +336,12 @@ def services(lang):
       <ol class="steps">{steps}</ol>
       <p class="fine">{t["auditDisclaimer"]}</p>''',
         side_extra=f'<p class="callout">{t["auditBonus"]}</p>')
+    student = offer_block(
+        'audit-etudiant', t['student'], f'<p class="lead">{t["studentPitch"]}</p>',
+        price(t['auditPrice'], t['auditUnit']), AUDIT_STUDENT, t['studentCta'], tint=True,
+        extra=f'''<h3 class="mini-title">{t["studentListTitle"]}</h3>
+      <ul class="checks">{li(t["studentPoints"], "checks")}</ul>''',
+        side_extra=f'<p class="callout">{t["studentBonus"]}</p>')
     consult = offer_block('consultations', t['consult'], f'<p class="lead">{t["consultBlurb"]}</p>',
                           price(t['consultPrice'], t['taxes']), CALENDLY, t['consultCta'], dark=True)
     flash = offer_block('flash', t['flash'], f'<p class="lead">{t["flashBlurb"]}</p>',
@@ -346,6 +356,8 @@ def services(lang):
 </nav>
 
 {audit}
+
+{student}
 
 {consult}
 
@@ -377,49 +389,30 @@ def services(lang):
 
 def ressources(lang):
     t = T[lang]
-
-    def email_field(fid):
-        return (f'<label for="{fid}">{t["email"]} <span class="req">{t["req"]}</span></label>'
-                f'<input id="{fid}" type="email" name="email" required autocomplete="email">')
-
     return f'''{page_head(t["resEyebrow"], t["nav"]["ressources"], t["resourcesLead"])}
 
 <section id="guide" class="section">
-  <div class="wrap res-detail">
-    <div class="res-info">
-      <div class="res-thumb guide lg" aria-hidden="true"><span>Immigrer au Canada</span><small>Édition 2026</small></div>
-      <div>
-        <span class="tag">{t["free"]}</span>
-        <h2>{t["guide"]}</h2>
-        <ul class="checks">{li(t["guidePoints"], "checks")}</ul>
-      </div>
+  <div class="wrap res-info">
+    <div class="res-thumb guide lg" aria-hidden="true"><span>Immigrer au Canada</span><small>Édition 2026</small></div>
+    <div>
+      <span class="tag">{t["free"]}</span>
+      <h2>{t["guide"]}</h2>
+      <ul class="checks">{li(t["guidePoints"], "checks")}</ul>
+      <a class="btn btn-primary" href="{GUIDE_FREE}" rel="noopener">{t["guideCta"]}</a>
+      <p class="fine">{t["resNote"]}</p>
     </div>
-    <form class="form-card" aria-label="{t["guideCta"]}" data-pending>
-      <div class="field">{email_field("guide-email")}</div>
-      <div class="field-row">
-        <div class="field"><label for="guide-first">{t["first"]} <span class="req">{t["req"]}</span></label><input id="guide-first" type="text" name="first_name" required autocomplete="given-name"></div>
-        <div class="field"><label for="guide-last">{t["last"]} <span class="req">{t["req"]}</span></label><input id="guide-last" type="text" name="last_name" required autocomplete="family-name"></div>
-      </div>
-      <button class="btn btn-primary" type="submit">{t["guideCta"]}</button>
-      {form_note(lang)}
-    </form>
   </div>
 </section>
 
 <section id="cv" class="section tint">
-  <div class="wrap res-detail">
-    <div class="res-info">
-      <div class="res-thumb cv lg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      <div>
-        <span class="tag">{t["free"]}</span>
-        <h2>{t["cv"]}</h2>
-      </div>
+  <div class="wrap res-info">
+    <div class="res-thumb cv lg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div>
+      <span class="tag">{t["free"]}</span>
+      <h2>{t["cv"]}</h2>
+      <a class="btn btn-primary" href="{CV_FREE}" rel="noopener">{t["cvCta"]}</a>
+      <p class="fine">{t["resNote"]}</p>
     </div>
-    <form class="form-card" aria-label="{t["cvForm"]}" data-pending>
-      <div class="field">{email_field("cv-email")}</div>
-      <button class="btn btn-primary" type="submit">{t["cvCta"]}</button>
-      {form_note(lang)}
-    </form>
   </div>
 </section>
 
@@ -481,6 +474,9 @@ def contact(lang):
         </a>
         <a class="book-item" href="{u["services"]}#audit">
           <span><strong>{t["audit"]}</strong>{price(t["auditPrice"], t["auditUnit"])}</span>{ico("arrow", 20)}
+        </a>
+        <a class="book-item" href="{u["services"]}#audit-etudiant">
+          <span><strong>{t["student"]}</strong>{price(t["auditPrice"], t["auditUnit"])}</span>{ico("arrow", 20)}
         </a>
       </div>
     </div>

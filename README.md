@@ -21,8 +21,8 @@ python3 tools/build.py
 ```
 
 and commit the regenerated pages. Styles are in `assets/site.css` ("Ivoire" theme: ivory background, ink text,
-plum `#9B3F78` accent, Fraunces + Inter); `assets/site.js` handles the mobile menu and the notice on forms that
-aren't connected yet. Links are relative, so the site works at a domain root or in a subfolder. Preview with a local
+plum `#9B3F78` accent, Fraunces + Inter); `assets/site.js` handles the mobile menu and the notice on the newsletter
+form, which isn't connected yet. Links are relative, so the site works at a domain root or in a subfolder. Preview with a local
 server:
 
 ```sh
@@ -32,7 +32,10 @@ python3 -m http.server 8000
 ## Links
 
 - Consultation: the Calendly link used by the province quiz
-- Audit payment: `https://a5c6-contact.systeme.io/commande` (content taken from her audit page `/ec75652d`)
+- Worker audit: `https://a5c6-contact.systeme.io/audit_travailleur`
+- Student audit: `https://a5c6-contact.systeme.io/audit_etudiant`
+- Free guide: `https://a5c6-contact.systeme.io/guidegratuit`
+- Free CV template: `https://a5c6-contact.systeme.io/cvcanadien-e5451c58`
 - Alberta ebook: `https://a5c6-contact.systeme.io/guidealberta`
 
 ## Still to do
