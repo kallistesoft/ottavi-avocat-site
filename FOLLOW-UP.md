@@ -6,29 +6,16 @@ Today: the new site is tested at https://new.vpavocat.com (GitHub Pages, `CNAME`
 `www.vpavocat.com` still serves her systeme.io site. Nothing switches until she approves the new site **and** her
 systeme.io sales funnel is proven to work from it.
 
-## 1. Connect the 3 sign-up forms to her systeme.io account
+## 1. Sign-up forms
 
-On her current site the forms are systeme.io opt-in blocks. Each one saves the visitor as a contact in her account,
-shows a « Merci ! » page, and her account emails the document:
+Guide and CV are done: their buttons open her systeme.io pages (`/guidegratuit`, `/cvcanadien-e5451c58`), which collect
+the email.
 
-| Form | Fields | Thank-you page today |
-| --- | --- | --- |
-| Newsletter | Email (required) | `www.vpavocat.com/1a9862c6` |
-| Guide « Immigrer au Canada » 2026 | Email, first name, last name (all required) | `www.vpavocat.com/fe0e99f8` |
-| Canadian CV template | Email (required), first and last name (optional) | `www.vpavocat.com/e76a9f27` |
+- [ ] Newsletter: she needs a systeme.io newsletter page. Send the link, then replace the home page form with a button
+      and remove the « bientôt disponible » notice (`assets/site.js`, `form_note` in `tools/build.py`)
+- [ ] Test the guide and CV pages with a test email address: contact created, document received
 
-The forms and thank-you pages only exist on `www.vpavocat.com` (404 on `a5c6-contact.systeme.io`), so they stop
-working when `www` switches. On the new site the forms only show a notice with her email (`assets/site.js`).
-
-Plan (needs her systeme.io account signed in, in Chrome):
-
-- [ ] Look at the 3 current opt-ins: tag, email and automation rule each one triggers
-- [ ] Create 3 opt-in pages on `a5c6-contact.systeme.io` wired to the same automations, without changing the existing ones
-- [ ] Check whether her plan lets us embed the systeme.io form on the new site; otherwise link the buttons to the pages
-- [ ] Update `tools/content.py` / `tools/build.py`, rebuild, remove the « bientôt disponible » notice
-- [ ] Test each form with a test email address: contact created, guide / CV / newsletter email received
-
-Not an option: posting the forms to her systeme.io API, because the key would be public on a static site.
+Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop working when `www` switches.
 
 ## 2. Content to confirm with her
 
@@ -40,11 +27,11 @@ Not an option: posting the forms to her systeme.io API, because the key would be
 ## 3. Before switching `www`
 
 - [ ] She approves https://new.vpavocat.com
-- [ ] Real test purchase from the new site: audit (`commande` → payment → thank-you → confirmation email)
+- [ ] Real test purchase from the new site: worker audit (`audit_travailleur` → `commande` → `merci` → confirmation email)
+- [ ] Student audit path checked (`audit_etudiant` → `d4acbe58` → `7d11da02`)
 - [ ] Ebook purchase path checked (`guidealberta` → `guidealbertaachat` → `guidealbertamerci`)
-- [ ] Find where she shares `www.vpavocat.com/audit_travailleur` or `/commande` (Instagram, emails, ads); add
-      redirect pages to `a5c6-contact.systeme.io/commande` on the new site
-- [ ] Update the old thank-you links if anything points to them (see section 1)
+- [ ] Find where she shares `www.vpavocat.com/audit_travailleur` or `/commande` (Instagram, emails, ads); add redirect
+      pages on the new site to the `a5c6-contact.systeme.io` pages of the same name
 
 ## 4. The switch (GoDaddy DNS: user types the SMS code to save)
 
