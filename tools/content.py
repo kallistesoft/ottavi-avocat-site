@@ -11,7 +11,7 @@ CALENDLY_FLASH = 'https://calendly.com/vanessa-poughon-avocat/consultation-flash
 AUDIT = 'https://a5c6-contact.systeme.io/audit_travailleur'
 AUDIT_STUDENT = 'https://a5c6-contact.systeme.io/audit_etudiant'
 GUIDE_FREE = 'https://a5c6-contact.systeme.io/guidegratuit'
-CV_FREE = 'https://a5c6-contact.systeme.io/cvcanadien-e5451c58'
+CV_FREE = 'https://a5c6-contact.systeme.io/cvcanadien-e5451c58-4a4b1be3'
 EBOOK = 'https://a5c6-contact.systeme.io/guidealberta'
 INSTA = 'https://www.instagram.com/poughon_immigration'
 

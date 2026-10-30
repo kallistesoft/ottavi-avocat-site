@@ -8,7 +8,7 @@ systeme.io sales funnel is proven to work from it.
 
 ## 1. Sign-up forms
 
-Guide and CV are done: their buttons open her systeme.io pages (`/guidegratuit`, `/cvcanadien-e5451c58`), which collect
+Guide and CV are done: their buttons open her systeme.io pages (`/guidegratuit`, `/cvcanadien-e5451c58-4a4b1be3`), which collect
 the email.
 
 - [ ] Newsletter: she needs a systeme.io newsletter page. Send the link, then replace the home page form with a button

@@ -35,7 +35,7 @@ python3 -m http.server 8000
 - Worker audit: `https://a5c6-contact.systeme.io/audit_travailleur`
 - Student audit: `https://a5c6-contact.systeme.io/audit_etudiant`
 - Free guide: `https://a5c6-contact.systeme.io/guidegratuit`
-- Free CV template: `https://a5c6-contact.systeme.io/cvcanadien-e5451c58`
+- Free CV template: `https://a5c6-contact.systeme.io/cvcanadien-e5451c58-4a4b1be3`
 - Alberta ebook: `https://a5c6-contact.systeme.io/guidealberta`
 
 ## Still to do
