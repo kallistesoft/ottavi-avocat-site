@@ -1,4 +1,4 @@
-"""Builds the Poughon Immigration site: writes the 10 pages (FR at the root, EN under /en/) from tools/content.py.
+"""Builds the Ottavi Law Firm Inc. site: writes the 10 pages (FR at the root, EN under /en/) from tools/content.py.
 
 Usage: python3 tools/build.py
 
@@ -47,7 +47,7 @@ def li(items, cls=''):
 
 
 BRAND = ('<span class="brand-rule" aria-hidden="true"></span>'
-         '<span class="brand-text"><span class="brand-name">Poughon</span><span class="brand-sub">Immigration</span></span>')
+         '<span class="brand-text"><span class="brand-name">Ottavi</span><span class="brand-sub">Law Firm Inc.</span></span>')
 
 
 def header(lang, page):
@@ -105,7 +105,7 @@ def footer(lang):
     </div>
     <div class="footer-bottom">
       <span>{t["legal"]}</span>
-      <span>© 2026 Poughon Immigration</span>
+      <span>© 2026 Ottavi Law Firm Inc.</span>
     </div>
   </div>
 </footer>
@@ -430,7 +430,7 @@ def cabinet(lang):
     t = T[lang]
     bio = ''.join(f'<p>{b}</p>' for b in t['bio'][:-1])
     areas = ''.join(f'<li>{a}</li>' for a in t['areas'])
-    return f'''{page_head(t["nav"]["cabinet"], "Poughon Immigration", t["cabinetLead"])}
+    return f'''{page_head(t["nav"]["cabinet"], "Ottavi Law Firm Inc.", t["cabinetLead"])}
 
 <section class="section">
   <div class="wrap lawyer">
@@ -499,7 +499,7 @@ BODY = {'home': home, 'services': services, 'ressources': ressources, 'cabinet':
 
 def render(lang, page):
     t = T[lang]
-    title = t['titles'][page] if page == 'home' else f'{t["titles"][page]} — Poughon Immigration'
+    title = t['titles'][page] if page == 'home' else f'{t["titles"][page]} — Ottavi Law Firm Inc.'
     alts = '\n'.join(f'<link rel="alternate" hreflang="{code}" href="{URL[code][page]}">' for code in ('fr', 'en'))
     return f'''<!doctype html>
 <html lang="{lang}">
