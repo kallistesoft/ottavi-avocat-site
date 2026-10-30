@@ -23,6 +23,38 @@
     });
   }
 
+  // Services page: show which section the chips are on, when clicked and while scrolling.
+  var chips = document.querySelectorAll('.chips a');
+  if (chips.length) {
+    var bar = document.querySelector('.chips');
+    var setActive = function (id) {
+      chips.forEach(function (chip) {
+        var on = chip.getAttribute('href') === '#' + id;
+        if (on) {
+          chip.setAttribute('aria-current', 'true');
+          bar.scrollTo({ left: chip.offsetLeft - bar.offsetLeft - 16, behavior: 'smooth' });
+        } else {
+          chip.removeAttribute('aria-current');
+        }
+      });
+    };
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () { setActive(chip.getAttribute('href').slice(1)); });
+    });
+    if ('IntersectionObserver' in window) {
+      var seen = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      }, { rootMargin: '-30% 0px -65% 0px' });
+      chips.forEach(function (chip) {
+        var target = document.querySelector(chip.getAttribute('href'));
+        if (target) seen.observe(target);
+      });
+    }
+    setActive(location.hash ? location.hash.slice(1) : chips[0].getAttribute('href').slice(1));
+  }
+
   // This form has no backend yet: say so instead of reloading the page.
   document.querySelectorAll('form[data-pending]').forEach(function (form) {
     form.addEventListener('submit', function (e) {

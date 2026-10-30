@@ -266,6 +266,7 @@ input:focus { outline: none; border-color: var(--plum); box-shadow: 0 0 0 3px va
 .chips::-webkit-scrollbar { display: none; }
 .chips a { flex: 0 0 auto; display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); color: var(--ink-2); font-size: 14px; font-weight: 500; text-decoration: none; white-space: nowrap; }
 .chips a:hover { border-color: var(--plum); color: var(--plum); }
+.chips a[aria-current="true"] { border-color: var(--plum); background: var(--plum); color: #fff; }
 .page-services { scroll-padding-top: calc(var(--header-h) + 80px); }
 .page-services .section[id] { scroll-margin-top: calc(var(--header-h) + 64px); }
 
