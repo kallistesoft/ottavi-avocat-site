@@ -24,6 +24,22 @@
     header.querySelectorAll('.header-panel a').forEach(function (a) {
       a.addEventListener('click', function () { setOpen(false); });
     });
+    // pointerdown, not click: iOS Safari doesn't send clicks from plain page content.
+    document.addEventListener('pointerdown', function (e) {
+      if (header.classList.contains('open') && !header.contains(e.target)) setOpen(false);
+    });
+  }
+
+  // Slow first load: web fonts shift the page after the jump to an anchor, so jump again once they are in.
+  if (location.hash && document.fonts) {
+    var scrolled = false;
+    ['wheel', 'touchmove', 'keydown'].forEach(function (type) {
+      window.addEventListener(type, function () { scrolled = true; }, { passive: true });
+    });
+    document.fonts.ready.then(function () {
+      var target = document.getElementById(location.hash.slice(1));
+      if (target && !scrolled) target.scrollIntoView({ behavior: 'auto' });
+    });
   }
 
   // Services page: show which section the chips are on, when clicked and while scrolling.

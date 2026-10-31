@@ -5,6 +5,7 @@ Edit this file, then run `python3 tools/build.py` to regenerate the pages.
 
 EMAIL = 'contact@vpavocat.com'
 PHONE = '+1 579-372-8150'
+PHONE_TEL = '+15793728150'
 CALENDLY = 'https://calendly.com/vanessa-poughon-avocat/consultation-immigration-canadienne-60-mn'
 CALENDLY_FLASH = 'https://calendly.com/vanessa-poughon-avocat/consultation-flash-20mn-150-taxes'
 AUDIT = 'https://a5c6-contact.systeme.io/commande-22ec70a7'
@@ -36,7 +37,7 @@ T = {
         auditSteps=["Réglez votre audit", "Répondez à mon questionnaire (3 minutes)", "J'analyse personnellement vos réponses", "Vous recevez votre bilan détaillé sous 48 h : vos points forts, vos points faibles et les programmes ciblés"],
         auditPrice='49 $', auditUnit='CAD + tx', auditEuro='environ 30 €', auditCta="Réserver votre audit", auditCardCta='Obtenir un audit', heroAudit='Audit Éclair · 49 $ CAD',
         auditPitch="Avant de dépenser des milliers de dollars ou de perdre des mois dans des démarches d'immigration, savez-vous si votre profil intéresse le Canada ?",
-        auditBonus="<strong>Le petit plus :</strong> si vous réservez ensuite une consultation complète, vos 49 $ sont crédités à 100 % sur votre séance. Votre audit est donc entièrement rentabilisé.",
+        auditBonus="<strong>Le petit plus :</strong> si vous réservez ensuite une consultation complète, vos 49 $ sont crédités à 100&nbsp;% sur votre séance. Votre audit est donc entièrement rentabilisé.",
         auditDisclaimer="Cet audit constitue une pré-évaluation d'éligibilité indicative sur la base de vos déclarations et ne remplace pas une consultation stratégique approfondie sur pièces.",
         howTitle='Fonctionnement',
         tagline="Votre cabinet juridique de confiance pour concrétiser votre projet d'immigration, partout au Canada.",
@@ -56,7 +57,7 @@ T = {
         ebookListTitle='Ce que vous allez découvrir dans ce guide',
         ebookPoints=["Programme pilote d'immigration dans les communautés rurales (PPICR 2026)", "Les critères d'éligibilité et exigences linguistiques", "Des ressources indispensables pour vos procédures d'immigration", "Comment obtenir la résidence temporaire et permanente", "Un modèle de CV canadien", "Accès instantané au format PDF téléchargeable"],
         ebookBonus="<strong>En cadeau :</strong> 20 $ CAD de réduction sur votre consultation individuelle de stratégie d'immigration. Vous recevrez votre code de réduction par courriel.",
-        guide='Guide « Immigrer au Canada » (édition 2026)',
+        guide='Guide «&nbsp;Immigrer au Canada&nbsp;» (édition 2026)',
         guidePoints=["Les 5 principales voies d'immigration", "Le fonctionnement d'Entrée express", "Les 5 erreurs qui coûtent cher aux candidats"],
         guideCta='Recevoir le guide', free='Gratuit', cv='Modèle de CV au format canadien', cvCta='Recevoir le modèle',
         eyebrow='Me Vanessa Poughon, avocate', h1='Immigration <span>canadienne</span>',
@@ -117,10 +118,10 @@ T['fr'].update(
     heroTitle="Immigrer au Canada,<br><em>accompagné par une avocate.</em>",
     heroPrimary='Réserver une consultation', heroSecondary="Faire l'Audit Éclair · 49 $",
     trust=["Membre du Barreau du Québec · n°&nbsp;381467&#8209;0", "9 ans d'expérience comme avocate en France et au Québec", "Accompagnement à distance, où que vous soyez"],
-    chooseEyebrow='Services', chooseTitle='Par où commencer ?',
+    chooseEyebrow='Services', chooseTitle='Par où commencer&nbsp;?',
     chooseLead="Choisissez l'accompagnement qui correspond à votre situation.",
     needs={'audit': "Je veux savoir si mon profil intéresse le Canada", 'student': "Je veux étudier au Canada", 'flash': "J'ai quelques questions précises",
-           'consult': "Je veux évaluer mon projet et définir ma stratégie", 'mandate': "Je veux être accompagné de A à Z"},
+           'consult': "Je veux évaluer mon projet et définir ma stratégie", 'mandate': "Je veux être accompagné de A à&nbsp;Z"},
     seeAll='Voir le détail des services',
     aboutEyebrow='Votre avocate', aboutCta='Découvrir le cabinet',
     ebookEyebrow='Ebook', ebookMore="Découvrir l'ebook",

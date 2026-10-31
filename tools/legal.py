@@ -42,7 +42,7 @@ LEGAL = {
                 todo("Clients situés en France ou dans l'Union européenne : préciser le traitement du droit de rétractation de 14 jours."),
             ]),
             ("6. Avantages liés aux achats", [
-                "<strong>Audit Éclair — Travailleur :</strong> si vous réservez ensuite une consultation complète, vos 49 $ sont crédités à 100 % sur votre séance.",
+                "<strong>Audit Éclair — Travailleur :</strong> si vous réservez ensuite une consultation complète, vos 49 $ sont crédités à 100&nbsp;% sur votre séance.",
                 "<strong>Audit Éclair — Étudiant :</strong> si vous nous confiez ensuite la prise en charge complète de votre dossier, vos 49 $ sont intégralement déduits de votre prestation.",
                 "<strong>Guide :</strong> vous recevez par courriel un code de réduction de 20 $ CAD sur votre consultation individuelle de stratégie d'immigration.",
                 todo("Préciser les délais pour utiliser ces avantages, le cas échéant."),

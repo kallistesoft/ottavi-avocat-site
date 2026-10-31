@@ -27,6 +27,7 @@
   --shadow: 0 1px 2px rgba(31, 26, 28, .04), 0 8px 24px rgba(31, 26, 28, .06);
   --shadow-lg: 0 2px 4px rgba(31, 26, 28, .04), 0 24px 48px rgba(31, 26, 28, .10);
   --header-h: 72px;
+  --section-pad: clamp(64px, 9vw, 112px);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -135,18 +136,21 @@ a:not([class]):focus-visible, .link-arrow:focus-visible { border-radius: 4px; }
     position: absolute; left: 0; right: 0; top: 100%;
     flex-direction: column; align-items: stretch; gap: 16px;
     padding: 12px 20px 24px; background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: var(--shadow-lg);
+    max-height: calc(100dvh - var(--header-h)); overflow-y: auto; overscroll-behavior: contain;
     display: none;
   }
   .site-header.open .header-panel { display: flex; }
   .nav { flex-direction: column; align-items: stretch; gap: 2px; }
   .nav a { min-height: 48px; padding: 0 14px; font-size: 17px; border-radius: var(--radius-sm); }
   .header-actions { justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--line); }
+  .header-actions .btn-sm { min-height: 44px; }
+  .lang a, .lang [aria-current] { min-width: 44px; }
   .brand-name { font-size: 22px; }
   .brand-rule { height: 32px; }
 }
 
 /* Sections */
-.section { padding: clamp(64px, 9vw, 112px) 0; }
+.section { padding: var(--section-pad) 0; }
 .section.tint { background: var(--tint); }
 .section-head { max-width: 680px; display: flex; flex-direction: column; gap: 14px; margin-bottom: clamp(32px, 4vw, 48px); }
 .section-head.center { margin-left: auto; margin-right: auto; text-align: center; align-items: center; }
@@ -238,7 +242,10 @@ a:not([class]):focus-visible, .link-arrow:focus-visible { border-radius: 4px; }
 .res-thumb.cv i:nth-child(5) { width: 40%; background: var(--plum); margin-top: 6px; }
 .res-thumb.lg { flex-basis: 160px; height: 214px; font-size: 20px; padding: 20px 16px; }
 @media (max-width: 860px) { .res-grid { grid-template-columns: 1fr; } }
-@media (max-width: 480px) { .res-card { flex-direction: column; padding: 22px; } }
+@media (max-width: 480px) {
+  .res-card { flex-direction: column; padding: 22px; }
+  .res-thumb { flex: 0 0 148px; width: 110px; }
+}
 
 .checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .checks li { display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; color: var(--ink-2); }
@@ -258,8 +265,8 @@ a:not([class]):focus-visible, .link-arrow:focus-visible { border-radius: 4px; }
 .chips a { flex: 0 0 auto; display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); color: var(--ink-2); font-size: 14px; font-weight: 500; text-decoration: none; white-space: nowrap; }
 .chips a:hover { border-color: var(--plum); color: var(--plum); }
 .chips a[aria-current="true"] { border-color: var(--plum); background: var(--plum); color: #fff; }
-.page-services { scroll-padding-top: calc(var(--header-h) + 80px); }
-.page-services .section[id] { scroll-margin-top: calc(var(--header-h) + 64px); }
+/* Jump links stop with the title 24px under the chips bar (65px tall, 69px on touch sizes below), on top of the 16px of the page's scroll padding. */
+.page-services .section[id] { scroll-margin-top: calc(73px - var(--section-pad)); }
 
 .offer-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 80px); align-items: start; }
 .offer-main { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
@@ -336,7 +343,6 @@ a.way:hover { border-color: var(--plum); color: var(--ink); }
 .footer-nav, .footer-contact { display: flex; flex-direction: column; gap: 2px; }
 .site-footer a:not(.brand) { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; color: #E9E3E6; text-decoration: none; }
 .site-footer a:not(.brand):hover { color: #fff; text-decoration: underline; }
-.footer-phone { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; color: #E9E3E6; }
 .footer-contact .ico { color: #C77BA9; }
 .footer-contact address { margin-top: 8px; color: #B5ABAF; line-height: 1.6; }
 .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; padding-top: 24px; border-top: 1px solid #3A3236; font-size: 13px; color: #A39A9E; }
@@ -352,10 +358,28 @@ a.way:hover { border-color: var(--plum); color: var(--ink); }
     background: rgba(250, 247, 242, .96); border-top: 1px solid var(--line); box-shadow: 0 -6px 20px rgba(31, 26, 28, .06);
   }
   .mobile-bar .btn { min-height: 46px; padding: 0 12px; }
-  body { padding-bottom: 72px; }
+  body { padding-bottom: calc(67px + env(safe-area-inset-bottom)); }
   .wrap { padding-left: 16px; padding-right: 16px; }
   .page-contact .mobile-bar { display: none; }
   body.page-contact { padding-bottom: 0; }
+}
+/* Phones in landscape: the bar would take too much of the screen. */
+@media (max-height: 480px) {
+  .mobile-bar { display: none; }
+  body { padding-bottom: 0; }
+}
+
+/* Touch sizes: 44px tap targets and larger small print, desktop keeps its tighter sizes. */
+@media (max-width: 900px) {
+  .chips a { min-height: 44px; }
+  .page-services .section[id] { scroll-margin-top: calc(77px - var(--section-pad)); }
+  .price-card { top: calc(var(--header-h) + 92px); }
+  .site-footer a:not(.brand) { min-height: 44px; }
+  .footer-bottom a { justify-content: center; min-width: 44px; padding: 0 8px; }
+  .facts dd > a { display: inline-flex; align-items: center; min-height: 44px; }
+  .fine, .callout, .facts dd, .trust li { font-size: 16px; }
+  .brand-sub { font-size: 11px; }
+  .res-thumb.guide small { font-size: 11px; letter-spacing: .06em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -385,7 +409,7 @@ a.way:hover { border-color: var(--plum); color: var(--ink); }
 
 .legal { max-width: 760px; }
 .legal h2 { margin: 40px 0 12px; font-size: 24px; }
-.legal p { margin: 0 0 12px; line-height: 1.65; color: var(--ink-2); }
+.legal p { margin: 0 0 12px; line-height: 1.65; color: var(--ink-2); overflow-wrap: anywhere; }
 .legal .callout { margin-bottom: 8px; }
 .legal-todo { padding: 1px 4px; border-radius: 4px; background: #FBE9A7; color: var(--ink); }
 .footer-bottom a { color: inherit; }

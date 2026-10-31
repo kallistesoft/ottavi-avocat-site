@@ -12,7 +12,7 @@ import re
 
 from legal import DRAFT_NOTE, LEGAL, UPDATED
 from content import (AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, LEGAL_PAGES, NEWSLETTER, PAGES,
-                     PHONE, T, URL)
+                     PHONE, PHONE_TEL, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -99,7 +99,7 @@ def footer(lang):
       </nav>
       <div class="footer-contact">
         <h2 class="footer-title">{t["footContact"]}</h2>
-        <span class="footer-phone">{ico("phone", 18)}{PHONE}</span>
+        <a href="tel:{PHONE_TEL}">{ico("phone", 18)}{PHONE}</a>
         <a href="mailto:{EMAIL}">{ico("mail", 18)}{EMAIL}</a>
         <a href="{INSTA}">{ico("insta", 18)}@poughon_immigration</a>
         <address>{t["address"]}</address>
@@ -423,7 +423,7 @@ def cabinet(lang):
 <section class="section">
   <div class="wrap lawyer">
     <figure class="lawyer-photo">
-      <img src="/assets/vanessa-poughon.jpg" alt="{t["photoLabel"]}" width="800" height="800">
+      <img src="/assets/vanessa-poughon.jpg" alt="{t["photoLabel"]}" width="800" height="800" fetchpriority="high">
     </figure>
     <div class="lawyer-text">
       <span class="eyebrow">{t["specialty"]}</span>
@@ -441,7 +441,7 @@ def cabinet(lang):
     <dl class="facts">
       <div><dt>{t["barLabel"]}</dt><dd>{t["bar"]}<br><span class="muted">{t["notAlberta"]}</span></dd></div>
       <div><dt>{t["addrLabel"]}</dt><dd><address>{t["address"]}</address></dd></div>
-      <div><dt>{t["phoneLabel"]}</dt><dd>{PHONE}</dd></div>
+      <div><dt>{t["phoneLabel"]}</dt><dd><a href="tel:{PHONE_TEL}">{PHONE}</a></dd></div>
       <div><dt>{t["mailLabel"]}</dt><dd><a href="mailto:{EMAIL}">{EMAIL}</a></dd></div>
     </dl>
   </div>
