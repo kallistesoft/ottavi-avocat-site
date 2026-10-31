@@ -345,6 +345,7 @@ a.way:hover { border-color: var(--plum); color: var(--ink); }
 .footer-nav, .footer-contact { display: flex; flex-direction: column; gap: 2px; }
 .site-footer a:not(.brand) { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; color: #E9E3E6; text-decoration: none; }
 .site-footer a:not(.brand):hover { color: #fff; text-decoration: underline; }
+.footer-phone { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; color: #E9E3E6; }
 .footer-contact .ico { color: #C77BA9; }
 .footer-contact address { margin-top: 8px; color: #B5ABAF; line-height: 1.6; }
 .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; padding-top: 24px; border-top: 1px solid #3A3236; font-size: 13px; color: #A39A9E; }
