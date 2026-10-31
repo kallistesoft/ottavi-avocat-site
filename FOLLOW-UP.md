@@ -27,8 +27,8 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 
 - [ ] She approves https://new.vpavocat.com
 - [ ] Real test purchase from the new site: worker audit (`commande-22ec70a7`, funnel AUDIT TRAVAILLEUR PAYMENT → confirmation email)
-- [ ] Student audit path checked (`d4acbe58` → `7d11da02`)
-- [ ] Ebook purchase path checked (`guidealbertaachat` → `guidealbertamerci`)
+- [ ] Real test purchase: student audit (`d4acbe58-5b116c48`, funnel AUDIT ETUDES PAYMENT): product, emails, automation rules
+- [ ] Real test purchase: ebook (`guidealbertaachat-ee964b16`, funnel EBOOK ALBERTA PAYMENT): file delivered, emails, automation rules
 - [ ] Find where she shares `www.vpavocat.com/audit_travailleur` or `/commande` (Instagram, emails, ads); add redirect
       pages on the new site to the `a5c6-contact.systeme.io` pages of the same name
 
@@ -38,7 +38,7 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 - [ ] GitHub Pages custom domain → `www.vpavocat.com`
 - [ ] GoDaddy: `www` CNAME → `kallistesoft.github.io` (today `d2m106fbjcka9h.cloudfront.net`)
 - [ ] GoDaddy: bare domain → GitHub A records `185.199.108.153` to `185.199.111.153`. Today it redirects to microsoft.com
-- [ ] systeme.io forks (audit, CV, guideAlberta): header/footer links and favicon point to `new.vpavocat.com`; change them to `www`.
+- [ ] systeme.io forks (PAYMENT funnels, CV): header/footer links and favicon point to `new.vpavocat.com`; change them to `www`.
       The audit and guideAlberta heroes live in each page's footer code, and the prices there must be changed by hand
 - [ ] Delete the `new` CNAME once `www` works
 - [ ] Enforce HTTPS once the `www` certificate is issued

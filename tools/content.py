@@ -9,10 +9,10 @@ TEL = 'tel:+15793728150'
 CALENDLY = 'https://calendly.com/vanessa-poughon-avocat/consultation-immigration-canadienne-60-mn'
 CALENDLY_FLASH = 'https://calendly.com/vanessa-poughon-avocat/consultation-flash-20mn-150-taxes'
 AUDIT = 'https://a5c6-contact.systeme.io/commande-22ec70a7'
-AUDIT_STUDENT = 'https://a5c6-contact.systeme.io/d4acbe58'
+AUDIT_STUDENT = 'https://a5c6-contact.systeme.io/d4acbe58-5b116c48'
 GUIDE_FREE = 'https://a5c6-contact.systeme.io/guidegratuit'
 CV_FREE = 'https://a5c6-contact.systeme.io/cvcanadien-e5451c58-4a4b1be3'
-EBOOK = 'https://a5c6-contact.systeme.io/guidealbertaachat'
+EBOOK = 'https://a5c6-contact.systeme.io/guidealbertaachat-ee964b16'
 INSTA = 'https://www.instagram.com/poughon_immigration'
 
 PAGES = ['home', 'services', 'ressources', 'cabinet', 'contact']
