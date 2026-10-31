@@ -1,8 +1,8 @@
 # Follow-up
 
-What's left before the new site replaces her current one on `www.vpavocat.com`.
+What's left before the new site officially replaces her current one on `www.vpavocat.com`.
 
-Today: the new site is tested at https://new.vpavocat.com (GitHub Pages, `CNAME` + `robots.txt` block indexing).
+Today: the new site lives at https://www.ottavilawfirm.com, her new domain (GitHub Pages, `CNAME` + `robots.txt` block indexing).
 `www.vpavocat.com` still serves her systeme.io site. Nothing switches until she approves the new site **and** her
 systeme.io sales funnel is proven to work from it.
 
@@ -30,11 +30,11 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 - [ ] Me Poughon reviews both pages and settles every highlighted passage, then remove `DRAFT_NOTE` and the `todo()` calls
 - [ ] Taxes: the products are set to 0 % in systeme.io while the site says "+ tx"
 - [ ] After approval, change the payment pages' tick boxes to link the CGV (the guide's says "présentes conditions générales")
-- [ ] Payment page footer links point to `new.vpavocat.com`; change them at the switch
+- [ ] Payment page footer links point to `new.vpavocat.com`; change them to `www.ottavilawfirm.com`
 
 ## 3. Before switching `www`
 
-- [ ] She approves https://new.vpavocat.com
+- [ ] She approves https://www.ottavilawfirm.com
 - [ ] Real test purchase from the new site: worker audit (`commande-22ec70a7`, funnel AUDIT TRAVAILLEUR PAYMENT → confirmation email)
 - [ ] Real test purchase: student audit (`d4acbe58-5b116c48`, funnel AUDIT ETUDES PAYMENT): product, emails, automation rules
 - [ ] Real test purchase: ebook (`guidealbertaachat-ee964b16`, funnel EBOOK ALBERTA PAYMENT): file delivered, emails, automation rules
@@ -43,15 +43,19 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 
 ## 4. The switch (GoDaddy DNS: user types the SMS code to save)
 
-- [ ] Repo: `CNAME` → `www.vpavocat.com`, delete `robots.txt`, rebuild, merge
-- [ ] GitHub Pages custom domain → `www.vpavocat.com`
-- [ ] GoDaddy: `www` CNAME → `kallistesoft.github.io` (today `d2m106fbjcka9h.cloudfront.net`)
-- [ ] GoDaddy: bare domain → GitHub A records `185.199.108.153` to `185.199.111.153`. Today it redirects to microsoft.com
-- [ ] systeme.io forks (PAYMENT funnels, CV): header/footer links and favicon point to `new.vpavocat.com`; change them to `www`.
-      The audit and guideAlberta heroes live in each page's footer code, and the prices there must be changed by hand
-- [ ] Delete the `new` CNAME once `www` works
-- [ ] Enforce HTTPS once the `www` certificate is issued
-- [ ] Don't touch: MX, SPF, DMARC, Microsoft 365 records, systeme.io DKIM (`systemeio1/2._domainkey`), Amazon SES
+`ottavilawfirm.com` is at GoDaddy, in her account. Its DNS only needs the GitHub records:
+
+- [ ] GoDaddy: `www` CNAME → `kallistesoft.github.io` (today `ottavilawfirm.com.`)
+- [ ] GoDaddy: replace the parked `@` A record with `185.199.108.153` to `185.199.111.153`
+- [ ] GitHub Pages custom domain → `www.ottavilawfirm.com`, then enforce HTTPS once the certificate is issued
+- [ ] systeme.io forks (PAYMENT funnels, CV): header/footer links and favicon point to `new.vpavocat.com`; change them to
+      `www.ottavilawfirm.com`. The audit and guideAlberta heroes live in each page's footer code, and the prices there must be
+      changed by hand
+- [ ] Once she approves: delete `robots.txt`
+- [ ] Decide what `www.vpavocat.com` does. It stays on systeme.io for now, and redirecting it would break `/audit_travailleur`
+      and `/commande` there
+- [ ] Delete the `new` CNAME on `vpavocat.com` once the new domain works
+- [ ] On `vpavocat.com`, don't touch: MX, SPF, DMARC, Microsoft 365 records, systeme.io DKIM (`systemeio1/2._domainkey`), Amazon SES
 - [ ] After: full purchase test again, and an email to `contact@vpavocat.com` still arrives
 
 The full DNS list before any change is saved in the session notes (27 records, 2026-10-28).
