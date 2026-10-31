@@ -21,7 +21,6 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 
 - [ ] Address: the site shows Montréal (204, rue du Saint-Sacrement), but her bio says she lives in Alberta
 - [ ] Photo: the portrait has a Gemini ✦ mark (looks AI-generated). A real photo is better for a lawyer's site
-- [ ] Delivery time of the audit: « en moins d'une semaine » (her audit page) vs « 48 h » (her current home page)
 - [ ] Review the English translations
 
 ## 3. Before switching `www`
