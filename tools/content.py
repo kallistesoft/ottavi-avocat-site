@@ -173,18 +173,18 @@ T['en'].update(
 T['fr'].update(
     resNote='Indiquez votre courriel sur la page suivante pour recevoir le document.',
     student='Audit Éclair — Étudiant', studentCardCta='Obtenir un audit', studentCta='Réserver votre audit',
-    studentBlurb="Sécurisez votre projet d'études avant d'investir des milliers de dollars.",
+    studentBlurb="Sécurisez votre projet d'études avant d'investir des milliers de dollars. Bilan détaillé sous 48 h.",
     studentPitch="Vous souhaitez faire des études au Canada ? Ne tentez pas votre chance au hasard avec l'immigration canadienne : un dossier mal préparé, c'est un refus quasi assuré. Sécurisez votre projet d'études avant d'investir des milliers de dollars.",
     studentListTitle="Que contient l'audit",
-    studentPoints=["Diagnostic d'admissibilité stratégique", "Détection des points faibles de votre dossier", "Feuille de route personnalisée", "Conseils pour votre demande de permis"],
+    studentPoints=["Diagnostic d'admissibilité stratégique", "Détection des points faibles de votre dossier", "Feuille de route personnalisée", "Conseils pour votre demande de permis", "Votre bilan détaillé sous 48 h"],
     studentBonus="<strong>Le petit plus :</strong> si vous nous confiez ensuite la prise en charge complète de votre dossier, vos 49 $ sont intégralement déduits de votre prestation. Votre audit est donc entièrement rentabilisé.",
 )
 T['en'].update(
     resNote='Enter your email on the next page to receive the document.',
     student='Express Audit — Student', studentCardCta='Get an audit', studentCta='Book your audit',
-    studentBlurb='Secure your study project before investing thousands of dollars.',
+    studentBlurb='Secure your study project before investing thousands of dollars. Detailed report within 48 hours.',
     studentPitch="Want to study in Canada? Don't leave Canadian immigration to chance: a poorly prepared application is almost certain to be refused. Secure your study project before investing thousands of dollars.",
     studentListTitle="What the audit includes",
-    studentPoints=['Strategic eligibility diagnosis', 'Identifying the weak points of your application', 'A personalized roadmap', 'Advice for your permit application'],
+    studentPoints=['Strategic eligibility diagnosis', 'Identifying the weak points of your application', 'A personalized roadmap', 'Advice for your permit application', 'Your detailed report within 48 hours'],
     studentBonus="<strong>A little extra:</strong> if you then entrust us with your entire application, your $49 is fully deducted from our fee. Your audit pays for itself.",
 )
