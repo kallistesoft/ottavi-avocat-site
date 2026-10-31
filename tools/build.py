@@ -268,12 +268,14 @@ def home(lang):
 </section>
 
 <section id="newsletter" class="section">
-  <div class="wrap newsletter">
-    <div>
-      <span class="eyebrow">Newsletter</span>
-      <h2>{t["nlBlurb"]}</h2>
+  <div class="wrap">
+    <div class="newsletter">
+      <div>
+        <span class="eyebrow">Newsletter</span>
+        <h2>{t["nlBlurb"]}</h2>
+      </div>
+      <a class="btn btn-primary btn-lg" href="{NEWSLETTER}" rel="noopener">{t["subscribe"]}</a>
     </div>
-    <a class="btn btn-primary btn-lg" href="{NEWSLETTER}" rel="noopener">{t["subscribe"]}</a>
   </div>
 </section>
 
@@ -418,6 +420,10 @@ def cabinet(lang):
     t = T[lang]
     bio = ''.join(f'<p>{b}</p>' for b in t['bio'][:-1])
     areas = ''.join(f'<li>{a}</li>' for a in t['areas'])
+    affiliations = ''.join(
+        f'<li><img src="/assets/logos/{img}.png" alt="{alt}" width="{w}" height="{h}" loading="lazy"><p>{text}</p>'
+        + (f'<a class="link-arrow" href="{href}" rel="noopener">{t["affVisit"]}{ico("arrow", 18)}</a>' if href else '') + '</li>'
+        for img, alt, w, h, text, href in t['affiliations'])
     return f'''{page_head(t["nav"]["cabinet"], "Ottavi Law Firm Inc.", t["cabinetLead"])}
 
 <section class="section">
@@ -444,6 +450,16 @@ def cabinet(lang):
       <div><dt>{t["phoneLabel"]}</dt><dd><a href="tel:{PHONE_TEL}">{PHONE}</a></dd></div>
       <div><dt>{t["mailLabel"]}</dt><dd><a href="mailto:{EMAIL}">{EMAIL}</a></dd></div>
     </dl>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">{t["affEyebrow"]}</span>
+      <h2>{t["affTitle"]}</h2>
+    </div>
+    <ul class="affiliations">{affiliations}</ul>
   </div>
 </section>
 
