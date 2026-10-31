@@ -11,7 +11,7 @@ import posixpath
 import re
 
 from content import (AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, PAGES,
-                     PHONE, TEL, T, URL)
+                     PHONE, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -98,7 +98,7 @@ def footer(lang):
       </nav>
       <div class="footer-contact">
         <h2 class="footer-title">{t["footContact"]}</h2>
-        <a href="{TEL}">{ico("phone", 18)}{PHONE}</a>
+        <span class="footer-phone">{ico("phone", 18)}{PHONE}</span>
         <a href="mailto:{EMAIL}">{ico("mail", 18)}{EMAIL}</a>
         <a href="{INSTA}">{ico("insta", 18)}@poughon_immigration</a>
         <address>{t["address"]}</address>
@@ -450,7 +450,7 @@ def cabinet(lang):
     <dl class="facts">
       <div><dt>{t["barLabel"]}</dt><dd>{t["bar"]}<br><span class="muted">{t["notAlberta"]}</span></dd></div>
       <div><dt>{t["addrLabel"]}</dt><dd><address>{t["address"]}</address></dd></div>
-      <div><dt>{t["phoneLabel"]}</dt><dd><a href="{TEL}">{PHONE}</a></dd></div>
+      <div><dt>{t["phoneLabel"]}</dt><dd>{PHONE}</dd></div>
       <div><dt>{t["mailLabel"]}</dt><dd><a href="mailto:{EMAIL}">{EMAIL}</a></dd></div>
     </dl>
   </div>
@@ -486,7 +486,6 @@ def contact(lang):
     </div>
     <div class="contact-ways">
       <a class="way" href="mailto:{EMAIL}">{ico("mail", 24)}<span><strong>{t["writeTitle"]}</strong>{EMAIL}</span></a>
-      <a class="way" href="{TEL}">{ico("phone", 24)}<span><strong>{t["callTitle"]}</strong>{PHONE}</span></a>
       <a class="way" href="{INSTA}" rel="noopener">{ico("insta", 24)}<span><strong>Instagram</strong>@poughon_immigration</span></a>
       <div class="way">{ico("pin", 24)}<span><strong>{t["findTitle"]}</strong><address>{t["address"]}</address></span></div>
     </div>
@@ -505,6 +504,7 @@ def render(lang, page):
 <html lang="{lang}">
 <head>
 <meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{t["desc"]}">

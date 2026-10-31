@@ -5,7 +5,6 @@ Edit this file, then run `python3 tools/build.py` to regenerate the pages.
 
 EMAIL = 'contact@vpavocat.com'
 PHONE = '+1 579-372-8150'
-TEL = 'tel:+15793728150'
 CALENDLY = 'https://calendly.com/vanessa-poughon-avocat/consultation-immigration-canadienne-60-mn'
 CALENDLY_FLASH = 'https://calendly.com/vanessa-poughon-avocat/consultation-flash-20mn-150-taxes'
 AUDIT = 'https://a5c6-contact.systeme.io/commande-22ec70a7'
@@ -133,7 +132,7 @@ T['fr'].update(
     menu='Menu', close='Fermer', mobileBook='Réserver', mobileAudit='Audit 49 $',
     contactLead='Une question sur votre projet ? Écrivez-nous, appelez-nous ou réservez directement un rendez-vous.',
     remote='Consultations à distance, où que vous soyez dans le monde.',
-    bookTitle='Réserver un rendez-vous', writeTitle='Nous écrire', callTitle='Nous appeler', findTitle='Nous trouver',
+    bookTitle='Réserver un rendez-vous', writeTitle='Nous écrire', findTitle='Nous trouver',
     areasTitle='Domaines de prédilection',
     areas=['Entrée express', 'Mobilité francophone', "Programmes d'immigration fédéraux"],
     cabinetLead="Un accompagnement juridique stratégique, rigoureux et humain en droit de l'immigration canadienne.",
@@ -161,7 +160,7 @@ T['en'].update(
     menu='Menu', close='Close', mobileBook='Book', mobileAudit='Audit $49',
     contactLead='A question about your project? Write to us, call us or book an appointment directly.',
     remote='Remote consultations, wherever you are in the world.',
-    bookTitle='Book an appointment', writeTitle='Write to us', callTitle='Call us', findTitle='Find us',
+    bookTitle='Book an appointment', writeTitle='Write to us', findTitle='Find us',
     areasTitle='Areas of focus',
     areas=['Express Entry', 'Francophone Mobility', 'Federal immigration programs'],
     cabinetLead='Strategic, rigorous and human legal support in Canadian immigration law.',
