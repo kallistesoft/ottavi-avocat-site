@@ -2,7 +2,7 @@
 
 What's left before the new site officially replaces her current one on `www.vpavocat.com`.
 
-Today: the new site lives at https://www.ottavilawfirm.com, her new domain (GitHub Pages, `CNAME` + `robots.txt` block indexing).
+Today: the new site lives at https://www.ottavilawfirm.com, her new domain (GitHub Pages, `CNAME`).
 `www.vpavocat.com` still serves her systeme.io site. Nothing switches until she approves the new site **and** her
 systeme.io sales funnel is proven to work from it.
 
@@ -48,7 +48,7 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 - [x] GoDaddy: replace the parked `@` A record with `185.199.108.153` to `185.199.111.153`
 - [x] GitHub Pages custom domain → `www.ottavilawfirm.com`, then enforce HTTPS once the certificate is issued
 - [x] systeme.io pages: header/footer links and favicon now point to `www.ottavilawfirm.com` (the 3 PAYMENT order pages, CV, `/commande`)
-- [ ] Once she approves: delete `robots.txt`
+- [x] Delete `robots.txt` (done before her approval, user's decision)
 - [ ] Decide what `www.vpavocat.com` does. It stays on systeme.io for now, and redirecting it would break `/audit_travailleur`
       and `/commande` there
 - [ ] Delete the `new` CNAME on `vpavocat.com` once the new domain works

@@ -1,3 +1,0 @@
-# Test site: keep it out of search engines until she approves it.
-User-agent: *
-Disallow: /
