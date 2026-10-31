@@ -10,7 +10,7 @@ import os
 import posixpath
 import re
 
-from content import (AUDIT, AUDIT_ORDER, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, PAGES,
+from content import (AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, PAGES,
                      PHONE, TEL, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -331,7 +331,7 @@ def services(lang):
 
     audit = offer_block(
         'audit', t['audit'], f'<p class="lead">{t["auditPitch"]}</p>',
-        price(t['auditPrice'], t['auditUnit'], t['auditEuro']), AUDIT_ORDER, t['auditCta'],
+        price(t['auditPrice'], t['auditUnit'], t['auditEuro']), AUDIT, t['auditCta'],
         extra=f'''<h3 class="mini-title">{t["howTitle"]}</h3>
       <ol class="steps">{steps}</ol>
       <p class="fine">{t["auditDisclaimer"]}</p>''',
