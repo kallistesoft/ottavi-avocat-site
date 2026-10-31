@@ -27,7 +27,7 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 ## 3. Before switching `www`
 
 - [ ] She approves https://new.vpavocat.com
-- [ ] Real test purchase from the new site: worker audit (`audit_travailleur` → `commande` → `merci` → confirmation email)
+- [ ] Real test purchase from the new site: worker audit (`audit_travailleur-decd3c0b` → `commande` → `merci` → confirmation email)
 - [ ] Student audit path checked (`audit_etudiant` → `d4acbe58` → `7d11da02`)
 - [ ] Ebook purchase path checked (`guidealberta` → `guidealbertaachat` → `guidealbertamerci`)
 - [ ] Find where she shares `www.vpavocat.com/audit_travailleur` or `/commande` (Instagram, emails, ads); add redirect
