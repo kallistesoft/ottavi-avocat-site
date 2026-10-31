@@ -307,7 +307,10 @@ def final_cta(lang):
 
 def services(lang):
     t, u = T[lang], URL[lang]
-    steps = ''.join(f'<li><span class="n">{i}</span><span>{s}</span></li>' for i, s in enumerate(t["auditSteps"], 1))
+    def numbered(items):
+        return ''.join(f'<li><span class="n">{i}</span><span>{s}</span></li>' for i, s in enumerate(items, 1))
+
+    steps = numbered(t['auditSteps'])
     chips = [('audit', t['audit']), ('audit-etudiant', t['student']), ('consultations', t['consult']), ('flash', t['flash']), ('mandat', t['mandate']),
              ('alberta', 'Ebook')]
     chip_html = ''.join(f'<a href="#{a}">{label}</a>' for a, label in chips)
@@ -338,9 +341,10 @@ def services(lang):
         side_extra=f'<p class="callout">{t["auditBonus"]}</p>')
     student = offer_block(
         'audit-etudiant', t['student'], f'<p class="lead">{t["studentPitch"]}</p>',
-        price(t['auditPrice'], t['auditUnit']), AUDIT_STUDENT, t['studentCta'], tint=True,
+        price(t['auditPrice'], t['auditUnit'], t['auditEuro']), AUDIT_STUDENT, t['studentCta'], tint=True,
         extra=f'''<h3 class="mini-title">{t["studentListTitle"]}</h3>
-      <ul class="checks">{li(t["studentPoints"], "checks")}</ul>''',
+      <ol class="steps">{numbered(t["studentPoints"])}</ol>
+      <p class="fine">{t["auditDisclaimer"]}</p>''',
         side_extra=f'<p class="callout">{t["studentBonus"]}</p>')
     consult = offer_block('consultations', t['consult'], f'<p class="lead">{t["consultBlurb"]}</p>',
                           price(t['consultPrice'], t['taxes']), CALENDLY, t['consultCta'], dark=True)
