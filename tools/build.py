@@ -112,7 +112,7 @@ def footer(lang):
   </div>
 </footer>
 <div class="mobile-bar">
-  <a class="btn btn-ghost" href="{AUDIT}" rel="noopener">{t["mobileAudit"]}</a>
+  <a class="btn btn-ghost" href="{u["services"]}#audit">{t["mobileAudit"]}</a>
   <a class="btn btn-primary" href="{CALENDLY}" rel="noopener">{t["mobileBook"]}</a>
 </div>'''
 
@@ -149,10 +149,10 @@ def offers(lang):
     return [
         dict(key='audit', need=t['needs']['audit'], title=t['audit'], blurb=t['auditBlurb'],
              price=price(t['auditPrice'], t['auditUnit'], t['auditEuro']),
-             href=AUDIT, cta=t['auditCardCta']),
+             href=u['services'] + '#audit', cta=t['auditCardCta']),
         dict(key='student', need=t['needs']['student'], title=t['student'], blurb=t['studentBlurb'],
              price=price(t['auditPrice'], t['auditUnit']),
-             href=AUDIT_STUDENT, cta=t['studentCardCta']),
+             href=u['services'] + '#audit-etudiant', cta=t['studentCardCta']),
         dict(key='flash', need=t['needs']['flash'], title=t['flash'], blurb=t['flashBlurb'],
              price=price(t['flashPrice'], t['taxes']), href=CALENDLY_FLASH, cta=t['consultCta']),
         dict(key='consult', need=t['needs']['consult'], title=t['consult'], blurb=t['consultBlurb'],
@@ -209,7 +209,7 @@ def home(lang):
       <p class="lead">{t["tagline"]}</p>
       <div class="btn-row">
         <a class="btn btn-primary btn-lg" href="{u["services"]}#consultations">{t["heroPrimary"]}</a>
-        <a class="btn btn-outline btn-lg" href="{AUDIT}" rel="noopener">{t["heroSecondary"]}</a>
+        <a class="btn btn-outline btn-lg" href="{u["services"]}#audit">{t["heroSecondary"]}</a>
       </div>
     </div>
     <figure class="hero-photo">
@@ -467,10 +467,10 @@ def contact(lang):
         <a class="book-item" href="{CALENDLY_FLASH}" rel="noopener">
           <span><strong>{t["flash"]}</strong>{price(t["flashPrice"], t["taxes"])}</span>{ico("arrow", 20)}
         </a>
-        <a class="book-item" href="{AUDIT}" rel="noopener">
+        <a class="book-item" href="{u["services"]}#audit">
           <span><strong>{t["audit"]}</strong>{price(t["auditPrice"], t["auditUnit"])}</span>{ico("arrow", 20)}
         </a>
-        <a class="book-item" href="{AUDIT_STUDENT}" rel="noopener">
+        <a class="book-item" href="{u["services"]}#audit-etudiant">
           <span><strong>{t["student"]}</strong>{price(t["auditPrice"], t["auditUnit"])}</span>{ico("arrow", 20)}
         </a>
       </div>
