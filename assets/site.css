@@ -398,3 +398,6 @@ a.way:hover { border-color: var(--plum); color: var(--ink); }
 .legal .callout { margin-bottom: 8px; }
 .legal-todo { padding: 1px 4px; border-radius: 4px; background: #FBE9A7; color: var(--ink); }
 .footer-bottom a { color: inherit; }
+.embed .site-header, .embed .site-footer, .embed .mobile-bar, .embed .skip { display: none; }
+.embed .page-head { padding: 28px 0 20px; }
+.embed .section { padding-top: 24px; }

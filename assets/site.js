@@ -1,5 +1,8 @@
-// Mobile menu, and a notice on the newsletter form until it links to systeme.io.
+// Embedded view, mobile menu, and a notice on the newsletter form until it links to systeme.io.
 (function () {
+  // Legal pages open in a dialog on the payment pages: show only their content there.
+  if (window.self !== window.top) document.documentElement.classList.add('embed');
+
   var header = document.querySelector('.site-header');
   var button = header && header.querySelector('.menu-btn');
   if (button) {
