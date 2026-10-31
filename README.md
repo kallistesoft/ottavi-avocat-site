@@ -45,5 +45,5 @@ python3 -m http.server 8000
 ## Hosting
 
 The site is on the client's own GoDaddy cPanel hosting. Every push to `main` runs the **Deploy to GoDaddy** workflow, which uploads the
-site over FTPS with the `OTTAVI_FTP_*` organization secrets (without `design/`, `tools/`, `.github`, `CNAME` and the Markdown files).
+site over FTPS with the `OTTAVI_FTP_*` organization secrets (without `design/`, `tools/`, `.github` and the Markdown files).
 `.htaccess` sends `http://` and the bare domain to `https://www.ottavilawfirm.com`.

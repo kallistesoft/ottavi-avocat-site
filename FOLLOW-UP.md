@@ -2,7 +2,7 @@
 
 What's left on the new site, which has replaced her old one.
 
-Today: the new site lives at https://www.ottavilawfirm.com, her new domain (GitHub Pages, `CNAME`).
+Today: the new site lives at https://www.ottavilawfirm.com, on her GoDaddy cPanel.
 `vpavocat.com` and `www.vpavocat.com` redirect to it.
 
 ## 1. Sign-up forms
@@ -39,11 +39,8 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 
 ## 4. The switch (GoDaddy DNS: user types the SMS code to save)
 
-`ottavilawfirm.com` is at GoDaddy, in her account. Its DNS only needs the GitHub records:
-
-- [x] GoDaddy: `www` CNAME → `kallistesoft.github.io`
-- [x] GoDaddy: replace the parked `@` A record with `185.199.108.153` to `185.199.111.153`
-- [x] GitHub Pages custom domain → `www.ottavilawfirm.com`, then enforce HTTPS once the certificate is issued
+- [x] `ottavilawfirm.com` moved to her cPanel: GoDaddy set the DNS when the domain was added, and AutoSSL issued the certificate
+- [x] GitHub Pages disabled and `CNAME` removed
 - [x] systeme.io pages: header/footer links and favicon now point to `www.ottavilawfirm.com` (the 3 PAYMENT order pages, CV, `/commande`)
 - [x] Delete `robots.txt` (done before her approval, user's decision)
 - [x] `vpavocat.com` and `www.vpavocat.com`: GoDaddy forwarding (301) to `https://www.ottavilawfirm.com`, done before her approval (user's decision).
