@@ -40,7 +40,8 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 - [ ] GitHub Pages custom domain → `www.vpavocat.com`
 - [ ] GoDaddy: `www` CNAME → `kallistesoft.github.io` (today `d2m106fbjcka9h.cloudfront.net`)
 - [ ] GoDaddy: bare domain → GitHub A records `185.199.108.153` to `185.199.111.153`. Today it redirects to microsoft.com
-- [ ] systeme.io forks (audit, CV, guideAlberta): header/footer links and favicon point to `new.vpavocat.com`; change them to `www`
+- [ ] systeme.io forks (audit, CV, guideAlberta): header/footer links and favicon point to `new.vpavocat.com`; change them to `www`.
+      The audit and guideAlberta heroes live in each page's footer code, and the prices there must be changed by hand
 - [ ] Delete the `new` CNAME once `www` works
 - [ ] Enforce HTTPS once the `www` certificate is issued
 - [ ] Don't touch: MX, SPF, DMARC, Microsoft 365 records, systeme.io DKIM (`systemeio1/2._domainkey`), Amazon SES
