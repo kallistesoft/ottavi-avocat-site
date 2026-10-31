@@ -29,7 +29,8 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 - [ ] She approves https://new.vpavocat.com
 - [ ] Real test purchase from the new site: worker audit (`audit_travailleur-decd3c0b` → `commande` → `merci` → confirmation email)
 - [ ] Student audit path checked (`audit_etudiant` → `d4acbe58` → `7d11da02`)
-- [ ] Ebook purchase path checked (`guidealberta` → `guidealbertaachat` → `guidealbertamerci`)
+- [ ] Ebook purchase path checked (`guidealberta-bb4dab45` → `guidealbertaachat` → `guidealbertamerci`). The fork's own
+      order step has no product: a header-code script sends its buy buttons to the original `guidealbertaachat`
 - [ ] Find where she shares `www.vpavocat.com/audit_travailleur` or `/commande` (Instagram, emails, ads); add redirect
       pages on the new site to the `a5c6-contact.systeme.io` pages of the same name
 
@@ -39,6 +40,7 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 - [ ] GitHub Pages custom domain → `www.vpavocat.com`
 - [ ] GoDaddy: `www` CNAME → `kallistesoft.github.io` (today `d2m106fbjcka9h.cloudfront.net`)
 - [ ] GoDaddy: bare domain → GitHub A records `185.199.108.153` to `185.199.111.153`. Today it redirects to microsoft.com
+- [ ] systeme.io forks (audit, CV, guideAlberta): header/footer links and favicon point to `new.vpavocat.com`; change them to `www`
 - [ ] Delete the `new` CNAME once `www` works
 - [ ] Enforce HTTPS once the `www` certificate is issued
 - [ ] Don't touch: MX, SPF, DMARC, Microsoft 365 records, systeme.io DKIM (`systemeio1/2._domainkey`), Amazon SES
