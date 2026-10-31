@@ -11,7 +11,7 @@ import posixpath
 import re
 
 from legal import DRAFT_NOTE, LEGAL, UPDATED
-from content import (AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, LEGAL_PAGES, PAGES,
+from content import (AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, LEGAL_PAGES, NEWSLETTER, PAGES,
                      PHONE, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -162,11 +162,6 @@ def offers(lang):
     ]
 
 
-def form_note(lang):
-    t = T[lang]
-    return f'<p class="form-msg" role="status" hidden>{t["formPending"]} <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>'
-
-
 def resource_cards(lang, heading='h3'):
     t = T[lang]
     return f'''<div class="res-grid">
@@ -272,18 +267,13 @@ def home(lang):
   </div>
 </section>
 
-<section class="section">
+<section id="newsletter" class="section">
   <div class="wrap newsletter">
     <div>
       <span class="eyebrow">Newsletter</span>
       <h2>{t["nlBlurb"]}</h2>
     </div>
-    <form class="inline-form" data-pending>
-      <label class="sr-only" for="nl-email">{t["email"]}</label>
-      <input id="nl-email" type="email" name="email" required autocomplete="email" placeholder="{t["email"]}">
-      <button class="btn btn-primary" type="submit">{t["subscribe"]}</button>
-      {form_note(lang)}
-    </form>
+    <a class="btn btn-primary btn-lg" href="{NEWSLETTER}" rel="noopener">{t["subscribe"]}</a>
   </div>
 </section>
 

@@ -7,12 +7,10 @@ Today: the new site lives at https://www.ottavilawfirm.com, her new domain (GitH
 
 ## 1. Sign-up forms
 
-Guide and CV are done: their buttons open her systeme.io pages (`/guidegratuit`, `/cvcanadien-e5451c58-4a4b1be3`), which collect
-the email.
+Guide, CV and newsletter are done: their buttons open her systeme.io pages (`/guidegratuit`, `/cvcanadien-e5451c58-4a4b1be3`,
+`/newsletter`), which collect the email. The home page section is shareable at `/#newsletter` and `/en/#newsletter`.
 
-- [ ] Newsletter: she needs a systeme.io newsletter page. Send the link, then replace the home page form with a button
-      and remove the « bientôt disponible » notice (`assets/site.js`, `form_note` in `tools/build.py`)
-- [ ] Test the guide and CV pages with a test email address: contact created, document received
+- [ ] Test the guide, CV and newsletter pages with a test email address: contact created, document received
 
 Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop working when `www` switches.
 

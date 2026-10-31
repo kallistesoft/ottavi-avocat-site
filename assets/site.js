@@ -1,4 +1,4 @@
-// Embedded view, mobile menu, and a notice on the newsletter form until it links to systeme.io.
+// Embedded view and mobile menu.
 (function () {
   // Legal pages open in a dialog on the payment pages: show only their content there.
   if (window.self !== window.top) document.documentElement.classList.add('embed');
@@ -57,13 +57,4 @@
     }
     setActive(location.hash ? location.hash.slice(1) : chips[0].getAttribute('href').slice(1));
   }
-
-  // This form has no backend yet: say so instead of reloading the page.
-  document.querySelectorAll('form[data-pending]').forEach(function (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var msg = form.querySelector('.form-msg');
-      if (msg) msg.hidden = false;
-    });
-  });
 })();

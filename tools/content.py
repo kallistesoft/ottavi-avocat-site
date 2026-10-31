@@ -11,6 +11,7 @@ AUDIT = 'https://a5c6-contact.systeme.io/commande-22ec70a7'
 AUDIT_STUDENT = 'https://a5c6-contact.systeme.io/d4acbe58-5b116c48'
 GUIDE_FREE = 'https://a5c6-contact.systeme.io/guidegratuit'
 CV_FREE = 'https://a5c6-contact.systeme.io/cvcanadien-e5451c58-4a4b1be3'
+NEWSLETTER = 'https://a5c6-contact.systeme.io/newsletter'
 EBOOK = 'https://a5c6-contact.systeme.io/guidealbertaachat-ee964b16'
 INSTA = 'https://www.instagram.com/poughon_immigration'
 
@@ -31,7 +32,6 @@ T = {
         bar="Avocate au Barreau du Québec · Numéro de membre 381467&#8209;0",
         notAlberta="(Non membre du Barreau de l'Alberta)",
         photo='[Photo actuelle du site]', photoLabel='Photo de Me Vanessa Poughon',
-        email='Courriel',
         audit="Audit Éclair — Travailleur", auditBlurb="Un questionnaire de 3 minutes, une analyse personnelle de vos réponses et un bilan détaillé sous 48 h.",
         auditSteps=["Réglez votre audit", "Répondez à mon questionnaire (3 minutes)", "J'analyse personnellement vos réponses", "Vous recevez votre bilan détaillé sous 48 h : vos points forts, vos points faibles et les programmes ciblés"],
         auditPrice='49 $', auditUnit='CAD + tx', auditEuro='environ 30 €', auditCta="Réserver votre audit", auditCardCta='Obtenir un audit', heroAudit='Audit Éclair · 49 $ CAD',
@@ -76,7 +76,6 @@ T = {
         bar='Member of the Barreau du Québec · Member no. 381467&#8209;0',
         notAlberta='(Not a member of the Law Society of Alberta)',
         photo='[Current site photo]', photoLabel='Photo of Vanessa Poughon',
-        email='Email',
         audit='Express Audit — Worker', auditBlurb='A 3-minute questionnaire, a personal analysis of your answers and a detailed report within 48 hours.',
         auditSteps=['Pay for your audit', 'Answer my questionnaire (3 minutes)', 'I personally analyze your answers', 'You receive your detailed report within 48 hours: your strengths, your weaknesses and the programs to target'],
         auditPrice='$49', auditUnit='CAD + tax', auditEuro='about €30', auditCta='Book your audit', auditCardCta='Get an audit', heroAudit='Express audit · CAD $49',
@@ -131,7 +130,6 @@ T['fr'].update(
     finalLead="Réservez un rendez-vous avec Me Poughon ou écrivez-nous : nous vous répondons rapidement.",
     servicesLead="De la première vérification à la prise en charge complète : choisissez le niveau d'accompagnement dont vous avez besoin.",
     jump='Aller à', mandateMore='Sur devis, selon votre dossier.',
-    formPending="L'inscription en ligne sera bientôt disponible. En attendant, écrivez-nous à",
     menu='Menu', close='Fermer', mobileBook='Réserver', mobileAudit='Audit 49 $',
     contactLead='Une question sur votre projet ? Écrivez-nous ou réservez directement un rendez-vous.',
     remote='Consultations à distance, où que vous soyez dans le monde.',
@@ -159,7 +157,6 @@ T['en'].update(
     finalLead='Book an appointment with Vanessa Poughon or write to us: we reply quickly.',
     servicesLead='From a first check to full support: choose the level of help you need.',
     jump='Jump to', mandateMore='On quote, depending on your file.',
-    formPending='Online sign-up is coming soon. In the meantime, write to us at',
     menu='Menu', close='Close', mobileBook='Book', mobileAudit='Audit $49',
     contactLead='A question about your project? Write to us or book an appointment directly.',
     remote='Remote consultations, wherever you are in the world.',
