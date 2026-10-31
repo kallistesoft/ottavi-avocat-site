@@ -10,7 +10,8 @@ import os
 import posixpath
 import re
 
-from content import (AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, PAGES,
+from legal import DRAFT_NOTE, LEGAL, UPDATED
+from content import (AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, LEGAL_PAGES, PAGES,
                      PHONE, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -106,7 +107,7 @@ def footer(lang):
     </div>
     <div class="footer-bottom">
       <span>{t["legal"]}</span>
-      <span>© 2026 Ottavi Law Firm Inc.</span>
+      <span>© 2026 Ottavi Law Firm Inc. · <a href="{u["cgv"]}">{t["legalNav"]["cgv"]}</a> · <a href="{u["privacy"]}">{t["legalNav"]["privacy"]}</a></span>
     </div>
   </div>
 </footer>
@@ -496,6 +497,26 @@ def contact(lang):
 BODY = {'home': home, 'services': services, 'ressources': ressources, 'cabinet': cabinet, 'contact': contact}
 
 
+def legal_page(page):
+    def body(lang):
+        title, lead, sections = LEGAL[lang][page]
+        html = ''.join(
+            f'<h2>{heading}</h2>' + ''.join(f'<p>{p.replace("PRIVACY_URL", URL[lang]["privacy"])}</p>' for p in paragraphs)
+            for heading, paragraphs in sections)
+        return f'''{page_head(T[lang]["legalEyebrow"], title, lead)}
+<section class="section">
+  <div class="wrap legal">
+    <p class="callout">{DRAFT_NOTE[lang]}</p>
+    {html}
+    <p class="muted">{UPDATED[lang]}</p>
+  </div>
+</section>'''
+    return body
+
+
+BODY.update({page: legal_page(page) for page in LEGAL_PAGES})
+
+
 def render(lang, page):
     t = T[lang]
     title = t['titles'][page] if page == 'home' else f'{t["titles"][page]} — Ottavi Law Firm Inc.'
@@ -544,7 +565,7 @@ def relative_links(html, here):
 
 def main():
     for lang in ('fr', 'en'):
-        for page in PAGES:
+        for page in PAGES + LEGAL_PAGES:
             here = URL[lang][page]
             path = os.path.join(ROOT, here.strip('/'), 'index.html')
             os.makedirs(os.path.dirname(path), exist_ok=True)
