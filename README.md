@@ -33,10 +33,10 @@ python3 -m http.server 8000
 
 - Consultation: the Calendly link used by the province quiz
 - Worker audit (order page, used by every worker audit link): `https://a5c6-contact.systeme.io/commande-22ec70a7`
-- Student audit (order page): `https://a5c6-contact.systeme.io/d4acbe58`
+- Student audit (order page): `https://a5c6-contact.systeme.io/d4acbe58-5b116c48`
 - Free guide: `https://a5c6-contact.systeme.io/guidegratuit`
 - Free CV template: `https://a5c6-contact.systeme.io/cvcanadien-e5451c58-4a4b1be3`
-- Alberta ebook (order page): `https://a5c6-contact.systeme.io/guidealbertaachat`
+- Alberta ebook (order page): `https://a5c6-contact.systeme.io/guidealbertaachat-ee964b16`
 
 ## Still to do
 
