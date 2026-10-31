@@ -1,6 +1,11 @@
 # Apache settings for ottavilawfirm.com on the GoDaddy hosting.
 DirectoryIndex index.html
 
+# The deploy's state file must not be public.
+<Files ".ftp-deploy-sync-state.json">
+  Require all denied
+</Files>
+
 # http:// and the bare domain → https://www.ottavilawfirm.com
 RewriteEngine On
 RewriteCond %{HTTPS} off [OR]

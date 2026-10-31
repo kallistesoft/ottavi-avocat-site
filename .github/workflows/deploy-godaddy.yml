@@ -1,3 +1,7 @@
+# Deploys to the client's own GoDaddy hosting, not the Kallistesoft one, so this
+# doesn't use the shared deploy-ftp.yml or the FTP_* secrets. OTTAVI_FTP_SERVER,
+# OTTAVI_FTP_USERNAME and OTTAVI_FTP_PASSWORD are organization secrets. The FTP
+# account must be rooted at the site's document root.
 name: Deploy to GoDaddy
 
 on:
@@ -8,8 +12,12 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ftp-ottavilawfirm
+  cancel-in-progress: false
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,15 +26,14 @@ jobs:
           mkdir site
           rsync -a --exclude site --exclude .git --exclude .github --exclude .gitignore --exclude design --exclude tools \
             --exclude README.md --exclude FOLLOW-UP.md --exclude CNAME ./ site/
-      - uses: actions/upload-artifact@v4
+      # Only changed files are sent: the action keeps a state file in the
+      # target folder and deletes only files it uploaded itself.
+      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          name: site
-          path: site
-          include-hidden-files: true
-
-  deploy:
-    needs: build
-    uses: kallistesoft/kallistesoft-site/.github/workflows/deploy-ftp.yml@main
-    with:
-      folder: ottavilawfirm.com
-    secrets: inherit
+          server: ${{ secrets.OTTAVI_FTP_SERVER }}
+          username: ${{ secrets.OTTAVI_FTP_USERNAME }}
+          password: ${{ secrets.OTTAVI_FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: site/
+          server-dir: ./
+          timeout: 60000
