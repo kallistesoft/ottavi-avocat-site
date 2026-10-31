@@ -1,0 +1,8 @@
+# Apache settings for ottavilawfirm.com on the GoDaddy hosting.
+DirectoryIndex index.html
+
+# http:// and the bare domain → https://www.ottavilawfirm.com
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^ottavilawfirm\.com$ [NC]
+RewriteRule ^ https://www.ottavilawfirm.com%{REQUEST_URI} [R=301,L]

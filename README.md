@@ -44,6 +44,6 @@ python3 -m http.server 8000
 
 ## Hosting
 
-The code lives here; the site is hosted by the client. Every push to `main` runs the **Package site** workflow, which
-builds an `ottavi-site` zip (the site without `design/`, `tools/`, `.github` and this README). Download it from the workflow
-run's Artifacts and upload its contents to the client's web root.
+The site is on the GoDaddy cPanel hosting, in `public_html/ottavilawfirm.com`. Every push to `main` runs the **Deploy to GoDaddy** workflow,
+which uploads the site over FTPS through the shared `deploy-ftp.yml` in `kallistesoft/kallistesoft-site` (without `design/`, `tools/`,
+`.github`, `CNAME` and the Markdown files). `.htaccess` sends `http://` and the bare domain to `https://www.ottavilawfirm.com`.
