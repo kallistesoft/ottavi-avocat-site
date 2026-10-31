@@ -391,3 +391,10 @@ a.way:hover { border-color: var(--plum); color: var(--ink); }
 .section.dark .price-unit, .section.dark .price-note { color: var(--on-dark-2); }
 .section.dark :focus-visible, .page-head :focus-visible { outline-color: var(--plum-on-dark); }
 .section.dark + .final-cta, .section.dark + .section.dark { border-top: 1px solid #3A3036; }
+
+.legal { max-width: 760px; }
+.legal h2 { margin: 40px 0 12px; font-size: 24px; }
+.legal p { margin: 0 0 12px; line-height: 1.65; color: var(--ink-2); }
+.legal .callout { margin-bottom: 8px; }
+.legal-todo { padding: 1px 4px; border-radius: 4px; background: #FBE9A7; color: var(--ink); }
+.footer-bottom a { color: inherit; }

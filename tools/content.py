@@ -15,12 +15,14 @@ EBOOK = 'https://a5c6-contact.systeme.io/guidealbertaachat-ee964b16'
 INSTA = 'https://www.instagram.com/poughon_immigration'
 
 PAGES = ['home', 'services', 'ressources', 'cabinet', 'contact']
+LEGAL_PAGES = ['cgv', 'privacy']
 URL = {
-    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/'},
-    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/'},
+    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/'},
+    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/'},
 }
 T = {
     'fr': dict(
+        legalNav={'cgv': 'CGV', 'privacy': 'Confidentialité'}, legalEyebrow='Informations légales',
         nav={'home': 'Accueil', 'services': 'Services', 'ressources': 'Ressources', 'cabinet': 'Le cabinet', 'contact': 'Contact'},
         homeLabel='Ottavi Law Firm Inc. — accueil', navLabel='Principale', langLabel='Langue', cta='Réserver',
         skip='Aller au contenu', footNav='Pied de page', footNavTitle='Navigation', footContact='Nous joindre',
@@ -61,10 +63,11 @@ T = {
         mailMe='Contactez-moi par courriel', facts='Coordonnées professionnelles',
         nlBlurb='Abonnez-vous à notre newsletter pour vous tenir informé des derniers changements en immigration canadienne.',
         subscribe="S'abonner", barLabel='Barreau', addrLabel='Adresse', specialty='Immigration canadienne',
-        titles={'home': 'Ottavi Law Firm Inc. — Immigration canadienne', 'services': 'Services', 'ressources': 'Ressources', 'cabinet': 'Le cabinet', 'contact': 'Contact'},
+        titles={'cgv': 'Conditions générales de vente', 'privacy': 'Politique de confidentialité', 'home': 'Ottavi Law Firm Inc. — Immigration canadienne', 'services': 'Services', 'ressources': 'Ressources', 'cabinet': 'Le cabinet', 'contact': 'Contact'},
         desc='Me Vanessa Poughon, avocate en immigration canadienne à Montréal : audit de profil, consultation stratégique, ressources gratuites.',
     ),
     'en': dict(
+        legalNav={'cgv': 'Terms of sale', 'privacy': 'Privacy'}, legalEyebrow='Legal',
         nav={'home': 'Home', 'services': 'Services', 'ressources': 'Resources', 'cabinet': 'The firm', 'contact': 'Contact'},
         homeLabel='Ottavi Law Firm Inc. — home', navLabel='Main', langLabel='Language', cta='Book',
         skip='Skip to content', footNav='Footer', footNavTitle='Navigate', footContact='Contact',
@@ -105,7 +108,7 @@ T = {
         mailMe='Contact me by email', facts='Professional details',
         nlBlurb='Subscribe to our newsletter to stay informed about the latest changes in Canadian immigration.',
         subscribe='Subscribe', barLabel='Bar', addrLabel='Address', specialty='Canadian immigration',
-        titles={'home': 'Ottavi Law Firm Inc. — Canadian immigration', 'services': 'Services', 'ressources': 'Resources', 'cabinet': 'The firm', 'contact': 'Contact'},
+        titles={'cgv': 'Terms of sale', 'privacy': 'Privacy policy', 'home': 'Ottavi Law Firm Inc. — Canadian immigration', 'services': 'Services', 'ressources': 'Resources', 'cabinet': 'The firm', 'contact': 'Contact'},
         desc='Vanessa Poughon, Canadian immigration lawyer in Montréal: profile audit, strategy consultation, free resources.',
     ),
 }

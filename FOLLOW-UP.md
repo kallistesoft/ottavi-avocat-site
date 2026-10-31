@@ -23,6 +23,15 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 - [ ] Photo: the portrait has a Gemini ✦ mark (looks AI-generated). A real photo is better for a lawyer's site
 - [ ] Review the English translations
 
+## Legal pages (draft)
+
+`/cgv/` and `/confidentialite/` (and EN) come from `tools/legal.py` and are drafts.
+
+- [ ] Me Poughon reviews both pages and settles every highlighted passage, then remove `DRAFT_NOTE` and the `todo()` calls
+- [ ] Taxes: the products are set to 0 % in systeme.io while the site says "+ tx"
+- [ ] After approval, change the payment pages' tick boxes to link the CGV (the guide's says "présentes conditions générales")
+- [ ] Payment page footer links point to `new.vpavocat.com`; change them at the switch
+
 ## 3. Before switching `www`
 
 - [ ] She approves https://new.vpavocat.com
