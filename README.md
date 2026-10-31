@@ -32,8 +32,7 @@ python3 -m http.server 8000
 ## Links
 
 - Consultation: the Calendly link used by the province quiz
-- Worker audit: `https://a5c6-contact.systeme.io/audit_travailleur-decd3c0b`
-- Worker audit order page (Services button): `https://a5c6-contact.systeme.io/commande`
+- Worker audit (order page, used by every worker audit link): `https://a5c6-contact.systeme.io/commande`
 - Student audit: `https://a5c6-contact.systeme.io/audit_etudiant`
 - Free guide: `https://a5c6-contact.systeme.io/guidegratuit`
 - Free CV template: `https://a5c6-contact.systeme.io/cvcanadien-e5451c58-4a4b1be3`
