@@ -141,7 +141,7 @@ T['fr'].update(
     affEyebrow='Affiliations',
     affTitle="Membre du Barreau du Québec et des associations en droit de l'immigration canadienne",
     affiliations=[
-        ('barreau-du-quebec', 'Logo du Barreau du Québec', 575, 171, 'Membre du Barreau du Québec', None),
+        ('barreau-du-quebec', 'Logo du Barreau du Québec', 575, 171, 'Membre du Barreau du Québec', 'https://www.barreau.qc.ca/fr/trouver-un-avocat/membre/?id=1a98d38602211a4c099e6c84482e4f6abdf1a2d61cd007e1affc97580604c684&amp;backUrl=%2Ffr%2Ftrouver-un-avocat%2Fresultats%2F%3Fn%3DPoughon%252C%2BVanessa'),
         ('aqaadi', "Logo de l'AQAADI", 587, 158, "Membre de l'Association québécoise des avocats et avocates en droit de l'immigration (AQAADI)", 'https://www.aqaadi.com/fr'),
         ('cila-acai', "Logo de l'ACAI / CILA", 410, 191, "Membre de l'Association canadienne des avocats en immigration (ACAI / CILA)", 'https://cila.co/fr/?lang=fr'),
     ],
@@ -176,7 +176,7 @@ T['en'].update(
     affEyebrow='Affiliations',
     affTitle='Member of the Barreau du Québec and of Canadian immigration law associations',
     affiliations=[
-        ('barreau-du-quebec', 'Barreau du Québec logo', 575, 171, 'Member of the Barreau du Québec', None),
+        ('barreau-du-quebec', 'Barreau du Québec logo', 575, 171, 'Member of the Barreau du Québec', 'https://www.barreau.qc.ca/fr/trouver-un-avocat/membre/?id=1a98d38602211a4c099e6c84482e4f6abdf1a2d61cd007e1affc97580604c684&amp;backUrl=%2Ffr%2Ftrouver-un-avocat%2Fresultats%2F%3Fn%3DPoughon%252C%2BVanessa'),
         ('aqaadi', 'AQAADI logo', 587, 158, 'Member of the Association québécoise des avocats et avocates en droit de l\'immigration (AQAADI)', 'https://www.aqaadi.com/fr'),
         ('cila-acai', 'CILA / ACAI logo', 410, 191, 'Member of the Canadian Immigration Lawyers Association (CILA / ACAI)', 'https://cila.co/'),
     ],
