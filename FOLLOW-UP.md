@@ -30,7 +30,6 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 - [ ] Me Poughon reviews both pages and settles every highlighted passage, then remove `DRAFT_NOTE` and the `todo()` calls
 - [ ] Taxes: the products are set to 0 % in systeme.io while the site says "+ tx"
 - [ ] After approval, change the payment pages' tick boxes to link the CGV (the guide's says "présentes conditions générales")
-- [ ] Payment page footer links point to `new.vpavocat.com`; change them to `www.ottavilawfirm.com`
 
 ## 3. Before switching `www`
 
@@ -45,12 +44,10 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 
 `ottavilawfirm.com` is at GoDaddy, in her account. Its DNS only needs the GitHub records:
 
-- [ ] GoDaddy: `www` CNAME → `kallistesoft.github.io` (today `ottavilawfirm.com.`)
-- [ ] GoDaddy: replace the parked `@` A record with `185.199.108.153` to `185.199.111.153`
-- [ ] GitHub Pages custom domain → `www.ottavilawfirm.com`, then enforce HTTPS once the certificate is issued
-- [ ] systeme.io forks (PAYMENT funnels, CV): header/footer links and favicon point to `new.vpavocat.com`; change them to
-      `www.ottavilawfirm.com`. The audit and guideAlberta heroes live in each page's footer code, and the prices there must be
-      changed by hand
+- [x] GoDaddy: `www` CNAME → `kallistesoft.github.io`
+- [x] GoDaddy: replace the parked `@` A record with `185.199.108.153` to `185.199.111.153`
+- [x] GitHub Pages custom domain → `www.ottavilawfirm.com`, then enforce HTTPS once the certificate is issued
+- [x] systeme.io pages: header/footer links and favicon now point to `www.ottavilawfirm.com` (the 3 PAYMENT order pages, CV, `/commande`)
 - [ ] Once she approves: delete `robots.txt`
 - [ ] Decide what `www.vpavocat.com` does. It stays on systeme.io for now, and redirecting it would break `/audit_travailleur`
       and `/commande` there
