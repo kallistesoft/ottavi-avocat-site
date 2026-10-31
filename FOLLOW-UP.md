@@ -27,9 +27,8 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 
 - [ ] She approves https://new.vpavocat.com
 - [ ] Real test purchase from the new site: worker audit (`commande` → `merci` → confirmation email)
-- [ ] Student audit path checked (`audit_etudiant` → `d4acbe58` → `7d11da02`)
-- [ ] Ebook purchase path checked (`guidealberta-bb4dab45` → `guidealbertaachat` → `guidealbertamerci`). The fork's own
-      order step has no product: a header-code script sends its buy buttons to the original `guidealbertaachat`
+- [ ] Student audit path checked (`d4acbe58` → `7d11da02`)
+- [ ] Ebook purchase path checked (`guidealbertaachat` → `guidealbertamerci`)
 - [ ] Find where she shares `www.vpavocat.com/audit_travailleur` or `/commande` (Instagram, emails, ads); add redirect
       pages on the new site to the `a5c6-contact.systeme.io` pages of the same name
 
