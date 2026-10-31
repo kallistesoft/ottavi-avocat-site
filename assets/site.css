@@ -308,6 +308,14 @@ a:not([class]):focus-visible, .link-arrow:focus-visible { border-radius: 4px; }
 }
 @media (max-width: 520px) { .facts { grid-template-columns: 1fr; } }
 
+/* Affiliations (Le cabinet) */
+.affiliations { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.affiliations li { display: flex; flex-direction: column; gap: 16px; padding: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.affiliations img { width: auto; max-width: 100%; height: 72px; object-fit: contain; object-position: left center; }
+.affiliations p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink-2); }
+.affiliations .link-arrow { margin-top: auto; }
+@media (max-width: 960px) { .affiliations { grid-template-columns: 1fr; } }
+
 /* Contact page */
 .contact-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(24px, 4vw, 48px); align-items: start; }
 .contact-book { display: flex; flex-direction: column; gap: 12px; padding: clamp(28px, 4vw, 40px); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
