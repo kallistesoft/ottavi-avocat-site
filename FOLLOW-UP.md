@@ -1,10 +1,9 @@
 # Follow-up
 
-What's left before the new site officially replaces her current one on `www.vpavocat.com`.
+What's left on the new site, which has replaced her old one.
 
 Today: the new site lives at https://www.ottavilawfirm.com, her new domain (GitHub Pages, `CNAME`).
-`www.vpavocat.com` still serves her systeme.io site. Nothing switches until she approves the new site **and** her
-systeme.io sales funnel is proven to work from it.
+`vpavocat.com` and `www.vpavocat.com` redirect to it.
 
 ## 1. Sign-up forms
 
@@ -49,8 +48,8 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 - [x] GitHub Pages custom domain → `www.ottavilawfirm.com`, then enforce HTTPS once the certificate is issued
 - [x] systeme.io pages: header/footer links and favicon now point to `www.ottavilawfirm.com` (the 3 PAYMENT order pages, CV, `/commande`)
 - [x] Delete `robots.txt` (done before her approval, user's decision)
-- [ ] Decide what `www.vpavocat.com` does. It stays on systeme.io for now, and redirecting it would break `/audit_travailleur`
-      and `/commande` there
+- [x] `vpavocat.com` and `www.vpavocat.com`: GoDaddy forwarding (301) to `https://www.ottavilawfirm.com`, done before her approval (user's decision).
+      Paths aren't kept. To restore her old home page, set `www` back to CNAME `d2m106fbjcka9h.cloudfront.net`
 - [ ] Delete the `new` CNAME on `vpavocat.com` once the new domain works
 - [ ] On `vpavocat.com`, don't touch: MX, SPF, DMARC, Microsoft 365 records, systeme.io DKIM (`systemeio1/2._domainkey`), Amazon SES
 - [ ] After: full purchase test again, and an email to `contact@vpavocat.com` still arrives
