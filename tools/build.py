@@ -1,4 +1,4 @@
-"""Builds the Ottavi Law Firm Inc. site: writes the 10 pages (FR at the root, EN under /en/) from tools/content.py.
+"""Builds the Ottavi Law Firm Inc. site: writes the pages (FR at the root, EN under /en/) and sitemap.xml from tools/content.py.
 
 Usage: python3 tools/build.py
 
@@ -6,12 +6,14 @@ Templates use root-absolute links ("/services/"); they are rewritten to relative
 works at a domain root or in a subfolder.
 """
 import hashlib
+import html
+import json
 import os
 import posixpath
 import re
 
 from legal import DRAFT_NOTE, LEGAL, UPDATED
-from content import (AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, LEGAL_PAGES, NEWSLETTER, PAGES,
+from content import (ADDRESS, AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, LEGAL_PAGES, NEWSLETTER, PAGES,
                      PHONE, PHONE_TEL, SITE, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -346,7 +348,7 @@ def services(lang):
     mandate = offer_block('mandat', t['mandate'], f'<p class="lead">{t["mandateBlurb"]}</p>',
                           price(t['mandatePrice']), u['contact'], t['mandateCta'], tint=True,
                           side_extra=f'<p class="fine">{t["mandateMore"]}</p>')
-    return f'''{page_head(t["nav"]["services"], t["chooseTitle"], t["servicesLead"])}
+    return f'''{page_head(t["nav"]["services"], t["servicesTitle"], t["servicesLead"])}
 
 <nav class="chips-bar" aria-label="{t["jump"]}">
   <div class="wrap chips">{chip_html}</div>
@@ -386,7 +388,7 @@ def services(lang):
 
 def ressources(lang):
     t = T[lang]
-    return f'''{page_head(t["resEyebrow"], t["nav"]["ressources"], t["resourcesLead"])}
+    return f'''{page_head(t["nav"]["ressources"], t["resourcesTitle"], t["resourcesLead"])}
 
 <section id="guide" class="section">
   <div class="wrap res-info">
@@ -468,7 +470,7 @@ def cabinet(lang):
 
 def contact(lang):
     t, u = T[lang], URL[lang]
-    return f'''{page_head(t["nav"]["contact"], t["nav"]["contact"], t["contactLead"])}
+    return f'''{page_head(t["nav"]["contact"], t["contactTitle"], t["contactLead"])}
 
 <section class="section">
   <div class="wrap contact-grid">
@@ -524,10 +526,57 @@ def legal_page(page):
 BODY.update({page: legal_page(page) for page in LEGAL_PAGES})
 
 
+def plain(text):
+    """Text without tags or entities, for the structured data."""
+    return html.unescape(re.sub(r'<[^>]+>', ' ', text)).replace('\xa0', ' ').replace('\u2011', '-').strip()
+
+
+def amount(text):
+    return float(re.sub(r'[^\d,.]', '', text).replace(',', '.'))
+
+
+def structured_data(lang, page):
+    """schema.org data for the page, as a JSON-LD script."""
+    t, u = T[lang], URL[lang]
+    firm = {
+        '@type': 'LegalService', '@id': f'{SITE}/#firm', 'name': 'Ottavi Law Firm Inc.', 'url': SITE + u['home'],
+        'description': t['descs']['home'], 'image': f'{SITE}/assets/og-{lang}.jpg', 'telephone': PHONE_TEL, 'email': EMAIL,
+        'address': {'@type': 'PostalAddress', 'streetAddress': ADDRESS['street'], 'addressLocality': ADDRESS['city'], 'addressRegion': ADDRESS['region'],
+                    'postalCode': ADDRESS['postcode'], 'addressCountry': ADDRESS['country']},
+        'areaServed': {'@type': 'Country', 'name': 'Canada'}, 'sameAs': [INSTA],
+    }
+    lawyer = {
+        '@type': 'Person', '@id': f'{SITE}/#lawyer', 'name': 'Vanessa Poughon', 'jobTitle': t['eyebrow'].split(', ')[-1].capitalize(),
+        'url': SITE + u['cabinet'], 'image': f'{SITE}/assets/vanessa-poughon.jpg', 'worksFor': {'@id': f'{SITE}/#firm'},
+        'knowsAbout': t['areas'], 'sameAs': [html.unescape(t['affiliations'][0][5])],
+        'memberOf': [{'@type': 'Organization', 'name': name} for name in ('Barreau du Québec', 'AQAADI', 'Canadian Immigration Lawyers Association')],
+    }
+    graph = []
+    if page in PAGES:
+        graph += [firm, lawyer]
+    if page == 'home':
+        graph.append({'@type': 'WebSite', '@id': f'{SITE}/#website', 'name': 'Ottavi Law Firm Inc.', 'url': SITE + u['home'], 'inLanguage': lang,
+                      'publisher': {'@id': f'{SITE}/#firm'}})
+    else:
+        graph.append({'@type': 'BreadcrumbList', 'itemListElement': [
+            {'@type': 'ListItem', 'position': 1, 'name': t['nav']['home'], 'item': SITE + u['home']},
+            {'@type': 'ListItem', 'position': 2, 'name': plain(t['nav'].get(page) or t['legalNav'][page]), 'item': SITE + u[page]},
+        ]})
+    if page == 'services':
+        priced = [('audit', 'auditPrice', '#audit'), ('student', 'auditPrice', '#audit-etudiant'), ('consult', 'consultPrice', '#consultations'), ('flash', 'flashPrice', '#flash')]
+        firm['hasOfferCatalog'] = {'@type': 'OfferCatalog', 'name': plain(t['servicesTitle']), 'itemListElement': [
+            {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': plain(t[name]), 'provider': {'@id': f'{SITE}/#firm'}},
+             'price': amount(t[cost]), 'priceCurrency': 'CAD', 'url': SITE + u['services'] + anchor}
+            for name, cost, anchor in priced]}
+    data = json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
+    return f'<script type="application/ld+json">{data}</script>'
+
+
 def render(lang, page):
     t = T[lang]
     title = t['titles'][page] if page == 'home' else f'{t["titles"][page]} — Ottavi Law Firm Inc.'
-    alts = '\n'.join(f'<link rel="alternate" hreflang="{code}" href="{URL[code][page]}">' for code in ('fr', 'en'))
+    alts = '\n'.join(f'<link rel="alternate" hreflang="{code}" href="{SITE}{URL[code][page]}">' for code in ('fr', 'en'))
+    other = 'en' if lang == 'fr' else 'fr'
     return f'''<!doctype html>
 <html lang="{lang}">
 <head>
@@ -535,25 +584,29 @@ def render(lang, page):
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
-<meta name="description" content="{t["desc"]}">
+<meta name="description" content="{t["descs"][page]}">
+<link rel="canonical" href="{SITE}{URL[lang][page]}">
 <meta name="theme-color" content="#FAF7F2">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ottavi Law Firm Inc.">
 <meta property="og:title" content="{title}">
-<meta property="og:description" content="{t["desc"]}">
+<meta property="og:description" content="{t["descs"][page]}">
 <meta property="og:url" content="{SITE}{URL[lang][page]}">
 <meta property="og:image" content="{SITE}/assets/og-{lang}.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="{'fr_CA' if lang == 'fr' else 'en_CA'}">
+<meta property="og:locale:alternate" content="{'fr_CA' if other == 'fr' else 'en_CA'}">
 <meta name="twitter:card" content="summary_large_image">
 {alts}
+<link rel="alternate" hreflang="x-default" href="{SITE}{URL["fr"][page]}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/site.css?v={asset_version("assets/site.css")}">
 <script src="/assets/site.js?v={asset_version("assets/site.js")}" defer></script>
+{structured_data(lang, page)}
 </head>
 <body class="page-{page}">
 {header(lang, page)}
@@ -580,7 +633,22 @@ def relative_links(html, here):
     return re.sub(r'(href|src)="(/[^"]*)"', rel, html)
 
 
+def sitemap():
+    """Every page in both languages, each listing its translation."""
+    entries = ''
+    for lang in ('fr', 'en'):
+        for page in PAGES + LEGAL_PAGES:
+            links = ''.join(f'\n    <xhtml:link rel="alternate" hreflang="{code}" href="{SITE}{URL[code][page]}"/>' for code in ('fr', 'en'))
+            links += f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{URL["fr"][page]}"/>'
+            entries += f'  <url>\n    <loc>{SITE}{URL[lang][page]}</loc>{links}\n  </url>\n'
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+            f'{entries}</urlset>\n')
+
+
 def main():
+    with open(os.path.join(ROOT, 'sitemap.xml'), 'w') as f:
+        f.write(sitemap())
     for lang in ('fr', 'en'):
         for page in PAGES + LEGAL_PAGES:
             here = URL[lang][page]
