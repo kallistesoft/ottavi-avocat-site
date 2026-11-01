@@ -20,7 +20,7 @@ then run
 python3 tools/build.py
 ```
 
-and commit the regenerated pages. Styles are in `assets/site.css` ("Ivoire" theme: ivory background, ink text,
+and commit the regenerated pages (`sitemap.xml` is generated too). Styles are in `assets/site.css` ("Ivoire" theme: ivory background, ink text,
 plum `#9B3F78` accent, Fraunces + Inter); `assets/site.js` handles the mobile menu and the notice on the newsletter
 form, which isn't connected yet. Links are relative, so the site works at a domain root or in a subfolder. Preview with a local
 server:

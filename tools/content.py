@@ -16,6 +16,8 @@ CV_FREE = 'https://a5c6-contact.systeme.io/cvcanadien-e5451c58-4a4b1be3'
 NEWSLETTER = 'https://a5c6-contact.systeme.io/newsletter'
 EBOOK = 'https://a5c6-contact.systeme.io/guidealbertaachat-ee964b16'
 INSTA = 'https://www.instagram.com/poughon_immigration'
+# Same address as T[...]['address'], split for the structured data.
+ADDRESS = dict(street='204, rue du Saint-Sacrement, bureau 300', city='Montréal', region='QC', postcode='H2Y 2S9', country='CA')
 
 PAGES = ['home', 'services', 'ressources', 'cabinet', 'contact']
 LEGAL_PAGES = ['cgv', 'privacy']
@@ -33,7 +35,7 @@ T = {
         legal="Me Vanessa Poughon, avocate au Barreau du Québec · n° de membre 381467&#8209;0 · Non membre du Barreau de l'Alberta.",
         bar="Avocate au Barreau du Québec · Numéro de membre 381467&#8209;0",
         notAlberta="(Non membre du Barreau de l'Alberta)",
-        photo='[Photo actuelle du site]', photoLabel='Photo de Me Vanessa Poughon',
+        photo='[Photo actuelle du site]', photoLabel='Me Vanessa Poughon, avocate en immigration canadienne',
         audit="Audit Éclair — Travailleur", auditBlurb="Un questionnaire de 3 minutes, une analyse personnelle de vos réponses et un bilan détaillé sous 48 h.",
         auditSteps=["Réglez votre audit", "Répondez à mon questionnaire (3 minutes)", "J'analyse personnellement vos réponses", "Vous recevez votre bilan détaillé sous 48 h : vos points forts, vos points faibles et les programmes ciblés"],
         auditPrice='49 $', auditUnit='CAD + tx', auditEuro='environ 30 €', auditCta="Réserver votre audit", auditCardCta='Obtenir un audit', heroAudit='Audit Éclair · 49 $ CAD',
@@ -65,8 +67,16 @@ T = {
         mailMe='Contactez-moi par courriel', facts='Coordonnées professionnelles',
         nlBlurb='Abonnez-vous à notre newsletter pour vous tenir informé des derniers changements en immigration canadienne.',
         subscribe="S'abonner", barLabel='Barreau', addrLabel='Adresse', specialty='Immigration canadienne',
-        titles={'cgv': 'Conditions générales de vente', 'privacy': 'Politique de confidentialité', 'home': 'Ottavi Law Firm Inc. — Immigration canadienne', 'services': 'Services', 'ressources': 'Ressources', 'cabinet': 'Le cabinet', 'contact': 'Contact'},
-        desc='Me Vanessa Poughon, avocate en immigration canadienne à Montréal : audit de profil, consultation stratégique, ressources gratuites.',
+        titles={'cgv': 'Conditions générales de vente', 'privacy': 'Politique de confidentialité', 'home': 'Avocate en immigration canadienne — Ottavi Law Firm Inc.', 'services': 'Audit et consultation en immigration', 'ressources': 'Guide gratuit pour immigrer au Canada', 'cabinet': 'Me Vanessa Poughon, avocate', 'contact': 'Contacter une avocate en immigration'},
+        descs={
+            'home': "Avocate en immigration canadienne à Montréal, membre du Barreau du Québec. Audit de profil dès 49 $ et consultation stratégique à distance, partout au Canada.",
+            'services': "Audit Éclair travailleur ou étudiant, consultation stratégique, mandat complet et ebook Alberta : l'accompagnement en immigration canadienne qu'il vous faut.",
+            'ressources': "Guide gratuit « Immigrer au Canada » (édition 2026) : voies d'immigration, Entrée express, erreurs à éviter. Et un modèle de CV au format canadien.",
+            'cabinet': "Me Vanessa Poughon, avocate au Barreau du Québec, 9 ans d'expérience : programmes fédéraux et provinciaux, Entrée express, Mobilité francophone.",
+            'contact': "Écrivez à Me Vanessa Poughon ou réservez une consultation en immigration canadienne, à distance, où que vous soyez dans le monde.",
+            'cgv': "Conditions générales de vente d'Ottavi Law Firm Inc. pour les achats en ligne : audits, consultations et ebook.",
+            'privacy': "Politique de confidentialité d'Ottavi Law Firm Inc. : renseignements recueillis, utilisation, conservation et vos droits.",
+        },
     ),
     'en': dict(
         legalNav={'cgv': 'Terms of sale', 'privacy': 'Privacy'}, legalEyebrow='Legal',
@@ -77,7 +87,7 @@ T = {
         legal='Vanessa Poughon, lawyer, member of the Barreau du Québec · no. 381467&#8209;0 · Not a member of the Law Society of Alberta.',
         bar='Member of the Barreau du Québec · Member no. 381467&#8209;0',
         notAlberta='(Not a member of the Law Society of Alberta)',
-        photo='[Current site photo]', photoLabel='Photo of Vanessa Poughon',
+        photo='[Current site photo]', photoLabel='Vanessa Poughon, Canadian immigration lawyer',
         audit='Express Audit — Worker', auditBlurb='A 3-minute questionnaire, a personal analysis of your answers and a detailed report within 48 hours.',
         auditSteps=['Pay for your audit', 'Answer my questionnaire (3 minutes)', 'I personally analyze your answers', 'You receive your detailed report within 48 hours: your strengths, your weaknesses and the programs to target'],
         auditPrice='$49', auditUnit='CAD + tax', auditEuro='about €30', auditCta='Book your audit', auditCardCta='Get an audit', heroAudit='Express audit · CAD $49',
@@ -109,8 +119,16 @@ T = {
         mailMe='Contact me by email', facts='Professional details',
         nlBlurb='Subscribe to our newsletter to stay informed about the latest changes in Canadian immigration.',
         subscribe='Subscribe', barLabel='Bar', addrLabel='Address', specialty='Canadian immigration',
-        titles={'cgv': 'Terms of sale', 'privacy': 'Privacy policy', 'home': 'Ottavi Law Firm Inc. — Canadian immigration', 'services': 'Services', 'ressources': 'Resources', 'cabinet': 'The firm', 'contact': 'Contact'},
-        desc='Vanessa Poughon, Canadian immigration lawyer in Montréal: profile audit, strategy consultation, free resources.',
+        titles={'cgv': 'Terms of sale', 'privacy': 'Privacy policy', 'home': 'Canadian Immigration Lawyer — Ottavi Law Firm Inc.', 'services': 'Immigration audit and consultation', 'ressources': 'Free guide to immigrating to Canada', 'cabinet': 'Vanessa Poughon, lawyer', 'contact': 'Contact an immigration lawyer'},
+        descs={
+            'home': 'Canadian immigration lawyer in Montréal, member of the Barreau du Québec. Profile audit from $49 and remote strategy consultations, anywhere in Canada.',
+            'services': 'Express Audit for workers and students, strategy consultation, full mandate and Alberta ebook: the Canadian immigration support that fits your situation.',
+            'ressources': 'Free “Immigrating to Canada” guide (2026 edition): immigration pathways, Express Entry, mistakes to avoid. Plus a Canadian-format CV template.',
+            'cabinet': 'Vanessa Poughon, member of the Barreau du Québec, 9 years of experience: federal and provincial programs, Express Entry, Francophone Mobility.',
+            'contact': 'Write to Vanessa Poughon or book a Canadian immigration consultation, remotely, wherever you are in the world.',
+            'cgv': 'Terms of sale of Ottavi Law Firm Inc. for online purchases: audits, consultations and ebook.',
+            'privacy': 'Privacy policy of Ottavi Law Firm Inc.: what information is collected, how it is used and kept, and your rights.',
+        },
     ),
 }
 
@@ -131,6 +149,7 @@ T['fr'].update(
     finalTitle='Votre projet mérite une stratégie solide.',
     finalLead="Réservez un rendez-vous avec Me Poughon ou écrivez-nous : nous vous répondons rapidement.",
     servicesLead="De la première vérification à la prise en charge complète : choisissez le niveau d'accompagnement dont vous avez besoin.",
+    servicesTitle='Nos services en immigration canadienne', resourcesTitle='Ressources gratuites pour immigrer au Canada', contactTitle='Contacter votre avocate en immigration',
     jump='Aller à', mandateMore='Sur devis, selon votre dossier.',
     menu='Menu', close='Fermer', mobileBook='Réserver', mobileAudit='Audit 49 $',
     contactLead='Une question sur votre projet ? Écrivez-nous ou réservez directement un rendez-vous.',
@@ -166,6 +185,7 @@ T['en'].update(
     finalTitle='Your project deserves a solid strategy.',
     finalLead='Book an appointment with Vanessa Poughon or write to us: we reply quickly.',
     servicesLead='From a first check to full support: choose the level of help you need.',
+    servicesTitle='Our Canadian immigration services', resourcesTitle='Free resources for immigrating to Canada', contactTitle='Contact your immigration lawyer',
     jump='Jump to', mandateMore='On quote, depending on your file.',
     menu='Menu', close='Close', mobileBook='Book', mobileAudit='Audit $49',
     contactLead='A question about your project? Write to us or book an appointment directly.',
