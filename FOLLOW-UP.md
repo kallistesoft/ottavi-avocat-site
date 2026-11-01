@@ -24,9 +24,15 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 
 `/cgv/` and `/confidentialite/` (and EN) come from `tools/legal.py` and are drafts.
 
-- [ ] Me Poughon reviews both pages and settles every highlighted passage, then remove `DRAFT_NOTE` and the `todo()` calls
-- [ ] Taxes: the products are set to 0 % in systeme.io while the site says "+ tx"
+- [x] CGV: her answers applied (2026-11-01), except taxes
+- [ ] Me Poughon rereads the new CGV wording: 14-day EU withdrawal, "quelques jours ouvrables" for undelivered products
+- [ ] Privacy page: she settles its highlighted passages; it also still names GitHub Pages as host (now her GoDaddy cPanel)
+- [ ] Then remove `DRAFT_NOTE` and the `todo()` calls
+- [ ] Taxes: the 3 products are at 0 % (Exclue) in systeme.io while the site says "+ tx". Each product has one rate field
+      (Ressources > Produits physiques), with no rate per province or country, and the assistant account can open it.
+      She must give the rate(s) and her GST/QST registration; the CGV sentence stays highlighted until then
 - [ ] After approval, change the payment pages' tick boxes to link the CGV (the guide's says "présentes conditions générales")
+      and to add the EU waiver: she asks for immediate delivery and gives up the 14-day withdrawal. Without it the CGV's early end doesn't hold
 
 ## 3. Before switching `www`
 

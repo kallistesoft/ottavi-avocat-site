@@ -12,7 +12,7 @@ import re
 
 from legal import DRAFT_NOTE, LEGAL, UPDATED
 from content import (AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, LEGAL_PAGES, NEWSLETTER, PAGES,
-                     PHONE, PHONE_TEL, T, URL)
+                     PHONE, PHONE_TEL, SITE, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -536,6 +536,16 @@ def render(lang, page):
 <title>{title}</title>
 <meta name="description" content="{t["desc"]}">
 <meta name="theme-color" content="#FAF7F2">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ottavi Law Firm Inc.">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{t["desc"]}">
+<meta property="og:url" content="{SITE}{URL[lang][page]}">
+<meta property="og:image" content="{SITE}/assets/og-{lang}.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="{'fr_CA' if lang == 'fr' else 'en_CA'}">
+<meta name="twitter:card" content="summary_large_image">
 {alts}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
