@@ -28,10 +28,10 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 - [x] Privacy page: her answers applied (2026-11-01), host corrected to GoDaddy
 - [ ] Me Poughon rereads the new wording: CGV 14-day EU withdrawal and "quelques jours ouvrables"; privacy retention
 - [ ] Privacy impact assessment for providers outside Québec: she confirmed the provider list, not that an assessment was done
-- [ ] Then remove `DRAFT_NOTE` and the `todo()` calls (only the CGV tax sentence is left)
+- [ ] Then remove `DRAFT_NOTE` and the `todo()` calls (none left on the pages)
 - [ ] Taxes: the 3 products are at 0 % (Exclue) in systeme.io while the site says "+ tx". Each product has one rate field
       (Ressources > Produits physiques), with no rate per province or country, and the assistant account can open it.
-      She must give the rate(s) and her GST/QST registration; the CGV sentence stays highlighted until then
+      She must give the rate(s) and her GST/QST registration. The CGV says "taxes applicables, le cas échéant" until then
 - [ ] After approval, change the payment pages' tick boxes to link the CGV (the guide's says "présentes conditions générales")
       and to add the EU waiver: she asks for immediate delivery and gives up the 14-day withdrawal. Without it the CGV's early end doesn't hold
 

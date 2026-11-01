@@ -28,7 +28,7 @@ LEGAL = {
                 "Les audits constituent une pré-évaluation d'éligibilité indicative sur la base de vos déclarations. Ils ne remplacent pas une consultation stratégique approfondie sur pièces et ne garantissent aucune décision des autorités d'immigration. Le guide est fourni à titre d'information générale et ne constitue pas un avis juridique personnalisé.",
             ]),
             ("3. Prix et paiement", [
-                "Les prix sont en dollars canadiens. " + todo("Les taxes applicables sont ajoutées au moment du paiement : à confirmer selon l'inscription aux taxes du cabinet, car les produits sont actuellement réglés à 0 % de taxe dans systeme.io."),
+                "Les prix sont en dollars canadiens. " + "Les taxes applicables, le cas échéant, sont indiquées au moment du paiement.",
                 "Le paiement se fait en ligne par carte de crédit ou, lorsqu'il est proposé, par Klarna. Il est traité par un prestataire de paiement sécurisé. Le cabinet ne conserve pas vos données de carte.",
             ]),
             ("4. Livraison", [
@@ -91,7 +91,7 @@ LEGAL = {
                 "The audits are an indicative pre-assessment of eligibility based on your own statements. They do not replace an in-depth strategy consultation based on documents and do not guarantee any decision by immigration authorities. The guide provides general information and is not personalized legal advice.",
             ]),
             ("3. Price and payment", [
-                "Prices are in Canadian dollars. " + todo("Applicable taxes are added at checkout: to confirm according to the firm's tax registration, as products are currently set to 0% tax in systeme.io."),
+                "Prices are in Canadian dollars. " + "Applicable taxes, if any, are shown at checkout.",
                 "Payment is made online by credit card or, where offered, Klarna, through a secure payment provider. The firm does not store your card details.",
             ]),
             ("4. Delivery", [
