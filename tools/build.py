@@ -509,10 +509,11 @@ def legal_page(page):
         html = ''.join(
             f'<h2>{heading}</h2>' + ''.join(f'<p>{p.replace("PRIVACY_URL", URL[lang]["privacy"])}</p>' for p in paragraphs)
             for heading, paragraphs in sections)
+        note = f'<p class="callout">{DRAFT_NOTE[lang]}</p>' if 'legal-todo' in html else ''
         return f'''{page_head(T[lang]["legalEyebrow"], title, lead)}
 <section class="section">
   <div class="wrap legal">
-    <p class="callout">{DRAFT_NOTE[lang]}</p>
+    {note}
     {html}
     <p class="muted">{UPDATED[lang]}</p>
   </div>

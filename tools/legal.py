@@ -61,7 +61,7 @@ LEGAL = {
         'privacy': ("Politique de confidentialité", "Comment Ottavi Law Firm Inc. recueille, utilise et protège vos renseignements personnels.", [
             ("1. Responsable", [
                 "Ottavi Law Firm Inc., 204, rue du Saint-Sacrement, bureau 300, Montréal (Québec) H2Y 2S9.",
-                "Responsable de la protection des renseignements personnels : " + todo("Me Vanessa Poughon, à confirmer") + ", contact@vpavocat.com.",
+                "Responsable de la protection des renseignements personnels : Me Vanessa Poughon, contact@vpavocat.com.",
             ]),
             ("2. Renseignements recueillis", [
                 "Selon votre démarche : nom, prénom, courriel, numéro de téléphone, code postal, pays, informations de facturation, réponses aux questionnaires d'audit et renseignements fournis pour votre projet d'immigration.",
@@ -69,10 +69,10 @@ LEGAL = {
             ]),
             ("3. Pourquoi nous les utilisons", ["Traiter votre commande, réaliser votre audit, vous envoyer vos documents et les renseignements liés à votre achat, répondre à vos questions, gérer vos rendez-vous, et remplir nos obligations légales et comptables. Vous recevez notre infolettre uniquement si vous y avez consenti, et vous pouvez vous désinscrire à tout moment."]),
             ("4. Fournisseurs de services", [
-                "Vos renseignements peuvent être traités par nos fournisseurs : systeme.io (pages de vente, commandes et courriels), le prestataire de paiement, Klarna lorsque vous le choisissez, Calendly (prise de rendez-vous) et GitHub Pages (hébergement du site). Le site charge aussi ses polices depuis Google Fonts, qui reçoit votre adresse IP.",
-                "Certains de ces fournisseurs peuvent traiter des renseignements à l'extérieur du Québec. " + todo("Évaluation des facteurs relatifs à la vie privée et liste des fournisseurs à confirmer."),
+                "Vos renseignements peuvent être traités par nos principaux fournisseurs : systeme.io (pages de vente, commandes et courriels), le prestataire de paiement, Klarna lorsque vous le choisissez, Calendly (prise de rendez-vous) et GoDaddy (hébergement du site). Le site charge aussi ses polices depuis Google Fonts, qui reçoit votre adresse IP.",
+                "Certains de ces fournisseurs peuvent traiter des renseignements à l'extérieur du Québec.",
             ]),
-            ("5. Conservation", [todo("Préciser la durée de conservation, notamment selon les obligations de tenue de dossiers de l'avocate.")]),
+            ("5. Conservation", ["Nous conservons vos renseignements uniquement le temps nécessaire pour traiter vos demandes, sous réserve des durées que la loi nous impose (comptabilité et tenue de dossiers de l'avocate)."]),
             ("6. Vos droits", ["Vous pouvez demander l'accès à vos renseignements, leur rectification, ou retirer votre consentement en écrivant à contact@vpavocat.com. Vous pouvez aussi déposer une plainte auprès de la Commission d'accès à l'information du Québec."]),
             ("7. Sécurité", ["Nous prenons des mesures raisonnables pour protéger vos renseignements. Évitez toutefois d'envoyer des documents sensibles par courriel sans y être invité."]),
             ("8. Modifications", ["Cette politique peut être mise à jour. La date de la dernière mise à jour figure sur cette page."]),
@@ -124,7 +124,7 @@ LEGAL = {
         'privacy': ("Privacy policy", "How Ottavi Law Firm Inc. collects, uses and protects your personal information.", [
             ("1. Who is responsible", [
                 "Ottavi Law Firm Inc., 204 Saint-Sacrement Street, Suite 300, Montréal, QC H2Y 2S9.",
-                "Person in charge of the protection of personal information: " + todo("Me Vanessa Poughon, to confirm") + ", contact@vpavocat.com.",
+                "Person in charge of the protection of personal information: Vanessa Poughon, contact@vpavocat.com.",
             ]),
             ("2. Information we collect", [
                 "Depending on what you do: first and last name, email, phone number, postal code, country, billing information, audit questionnaire answers and information provided for your immigration project.",
@@ -132,10 +132,10 @@ LEGAL = {
             ]),
             ("3. Why we use it", ["To process your order, carry out your audit, send your documents and purchase-related information, answer your questions, manage appointments, and meet our legal and accounting obligations. You receive our newsletter only if you consented, and you can unsubscribe at any time."]),
             ("4. Service providers", [
-                "Your information may be processed by our providers: systeme.io (sales pages, orders and emails), the payment provider, Klarna when you choose it, Calendly (appointments) and GitHub Pages (website hosting). The site also loads its fonts from Google Fonts, which receives your IP address.",
-                "Some of these providers may process information outside Québec. " + todo("Privacy impact assessment and provider list to confirm."),
+                "Your information may be processed by our main providers: systeme.io (sales pages, orders and emails), the payment provider, Klarna when you choose it, Calendly (appointments) and GoDaddy (website hosting). The site also loads its fonts from Google Fonts, which receives your IP address.",
+                "Some of these providers may process information outside Québec.",
             ]),
-            ("5. Retention", [todo("Specify the retention period, including under the lawyer's record-keeping obligations.")]),
+            ("5. Retention", ["We keep your information only as long as needed to process your requests, subject to periods required by law (accounting and the lawyer's record-keeping)."]),
             ("6. Your rights", ["You may request access to your information, have it corrected, or withdraw your consent by writing to contact@vpavocat.com. You may also file a complaint with the Commission d'accès à l'information du Québec."]),
             ("7. Security", ["We take reasonable measures to protect your information. Please avoid emailing sensitive documents unless invited to."]),
             ("8. Changes", ["This policy may be updated. The date of the last update appears on this page."]),
