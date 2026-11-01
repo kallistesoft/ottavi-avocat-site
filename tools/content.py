@@ -4,6 +4,7 @@ Edit this file, then run `python3 tools/build.py` to regenerate the pages.
 """
 
 EMAIL = 'contact@vpavocat.com'
+SITE = 'https://www.ottavilawfirm.com'
 PHONE = '+1 579-372-8150'
 PHONE_TEL = '+15793728150'
 CALENDLY = 'https://calendly.com/vanessa-poughon-avocat/consultation-immigration-canadienne-60-mn'
