@@ -8,7 +8,7 @@ def todo(text):
     return f'<mark class="legal-todo">{text}</mark>'
 
 
-UPDATED = {'fr': 'Dernière mise à jour : 31 octobre 2026', 'en': 'Last updated: October 31, 2026'}
+UPDATED = {'fr': 'Dernière mise à jour : 1er novembre 2026', 'en': 'Last updated: November 1, 2026'}
 DRAFT_NOTE = {
     'fr': "<strong>Projet :</strong> ce document doit être validé par Me Poughon. Les passages surlignés sont à confirmer.",
     'en': "<strong>Draft:</strong> this document must be approved by Me Poughon. Highlighted passages need confirmation.",
@@ -32,23 +32,24 @@ LEGAL = {
                 "Le paiement se fait en ligne par carte de crédit ou, lorsqu'il est proposé, par Klarna. Il est traité par un prestataire de paiement sécurisé. Le cabinet ne conserve pas vos données de carte.",
             ]),
             ("4. Livraison", [
-                "<strong>Audits :</strong> après le paiement, vous recevez le questionnaire. Votre bilan détaillé vous est transmis par courriel sous 48 h " + todo("à compter de la réception de votre questionnaire complété, en jours ouvrables : à confirmer") + ".",
+                "<strong>Audits :</strong> après le paiement, vous recevez le questionnaire. Votre bilan détaillé vous est transmis par courriel, en principe sous 48 h ouvrables à compter de la réception de votre questionnaire complété.",
+                "Ce délai est un objectif et non une garantie : il peut être un peu plus long en période de forte demande. Un tel dépassement ne donne pas droit à un remboursement.",
                 "<strong>Guide :</strong> accès au PDF dès la confirmation du paiement.",
             ]),
             ("5. Annulation et remboursement", [
-                todo("Les audits et le guide ne sont pas remboursables une fois le paiement effectué : règle actuelle des pages de paiement, à valider."),
-                "Vous reconnaissez ce point en cochant la case prévue avant le paiement. Si le produit n'est pas livré dans le délai indiqué, écrivez à contact@vpavocat.com : " + todo("préciser la solution proposée (livraison, ou remboursement intégral)") + ".",
+                "Les audits et le guide ne sont pas remboursables une fois le paiement effectué.",
+                "Vous reconnaissez ce point en cochant la case prévue avant le paiement. Si vous n'avez pas reçu votre produit, écrivez à contact@vpavocat.com : nous vous le transmettons dans les meilleurs délais, idéalement sous quelques jours ouvrables, sans que ce délai soit garanti. Aucun remboursement n'est accordé dans ce cas.",
                 "Ces conditions ne limitent pas les droits que la loi vous accorde et auxquels il n'est pas possible de renoncer, notamment en matière de protection du consommateur.",
-                todo("Clients situés en France ou dans l'Union européenne : préciser le traitement du droit de rétractation de 14 jours."),
+                "<strong>Clients résidant en France ou dans l'Union européenne :</strong> lorsque le droit de votre pays vous l'accorde, vous disposez d'un droit de rétractation de 14 jours à compter de votre achat, à exercer en écrivant à contact@vpavocat.com. Ce droit prend fin avant ce délai si vous demandez à recevoir le guide ou le bilan immédiatement et y renoncez expressément : pour le guide, dès que vous y avez accès ; pour un audit, dès que le bilan vous a été transmis.",
             ]),
             ("6. Avantages liés aux achats", [
                 "<strong>Audit Éclair — Travailleur :</strong> si vous réservez ensuite une consultation complète, vos 49 $ sont crédités à 100&nbsp;% sur votre séance.",
                 "<strong>Audit Éclair — Étudiant :</strong> si vous nous confiez ensuite la prise en charge complète de votre dossier, vos 49 $ sont intégralement déduits de votre prestation.",
                 "<strong>Guide :</strong> vous recevez par courriel un code de réduction de 20 $ CAD sur votre consultation individuelle de stratégie d'immigration.",
-                todo("Préciser les délais pour utiliser ces avantages, le cas échéant."),
+                "Ces avantages n'ont pas de date limite.",
             ]),
             ("7. Relation avocat-client", [
-                "L'achat d'un audit ou du guide ne crée pas à lui seul un mandat de représentation. " + todo("À valider par Me Poughon selon ses obligations déontologiques.") + " Vos renseignements sont traités de façon confidentielle.",
+                "L'achat d'un audit ou du guide ne crée pas à lui seul un mandat de représentation. Vos renseignements sont traités de façon confidentielle.",
             ]),
             ("8. Propriété intellectuelle", ["Le guide et les bilans sont destinés à votre usage personnel. Ils ne peuvent pas être reproduits ni diffusés sans autorisation."]),
             ("9. Renseignements personnels", ['Leur traitement est décrit dans notre <a href="PRIVACY_URL">politique de confidentialité</a>.']),
@@ -94,23 +95,24 @@ LEGAL = {
                 "Payment is made online by credit card or, where offered, Klarna, through a secure payment provider. The firm does not store your card details.",
             ]),
             ("4. Delivery", [
-                "<strong>Audits:</strong> after payment, you receive the questionnaire. Your detailed report is sent by email within 48 hours " + todo("of receiving your completed questionnaire, in business days: to confirm") + ".",
+                "<strong>Audits:</strong> after payment, you receive the questionnaire. Your detailed report is normally sent by email within 48 business hours of receiving your completed questionnaire.",
+                "This timeframe is a target, not a guarantee: it may be somewhat longer during periods of high demand. Such a delay does not entitle you to a refund.",
                 "<strong>Guide:</strong> access to the PDF as soon as payment is confirmed.",
             ]),
             ("5. Cancellation and refunds", [
-                todo("Audits and the guide are non-refundable once paid: current rule on the payment pages, to be approved."),
-                "You acknowledge this by ticking the box before payment. If a product is not delivered within the stated time, write to contact@vpavocat.com: " + todo("specify the remedy offered (delivery, or full refund)") + ".",
+                "Audits and the guide are non-refundable once paid.",
+                "You acknowledge this by ticking the box before payment. If you have not received your product, write to contact@vpavocat.com: we will send it as soon as we can, ideally within a few business days, though this timeframe is not guaranteed. No refund is given in this case.",
                 "These terms do not limit any rights the law grants you that cannot be waived, including under consumer protection law.",
-                todo("Clients in France or the European Union: specify how the 14-day right of withdrawal is handled."),
+                "<strong>Clients living in France or the European Union:</strong> where the law of your country grants it, you have a 14-day right of withdrawal from your purchase, exercised by writing to contact@vpavocat.com. This right ends earlier if you ask to receive the guide or report immediately and expressly waive it: for the guide, once you have access to it; for an audit, once the report has been sent to you.",
             ]),
             ("6. Purchase benefits", [
                 "<strong>Express Audit — Worker:</strong> if you then book a full consultation, your $49 is fully credited toward your session.",
                 "<strong>Express Audit — Student:</strong> if you then entrust us with your entire application, your $49 is fully deducted from our fee.",
                 "<strong>Guide:</strong> you receive by email a CAD $20 discount code for your individual immigration strategy consultation.",
-                todo("Specify any time limit for using these benefits."),
+                "These benefits have no time limit.",
             ]),
             ("7. Lawyer-client relationship", [
-                "Buying an audit or the guide does not in itself create a mandate of representation. " + todo("To be approved by Me Poughon according to her professional obligations.") + " Your information is treated confidentially.",
+                "Buying an audit or the guide does not in itself create a mandate of representation. Your information is treated confidentially.",
             ]),
             ("8. Intellectual property", ["The guide and reports are for your personal use. They may not be copied or shared without permission."]),
             ("9. Personal information", ['How we handle it is described in our <a href="PRIVACY_URL">privacy policy</a>.']),
