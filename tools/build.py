@@ -38,6 +38,9 @@ ICONS = {
     'menu': '<path d="M4 7h16M4 12h16M4 17h16"/>',
     'close': '<path d="M6 6l12 12M18 6L6 18"/>',
     'doc': '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',
+    'timer': '<circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.5 1.5M10 3h4M12 3v2.5M18.5 6.5l1.5-1.5"/>',
+    'money': '<circle cx="12" cy="9" r="6"/><path d="M14 7h-2.8a1.4 1.4 0 0 0 0 2.8h1.6a1.4 1.4 0 0 1 0 2.8H10M12 5.8v1.2M12 12.6v1.2"/><path d="M3 21l3-3h5"/>',
+    'search': '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M8 10.5l2 2 3.5-4"/>',
 }
 
 
@@ -85,8 +88,11 @@ def header(lang, page):
 </header>'''
 
 
-def footer(lang):
+def footer(lang, page=''):
     t, u = T[lang], URL[lang]
+    # On the services page the phone bar sells the audit; elsewhere it books a consultation.
+    book = (f'<a class="btn btn-primary" href="{AUDIT}" rel="noopener">{t["auditCta"]}</a>' if page == 'services'
+            else f'<a class="btn btn-primary" href="{CALENDLY}" rel="noopener">{t["mobileBook"]}</a>')
     links = '\n'.join(f'        <a href="{u[k]}">{t["nav"][k]}</a>' for k in PAGES)
     return f'''<footer class="site-footer">
   <div class="wrap">
@@ -115,7 +121,7 @@ def footer(lang):
 </footer>
 <div class="mobile-bar">
   <a class="btn btn-ghost" href="{u["services"]}#audit">{t["mobileAudit"]}</a>
-  <a class="btn btn-primary" href="{CALENDLY}" rel="noopener">{t["mobileBook"]}</a>
+  {book}
 </div>'''
 
 
@@ -327,13 +333,34 @@ def services(lang):
   </div>
 </section>'''
 
-    audit = offer_block(
-        'audit', t['audit'], f'<p class="lead">{t["auditPitch"]}</p>',
-        price(t['auditPrice'], t['auditUnit'], t['auditEuro']), AUDIT, t['auditCta'],
-        extra=f'''<h3 class="mini-title">{t["howTitle"]}</h3>
-      <ol class="steps">{steps}</ol>
-      <p class="fine">{t["auditDisclaimer"]}</p>''',
-        side_extra=f'<p class="callout">{t["auditBonus"]}</p>')
+    why = ''.join(f'<li>{ico(kind, 28)}<span><strong>{lead}</strong> {rest}</span></li>' for kind, lead, rest in t['auditWhy'])
+    audit = f'''<section id="audit" class="section offer audit">
+  <div class="wrap">
+    <div class="audit-intro">
+      <div class="offer-main">
+        <span class="eyebrow">{t["audit"]}</span>
+        <h2>{t["auditHook"]}</h2>
+        <p class="audit-pitch">{t["auditPitch"]}</p>
+        <ul class="audit-stakes">{li(t["auditStakes"])}</ul>
+      </div>
+      <img class="audit-photo" src="/assets/audit-brochure.jpg" alt="{t["auditImg"]}" width="1000" height="746">
+    </div>
+    <div class="offer-grid">
+      <div class="offer-main">
+        <h3 class="mini-title">{t["auditWhyTitle"]}</h3>
+        <ul class="why">{why}</ul>
+        <h3 class="mini-title">{t["howTitle"]}</h3>
+        <ol class="steps steps-grid">{steps}</ol>
+        <p class="fine">{t["auditDisclaimer"]}</p>
+      </div>
+      <aside class="price-card audit-card">
+        {price(t['auditPrice'], t['auditUnit'], t['auditEuro'])}
+        <p class="callout">{t["auditBonus"]}</p>
+        <a class="btn btn-primary btn-lg" href="{AUDIT}" rel="noopener">{t["auditCta"]}</a>
+      </aside>
+    </div>
+  </div>
+</section>'''
     student = offer_block(
         'audit-etudiant', t['student'], f'<p class="lead">{t["studentPitch"]}</p>',
         price(t['auditPrice'], t['auditUnit'], t['auditEuro']), AUDIT_STUDENT, t['studentCta'], tint=True,
@@ -613,7 +640,7 @@ def render(lang, page):
 <main id="main">
 {BODY[page](lang)}
 </main>
-{footer(lang)}
+{footer(lang, page)}
 </body>
 </html>
 '''
