@@ -283,6 +283,30 @@ a:not([class]):focus-visible, .link-arrow:focus-visible { border-radius: 4px; }
   .price-card { position: static; }
 }
 
+/* Audit: hook and photo, then the reasons, the steps and the price card */
+.audit .wrap { display: flex; flex-direction: column; gap: clamp(40px, 6vw, 72px); }
+.audit-intro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 80px); align-items: center; }
+.audit-intro h2 { font-size: clamp(32px, 4.4vw, 48px); line-height: 1.1; }
+.audit-pitch { margin: 0; font-size: clamp(19px, 1.9vw, 22px); font-weight: 600; line-height: 1.45; color: var(--ink); }
+.audit-stakes { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.audit-stakes li { position: relative; padding-left: 22px; color: var(--ink-2); font-size: 17px; line-height: 1.6; }
+.audit-stakes li::before { content: ''; position: absolute; left: 4px; top: .7em; width: 7px; height: 7px; border-radius: 50%; background: var(--plum); }
+.audit-photo { width: 100%; height: auto; border-radius: 20px; box-shadow: var(--shadow-lg); }
+.why { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.why li { display: flex; align-items: center; gap: 16px; line-height: 1.55; color: var(--ink-2); }
+.why .ico { flex: 0 0 auto; width: 48px; height: 48px; padding: 10px; border-radius: 50%; background: var(--plum-tint); color: var(--plum); }
+.why strong { color: var(--ink); }
+.steps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.steps-grid li { align-items: center; padding: 20px; box-shadow: var(--shadow); }
+.audit-card { text-align: center; }
+.audit-card .price { justify-content: center; }
+.audit-card .callout { text-align: left; }
+@media (max-width: 860px) {
+  .audit-intro { grid-template-columns: 1fr; }
+  .audit-photo { max-width: 560px; }
+}
+@media (max-width: 480px) { .steps-grid { grid-template-columns: 1fr; } }
+
 /* Resources page */
 .res-info { display: flex; flex-wrap: wrap; gap: 28px 40px; align-items: flex-start; }
 .res-info > div:last-child { flex: 1 1 280px; max-width: 640px; display: flex; flex-direction: column; gap: 14px; }
