@@ -13,7 +13,7 @@ import posixpath
 import re
 
 from legal import DRAFT_NOTE, LEGAL, UPDATED
-from content import (ADDRESS, AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTA, LEGAL_PAGES, NEWSLETTER, PAGES,
+from content import (ADDRESS, AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTALL_GUIDE, INSTA, LEGAL_PAGES, NEWSLETTER, PAGES,
                      PHONE, PHONE_TEL, SITE, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -172,6 +172,7 @@ def offers(lang):
 
 def resource_cards(lang, heading='h3'):
     t = T[lang]
+    install_href = INSTALL_GUIDE or URL[lang]['contact']
     return f'''<div class="res-grid">
       <article class="res-card">
         <div class="res-thumb guide" aria-hidden="true"><span>Immigrer au Canada</span><small>Édition 2026</small></div>
@@ -188,6 +189,15 @@ def resource_cards(lang, heading='h3'):
           <span class="tag">{t["free"]}</span>
           <{heading}>{t["cv"]}</{heading}>
           <a class="link-arrow" href="{CV_FREE}" rel="noopener">{t["cvCta"]}{ico("arrow", 18)}</a>
+        </div>
+      </article>
+      <article class="res-card">
+        <div class="res-thumb guide install" aria-hidden="true"><span>S'installer au Canada</span><small>Guide pratique</small></div>
+        <div class="res-body">
+          <span class="tag">{t["free"]}</span>
+          <{heading}>{t["installGuide"]}</{heading}>
+          <ul class="checks">{li(t["installPoints"], "checks")}</ul>
+          <a class="link-arrow" href="{install_href}" rel="noopener">{t["guideCta"]}{ico("arrow", 18)}</a>
         </div>
       </article>
     </div>'''
@@ -437,6 +447,19 @@ def ressources(lang):
       <span class="tag">{t["free"]}</span>
       <h2>{t["cv"]}</h2>
       <a class="btn btn-primary" href="{CV_FREE}" rel="noopener">{t["cvCta"]}</a>
+      <p class="fine">{t["resNote"]}</p>
+    </div>
+  </div>
+</section>
+
+<section id="installation" class="section">
+  <div class="wrap res-info">
+    <div class="res-thumb guide install lg" aria-hidden="true"><span>S'installer au Canada</span><small>Guide pratique</small></div>
+    <div>
+      <span class="tag">{t["free"]}</span>
+      <h2>{t["installGuide"]}</h2>
+      <ul class="checks">{li(t["installPoints"], "checks")}</ul>
+      <a class="btn btn-primary" href="{INSTALL_GUIDE or URL[lang]['contact']}" rel="noopener">{t["guideCta"]}</a>
       <p class="fine">{t["resNote"]}</p>
     </div>
   </div>

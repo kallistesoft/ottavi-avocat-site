@@ -234,6 +234,8 @@ a:not([class]):focus-visible, .link-arrow:focus-visible { border-radius: 4px; }
 .res-thumb { flex: 0 0 110px; height: 148px; border-radius: 6px; box-shadow: var(--shadow); }
 .res-thumb.guide { display: flex; flex-direction: column; justify-content: space-between; padding: 14px 12px; background: var(--plum); color: #fff; font-family: var(--serif); font-size: 15px; line-height: 1.2; }
 .res-thumb.guide small { font-family: var(--sans); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; opacity: .85; }
+.res-thumb.guide.install { background: var(--dark); box-shadow: inset 3px 0 0 var(--plum), var(--shadow); }
+.res-grid .res-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .res-thumb.cv { display: flex; flex-direction: column; gap: 7px; padding: 16px 12px; background: #fff; border: 1px solid var(--line); }
 .res-thumb.cv i { display: block; height: 5px; border-radius: 3px; background: var(--line); }
 .res-thumb.cv i:first-child { width: 70%; height: 8px; background: var(--ink); }

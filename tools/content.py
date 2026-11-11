@@ -12,6 +12,8 @@ CALENDLY_FLASH = 'https://calendly.com/vanessa-poughon-avocat/consultation-flash
 AUDIT = 'https://a5c6-contact.systeme.io/commande-22ec70a7'
 AUDIT_STUDENT = 'https://a5c6-contact.systeme.io/d4acbe58-5b116c48'
 GUIDE_FREE = 'https://a5c6-contact.systeme.io/guidegratuit'
+# systeme.io page of the "S'installer au Canada" guide, to come; while empty, its buttons go to the contact page.
+INSTALL_GUIDE = 'https://a5c6-contact.systeme.io/sinstaller-au-canada'
 CV_FREE = 'https://a5c6-contact.systeme.io/cvcanadien-e5451c58-4a4b1be3'
 NEWSLETTER = 'https://a5c6-contact.systeme.io/newsletter'
 EBOOK = 'https://a5c6-contact.systeme.io/guidealbertaachat-ee964b16'
@@ -70,6 +72,8 @@ T = {
         ebookBonus="<strong>En cadeau :</strong> 20 $ CAD de réduction sur votre consultation individuelle de stratégie d'immigration. Vous recevrez votre code de réduction par courriel.",
         guide='Guide «&nbsp;Immigrer au Canada&nbsp;» (édition 2026)',
         guidePoints=["Les 5 principales voies d'immigration", "Le fonctionnement d'Entrée express", "Les 5 erreurs qui coûtent cher aux candidats"],
+        installGuide="Guide «&nbsp;S'installer au Canada&nbsp;» : les 5 premières démarches",
+        installPoints=["Les 5 premières démarches, dans le bon ordre", "Carte santé et permis de conduire, province par province", "Les fournisseurs d'eau, d'électricité, de gaz, d'assurance, de banque, de téléphone et d'Internet"],
         guideCta='Recevoir le guide', free='Gratuit', cv='Modèle de CV au format canadien', cvCta='Recevoir le modèle',
         eyebrow='Me Vanessa Poughon, avocate', h1='Immigration <span>canadienne</span>',
         mailMe='Contactez-moi par courriel', facts='Coordonnées professionnelles',
@@ -130,6 +134,8 @@ T = {
         ebookBonus='<strong>Bonus:</strong> CAD $20 off your individual immigration strategy consultation. You will receive your discount code by email.',
         guide='“Immigrating to Canada” guide (2026 edition)',
         guidePoints=['The 5 main immigration pathways', 'How Express Entry works', 'The 5 costliest mistakes applicants make'],
+        installGuide='“Settling in Canada” guide: the first 5 steps (in French)',
+        installPoints=['The first 5 steps, in the right order', 'Health card and driver’s licence, province by province', 'Providers for water, power, gas, insurance, banking, phone and internet'],
         guideCta='Get the guide', free='Free', cv='Canadian-format CV template', cvCta='Get the template',
         eyebrow='Vanessa Poughon, lawyer', h1='Canadian <span>immigration</span>',
         mailMe='Contact me by email', facts='Professional details',
