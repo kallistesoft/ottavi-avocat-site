@@ -47,7 +47,7 @@ T = {
         auditWhy=[('timer', "Allez à l'essentiel :", 'repérez les programmes qui ne correspondent pas à votre situation.'),
                   ('money', "Gagnez du temps et de l'argent :", 'concentrez-vous sur les démarches adaptées à votre profil.'),
                   ('search', 'Gagnez en clarté :', 'un avis franc et motivé sur votre situation.')],
-        auditBonus="Votre audit est <strong>entièrement crédité</strong> sur votre première consultation stratégique complète. Si vous décidez de poursuivre l'aventure avec nous, <strong>cet audit ne vous aura absolument rien coûté.</strong>",
+        auditBonus="Votre audit est <strong>entièrement crédité</strong> sur votre première consultation stratégique complète. Si vous décidez de poursuivre avec nous, <strong>le prix de l'audit est déduit de celui de la consultation.</strong>",
         auditDisclaimer="Cet audit constitue une pré-évaluation d'éligibilité indicative sur la base de vos déclarations et ne remplace pas une consultation stratégique approfondie sur pièces.",
         auditImg="Brochure de l'Audit Éclair d'Ottavi Law Firm ouverte sur un bureau, avec ses quatre étapes",
         howTitle='Un processus simple et sécurisé',
@@ -107,7 +107,7 @@ T = {
         auditWhy=[('timer', 'Focus on what matters:', 'spot the programs that do not fit your situation.'),
                   ('money', 'Save time and money:', 'focus on the options suited to your profile.'),
                   ('search', 'Gain clarity:', 'a frank, reasoned opinion on your situation.')],
-        auditBonus='Your audit is <strong>fully credited</strong> toward your first full strategy consultation. If you decide to continue with us, <strong>this audit will have cost you absolutely nothing.</strong>',
+        auditBonus='Your audit is <strong>fully credited</strong> toward your first full strategy consultation. If you decide to continue with us, <strong>the cost of the audit is deducted from the consultation fee.</strong>',
         auditDisclaimer='This audit is an indicative pre-assessment of eligibility based on your own statements. It does not replace an in-depth strategy consultation based on documents.',
         auditImg='Ottavi Law Firm Express Audit brochure open on a desk, showing its four steps',
         howTitle='A simple, secure process',
@@ -230,7 +230,7 @@ T['fr'].update(
     studentPitch="Vous souhaitez faire des études au Canada ? Ne tentez pas votre chance au hasard avec l'immigration canadienne : un dossier incomplet ou mal préparé peut entraîner un refus de votre demande. Sécurisez votre projet d'études avant d'investir des milliers de dollars.",
     studentListTitle="Que contient l'audit",
     studentPoints=["Diagnostic d'admissibilité stratégique", "Détection des points faibles de votre dossier", "Feuille de route personnalisée", "Conseils pour votre demande de permis", "Votre bilan détaillé sous 48 h"],
-    studentBonus="<strong>Le petit plus :</strong> si vous nous confiez ensuite la prise en charge complète de votre dossier, vos 49 $ sont intégralement déduits de votre prestation. Votre audit est donc entièrement rentabilisé.",
+    studentBonus="<strong>Le petit plus :</strong> si vous nous confiez ensuite la prise en charge complète de votre dossier, vos 49 $ sont intégralement déduits de votre prestation.",
 )
 T['en'].update(
     resNote='Enter your email on the next page to receive the document.',
@@ -239,5 +239,5 @@ T['en'].update(
     studentPitch="Want to study in Canada? Don't leave Canadian immigration to chance: an incomplete or poorly prepared application may lead to a refusal. Secure your study project before investing thousands of dollars.",
     studentListTitle="What the audit includes",
     studentPoints=['Strategic eligibility diagnosis', 'Identifying the weak points of your application', 'A personalized roadmap', 'Advice for your permit application', 'Your detailed report within 48 hours'],
-    studentBonus="<strong>A little extra:</strong> if you then entrust us with your entire application, your $49 is fully deducted from our fee. Your audit pays for itself.",
+    studentBonus="<strong>A little extra:</strong> if you then entrust us with your entire application, your $49 is fully deducted from our fee.",
 )
