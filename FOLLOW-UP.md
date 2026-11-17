@@ -10,6 +10,9 @@ Today: the new site lives at https://www.ottavilawfirm.com, on her GoDaddy cPane
 Guide, CV and newsletter are done: their buttons open her systeme.io pages (`/guidegratuit`, `/cvcanadien-e5451c58-4a4b1be3`,
 `/newsletter`), which collect the email. The home page section is shareable at `/#newsletter` and `/en/#newsletter`.
 
+- [ ] "S'installer au Canada" guide (PDF, 9 pages, French): funnel 7796028 exists (capture `/sinstaller-au-canada`, thank-you `/mercisinstalleraucanada`) and `INSTALL_GUIDE`
+      points to it, but the delivery rule is NOT saved: no email goes out on sign-up. In the capture page's automation rules, create "opt-in → send email" with the email
+      "Votre guide « S'installer au Canada » est arrivé" (PDF attached, body was truncated on save, retype it), then test with a real address. Do not deploy the site link before that.
 - [ ] Test the guide, CV and newsletter pages with a test email address: contact created, document received
 
 Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop working when `www` switches.
