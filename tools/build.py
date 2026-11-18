@@ -205,7 +205,7 @@ def resource_cards(lang, heading='h3'):
 
 def home(lang):
     t, u = T[lang], URL[lang]
-    trust_icons = ['shield', 'clock', 'globe']
+    trust_icons = ['shield', 'globe']
     trust = ''.join(f'<li>{ico(i, 22)}<span>{s}</span></li>' for i, s in zip(trust_icons, t['trust']))
     rows = ''
     for o in offers(lang):
