@@ -23,7 +23,7 @@ Private link Me Poughon sends to clients: answers save in the client's browser, 
 device, and the PDF is made in the browser and emailed by the client. Nothing reaches a server.
 
 - [ ] Replace the made-up questions with Me Poughon's real ones: only `assets/formulaire/form-def.js` changes
-- [ ] Confirm the address that receives the PDFs (today `contact@vpavocat.com`, see DECISIONS.md)
+- [x] Address that receives the PDFs: `contact@vpavocat.com` (owner, 2026-11-23)
 - [ ] Privacy page: add a line saying the questionnaire keeps answers on the client's device and sends nothing (ask before legal wording)
 - [ ] Test on a phone (iPhone Safari + Android Chrome): resume after closing the browser, progress file, PDF download
 - [ ] Later: read `reponses.json` from received PDFs in LawyerTool's import, so nothing is retyped
