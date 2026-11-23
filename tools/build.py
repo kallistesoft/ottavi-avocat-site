@@ -13,7 +13,7 @@ import posixpath
 import re
 
 from legal import DRAFT_NOTE, LEGAL, UPDATED
-from content import (ADDRESS, AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, INSTALL_GUIDE, INSTA, LEGAL_PAGES, NEWSLETTER, PAGES,
+from content import (ADDRESS, AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, HIDDEN_PAGES, INSTALL_GUIDE, INSTA, LEGAL_PAGES, NEWSLETTER, PAGES,
                      PHONE, PHONE_TEL, SITE, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -552,7 +552,26 @@ def contact(lang):
 </section>'''
 
 
-BODY = {'home': home, 'services': services, 'ressources': ressources, 'cabinet': cabinet, 'contact': contact}
+def form(lang):
+    """Intake form: the page only holds the mount point; assets/formulaire/form.js builds the form."""
+    t = T[lang]
+    assets = posixpath.relpath('/assets/formulaire', URL[lang]['form']) + '/'
+    return f'''{page_head(t["formEyebrow"], t["formTitle"], t["formLead"])}
+
+<section class="intake-section">
+  <div class="wrap intake-wrap">
+    <div id="intake" data-email="{EMAIL}" data-assets="{assets}">
+      <noscript><p class="intake-noscript">{t["formNoscript"]} <a href="mailto:{EMAIL}">{EMAIL}</a>.</p></noscript>
+    </div>
+  </div>
+</section>'''
+
+
+BODY = {'home': home, 'services': services, 'ressources': ressources, 'cabinet': cabinet, 'contact': contact, 'form': form}
+
+# Form page only: nothing on it can send data (fetch, XHR, beacons, form posts), so the answers can't leave the device.
+FORM_CSP = ("default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; "
+            "img-src 'self' data: blob:; connect-src 'none'; form-action 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'")
 
 
 def legal_page(page):
@@ -624,6 +643,16 @@ def structured_data(lang, page):
 
 def render(lang, page):
     t = T[lang]
+    hidden = page in HIDDEN_PAGES
+    extra = assets = ''
+    if page == 'form':
+        # The CSP meta must come first: it only covers what loads after it.
+        extra = (f'<meta http-equiv="Content-Security-Policy" content="{FORM_CSP}">\n'
+                 '<meta name="robots" content="noindex, nofollow">\n'
+                 '<meta name="referrer" content="no-referrer">\n')
+        assets = (f'\n<link rel="stylesheet" href="/assets/formulaire/form.css?v={asset_version("assets/formulaire/form.css")}">'
+                  f'\n<script src="/assets/formulaire/form-def.js?v={asset_version("assets/formulaire/form-def.js")}" defer></script>'
+                  f'\n<script src="/assets/formulaire/form.js?v={asset_version("assets/formulaire/form.js")}" defer></script>')
     title = t['titles'][page] if page == 'home' else f'{t["titles"][page]} — Ottavi Law Firm Inc.'
     alts = '\n'.join(f'<link rel="alternate" hreflang="{code}" href="{SITE}{URL[code][page]}">' for code in ('fr', 'en'))
     other = 'en' if lang == 'fr' else 'fr'
@@ -631,7 +660,7 @@ def render(lang, page):
 <html lang="{lang}">
 <head>
 <meta charset="utf-8">
-<meta name="format-detection" content="telephone=no">
+{extra}<meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{t["descs"][page]}">
@@ -655,8 +684,8 @@ def render(lang, page):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/site.css?v={asset_version("assets/site.css")}">
-<script src="/assets/site.js?v={asset_version("assets/site.js")}" defer></script>
-{structured_data(lang, page)}
+<script src="/assets/site.js?v={asset_version("assets/site.js")}" defer></script>{assets}
+{'' if hidden else structured_data(lang, page)}
 </head>
 <body class="page-{page}">
 {header(lang, page)}
@@ -700,7 +729,7 @@ def main():
     with open(os.path.join(ROOT, 'sitemap.xml'), 'w') as f:
         f.write(sitemap())
     for lang in ('fr', 'en'):
-        for page in PAGES + LEGAL_PAGES:
+        for page in PAGES + LEGAL_PAGES + HIDDEN_PAGES:
             here = URL[lang][page]
             path = os.path.join(ROOT, here.strip('/'), 'index.html')
             os.makedirs(os.path.dirname(path), exist_ok=True)

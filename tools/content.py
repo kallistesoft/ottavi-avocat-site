@@ -23,9 +23,11 @@ ADDRESS = dict(street='204, rue du Saint-Sacrement, bureau 300', city='Montréal
 
 PAGES = ['home', 'services', 'ressources', 'cabinet', 'contact']
 LEGAL_PAGES = ['cgv', 'privacy']
+# Reachable only by a link Me Poughon sends: noindex, not in the nav, the sitemap or robots-allowed paths.
+HIDDEN_PAGES = ['form']
 URL = {
-    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/'},
-    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/'},
+    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/', 'form': '/formulaire/'},
+    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/', 'form': '/en/form/'},
 }
 T = {
     'fr': dict(
@@ -247,3 +249,19 @@ T['en'].update(
     studentPoints=['Strategic eligibility diagnosis', 'Identifying the weak points of your application', 'A personalized roadmap', 'Advice for your permit application', 'Your detailed report within 48 hours'],
     studentBonus="<strong>A little extra:</strong> if you then entrust us with your entire application, your $49 is fully deducted from our fee.",
 )
+
+# Intake form page (/formulaire/, /en/form/): the questions are in assets/formulaire/form-def.js.
+T['fr'].update(
+    formEyebrow='Questionnaire client', formTitle="Votre questionnaire",
+    formLead="Répondez à votre rythme : vos réponses s'enregistrent sur votre appareil et ne sont envoyées nulle part. À la fin, vous créez un PDF et vous l'envoyez à Me Poughon par courriel.",
+    formNoscript="Ce questionnaire a besoin de JavaScript. Activez-le dans votre navigateur, ou écrivez-nous à",
+)
+T['fr']['titles']['form'] = 'Questionnaire client'
+T['fr']['descs']['form'] = "Questionnaire client d'Ottavi Law Firm Inc. : vos réponses restent sur votre appareil."
+T['en'].update(
+    formEyebrow='Client questionnaire', formTitle='Your questionnaire',
+    formLead='Answer at your own pace: your answers are saved on your device and sent nowhere. At the end, you create a PDF and email it to Ms. Poughon.',
+    formNoscript='This questionnaire needs JavaScript. Turn it on in your browser, or write to us at',
+)
+T['en']['titles']['form'] = 'Client questionnaire'
+T['en']['descs']['form'] = 'Ottavi Law Firm Inc. client questionnaire: your answers stay on your device.'

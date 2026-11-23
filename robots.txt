@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /formulaire/
+Disallow: /en/form/
 
 Sitemap: https://www.ottavilawfirm.com/sitemap.xml

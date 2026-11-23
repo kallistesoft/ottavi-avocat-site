@@ -17,6 +17,17 @@ Guide, CV and newsletter are done: their buttons open her systeme.io pages (`/gu
 
 Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop working when `www` switches.
 
+## Intake form (`/formulaire/`, `/en/form/`)
+
+Private link Me Poughon sends to clients: answers save in the client's browser, a progress file moves them to another
+device, and the PDF is made in the browser and emailed by the client. Nothing reaches a server.
+
+- [ ] Replace the made-up questions with Me Poughon's real ones: only `assets/formulaire/form-def.js` changes
+- [ ] Confirm the address that receives the PDFs (today `contact@vpavocat.com`, see DECISIONS.md)
+- [ ] Privacy page: add a line saying the questionnaire keeps answers on the client's device and sends nothing (ask before legal wording)
+- [ ] Test on a phone (iPhone Safari + Android Chrome): resume after closing the browser, progress file, PDF download
+- [ ] Later: read `reponses.json` from received PDFs in LawyerTool's import, so nothing is retyped
+
 ## 2. Content to confirm with her
 
 - [ ] Address: the site shows Montréal (204, rue du Saint-Sacrement), but her bio says she lives in Alberta
