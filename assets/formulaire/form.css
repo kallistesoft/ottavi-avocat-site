@@ -1,0 +1,115 @@
+/* Intake form (/formulaire/, /en/form/). Uses the Ivoire tokens from site.css. */
+.intake-section { padding: clamp(32px, 5vw, 56px) 0 var(--section-pad); }
+.intake-wrap { max-width: 760px; }
+#intake { --ok: #2F7D5B; --bad: #B3261E; scroll-margin-top: calc(var(--header-h) + 16px); }
+#intake [hidden] { display: none !important; }
+.intake-noscript { padding: 16px 18px; border-radius: var(--radius-sm); background: var(--plum-tint); }
+
+.ik-banners { display: grid; gap: 10px; margin-bottom: 18px; }
+.ik-banner { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--plum-tint); border: 1px solid var(--plum-soft); font-size: 15px; color: var(--ink-2); }
+.ik-banner strong { color: var(--plum-dark); font-weight: 600; }
+.ik-banner .ik-ico { color: var(--plum); margin-top: 2px; }
+.ik-banner.warn { background: #FFF6E5; border-color: #EBD3A0; }
+
+.ik-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.ik-step button { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; text-align: center; font-size: 13px; line-height: 1.3; color: var(--ink-3); padding-bottom: 2px; }
+.ik-step button:focus-visible { outline: 2px solid var(--plum); outline-offset: 3px; border-radius: 4px; }
+.ik-bar { display: block; height: 6px; border-radius: 3px; background: var(--line); margin-bottom: 7px; }
+.ik-step.done button { color: var(--ok); }
+.ik-step.done .ik-bar { background: var(--ok); }
+.ik-step.cur button { color: var(--plum); font-weight: 600; }
+.ik-step.cur .ik-bar { background: var(--plum); }
+
+.ik-status { font-size: 13px; color: var(--ink-3); margin: 12px 0 16px; display: flex; align-items: center; gap: 7px; }
+.ik-status::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--line-2); flex: none; }
+.ik-status.ok { color: var(--ok); }
+.ik-status.ok::before { background: var(--ok); }
+.ik-status.off { color: #8A5A00; }
+.ik-status.off::before { background: #D8A23A; }
+
+.ik-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 4vw, 32px); box-shadow: var(--shadow); }
+.ik-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--plum); margin-bottom: 6px; }
+.ik-card h2 { font-size: clamp(24px, 3vw, 30px); margin-bottom: 18px; }
+.ik-card h2:focus { outline: none; }
+.ik-lead { color: var(--ink-2); margin: -8px 0 18px; }
+
+.ik-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+.ik-card > .ik-f, .ik-card > .ik-group, .ik-card > .ik-repeat { margin-bottom: 4px; }
+.ik-f { margin-bottom: 16px; min-width: 0; }
+.ik-grid > .ik-f.wide { grid-column: 1 / -1; }
+.ik-label { display: block; font-weight: 500; font-size: 15px; margin-bottom: 6px; color: var(--ink); padding: 0; }
+.ik-f input, .ik-f select, .ik-f textarea {
+  width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: #fff; border: 1px solid var(--line-2); border-radius: var(--radius-sm);
+  padding: 10px 12px; min-height: 46px; appearance: none; -webkit-appearance: none;
+}
+.ik-f select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236E6569' stroke-width='1.6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+.ik-f textarea { min-height: 110px; resize: vertical; }
+.ik-f input:focus, .ik-f select:focus, .ik-f textarea:focus { outline: none; border-color: var(--plum); box-shadow: 0 0 0 3px var(--plum-tint); }
+.ik-f [aria-invalid="true"] { border-color: var(--bad); }
+.ik-hint { font-size: 13px; color: var(--ink-3); margin-top: 5px; }
+.ik-err { font-size: 13px; color: var(--bad); margin-top: 5px; }
+
+.ik-radios { border: 0; margin: 0; padding: 0; min-width: 0; }
+.ik-radios:focus { outline: none; }
+.ik-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.ik-chip { position: relative; cursor: pointer; }
+.ik-chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.ik-chip span { display: inline-block; border: 1px solid var(--line-2); border-radius: 999px; padding: 8px 15px; font-size: 15px; background: #fff; transition: border-color .15s, background .15s; }
+.ik-chip input:checked + span { border-color: var(--plum); background: var(--plum-tint); color: var(--plum-dark); font-weight: 600; }
+.ik-chip input:focus-visible + span { outline: 2px solid var(--plum); outline-offset: 2px; }
+.ik-radios[aria-invalid="true"] .ik-chip span { border-color: var(--bad); }
+
+.ik-group { border-left: 3px solid var(--plum-soft); padding: 2px 0 0 16px; margin: 2px 0 16px; }
+.ik-group-label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--plum); margin-bottom: 10px; }
+
+.ik-repeat { display: grid; gap: 14px; margin-bottom: 18px; }
+.ik-item { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px 16px 2px; margin: 0; background: var(--bg); min-width: 0; }
+.ik-item legend { font-family: var(--serif); font-size: 18px; padding: 0 6px; margin-left: -6px; }
+.ik-remove { all: unset; cursor: pointer; float: right; font-size: 13px; color: var(--ink-3); margin: -4px 0 8px; text-decoration: underline; text-underline-offset: 3px; }
+.ik-remove:hover { color: var(--bad); }
+.ik-remove:focus-visible { outline: 2px solid var(--plum); outline-offset: 2px; border-radius: 3px; }
+.ik-add { justify-self: start; }
+
+.ik-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 20px; }
+.ik-nav .btn, .ik-done .btn { display: inline-flex; align-items: center; gap: 8px; }
+.ik-nav .btn[disabled] { opacity: .7; cursor: progress; }
+
+.ik-missing { margin-top: 18px; padding: 16px 18px; border-radius: var(--radius-sm); border: 1px solid #E9B8B3; background: #FDF1F0; }
+.ik-missing-title { font-weight: 600; margin-bottom: 6px; }
+.ik-missing ul { margin: 0; padding-left: 18px; }
+.ik-missing li { margin: 2px 0; }
+
+.ik-tools { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--line-2); }
+.ik-link { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; color: var(--plum); font-size: 15px; font-weight: 500; text-align: left; }
+.ik-link:hover { color: var(--plum-dark); text-decoration: underline; text-underline-offset: 3px; }
+.ik-link:focus-visible { outline: 2px solid var(--plum); outline-offset: 3px; border-radius: 4px; }
+.ik-link.muted { color: var(--ink-3); }
+.ik-ico { display: inline-flex; flex: none; }
+
+.ik-toast { min-height: 1.5em; margin: 14px 0 0; font-size: 14px; color: var(--ink-2); }
+.ik-toast:empty { margin: 0; min-height: 0; }
+
+.ik-done .ik-big-ok { width: 56px; height: 56px; border-radius: 50%; background: #E5F2EB; color: var(--ok); display: grid; place-items: center; margin-bottom: 14px; }
+.ik-done .ik-big-ok svg { width: 28px; height: 28px; }
+.ik-done h2 { margin-bottom: 8px; }
+.ik-done .ik-lead { margin: 0 0 16px; }
+.ik-file { display: flex; gap: 12px; align-items: center; background: var(--tint); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 18px; color: var(--plum); }
+.ik-file strong { display: block; color: var(--ink); font-weight: 600; word-break: break-all; }
+.ik-file small { color: var(--ink-3); font-size: 13px; }
+.ik-send-title { font-weight: 600; }
+.ik-how { margin: 8px 0 18px; padding-left: 22px; color: var(--ink-2); }
+.ik-how li { margin-bottom: 4px; }
+.ik-note { font-size: 14px; color: var(--ink-3); margin-top: 16px; }
+.ik-done-links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+
+.ik-overlay { position: fixed; inset: 0; background: rgba(31, 26, 28, .45); display: grid; place-items: center; padding: 16px; z-index: 100; }
+.ik-dialog { background: var(--surface); border-radius: var(--radius); padding: 24px; max-width: 460px; width: 100%; box-shadow: var(--shadow-lg); }
+.ik-dialog h2 { font-size: 24px; margin-bottom: 10px; }
+.ik-dialog p { color: var(--ink-2); margin-bottom: 18px; }
+
+@media (max-width: 600px) {
+  .ik-grid { grid-template-columns: 1fr; }
+  .ik-steps { gap: 5px; }
+  .ik-step button { font-size: 11.5px; }
+  .ik-nav .btn { padding-left: 18px; padding-right: 18px; }
+}
