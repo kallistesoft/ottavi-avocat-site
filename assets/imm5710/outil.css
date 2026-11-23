@@ -1,0 +1,27 @@
+/* /outil/imm5710/: private tool page. Ivoire tokens from site.css. */
+.imm-section { padding: clamp(32px, 5vw, 56px) 0 var(--section-pad); }
+.imm-wrap { max-width: 760px; }
+.imm-drop { display: grid; gap: 6px; place-items: center; text-align: center; padding: 44px 20px; border: 2px dashed var(--line-2); border-radius: var(--radius); background: var(--surface); cursor: pointer; transition: border-color .15s, background .15s; }
+.imm-drop strong { font-family: var(--serif); font-size: 22px; font-weight: 500; }
+.imm-drop span { color: var(--ink-3); font-size: 15px; }
+.imm-drop:hover, .imm-drop.over { border-color: var(--plum); background: var(--plum-tint); }
+.imm-result { margin-top: 20px; }
+.imm-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow); }
+.imm-card h2 { font-size: 24px; margin-bottom: 8px; }
+.imm-card p { color: var(--ink-2); margin-bottom: 12px; }
+.imm-card.ok { border-color: #BFDCCB; }
+.imm-card.bad { border-color: #E9B8B3; background: #FDF1F0; }
+.imm-card ol { margin: 0 0 14px; padding-left: 22px; color: var(--ink-2); }
+.imm-card .warn { color: #8A5A00; }
+.imm-card summary { cursor: pointer; color: var(--plum); font-weight: 500; }
+.imm-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+.imm-table th, .imm-table td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
+.imm-table th { color: var(--ink-3); font-weight: 600; }
+.imm-table td:first-child { color: var(--ink-3); font-family: ui-monospace, Menlo, monospace; font-size: 12px; width: 55%; }
+.imm-field { margin-bottom: 16px; }
+.imm-field label { display: block; font-weight: 500; font-size: 15px; margin-bottom: 6px; }
+.imm-field input { width: 100%; max-width: 320px; font: inherit; font-size: 16px; padding: 10px 12px; min-height: 46px; border: 1px solid var(--line-2); border-radius: var(--radius-sm); background: #fff; color: var(--ink); }
+.imm-field input:focus { outline: none; border-color: var(--plum); box-shadow: 0 0 0 3px var(--plum-tint); }
+.imm-hint { font-size: 13px; color: var(--ink-3); margin: 5px 0 0 !important; }
+.imm-err { font-size: 13px; color: #B3261E; margin: 5px 0 0 !important; }
+.imm-ok { color: #2F7D5B !important; font-weight: 500; margin-top: 14px; }

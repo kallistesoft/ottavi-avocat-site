@@ -22,7 +22,10 @@ Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop
 Private link Me Poughon sends to clients: answers save in the client's browser, a progress file moves them to another
 device, and the PDF is made in the browser and emailed by the client. Nothing reaches a server.
 
-- [ ] Replace the made-up questions with Me Poughon's real ones: only `assets/formulaire/form-def.js` changes
+- [x] Questions = IMM 5710 (work permit inside Canada), in IRCC's wording (2026-11-23); questionnaire version 2
+- [ ] Me Poughon reviews the questionnaire wording and the English translations of the questions
+- [ ] Open a filled IMM 5710 from `/outil/imm5710/` in Acrobat Reader and click « Valider » with real-looking data: note any field it rejects
+- [ ] When IRCC publishes a new IMM 5710: replace `tools/imm5710/imm5710f.pdf`, run `tools/imm5710/prepare.py`, check the field paths in `assets/imm5710/imm5710-map.js`
 - [x] Address that receives the PDFs: `contact@vpavocat.com` (owner, 2026-11-23)
 - [ ] Privacy page: add a line saying the questionnaire keeps answers on the client's device and sends nothing (ask before legal wording)
 - [ ] Test on a phone (iPhone Safari + Android Chrome): resume after closing the browser, progress file, PDF download

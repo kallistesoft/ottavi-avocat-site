@@ -36,7 +36,7 @@
       otherVersion: "Ce fichier vient d'une autre version du questionnaire et ne peut pas être repris.",
       choose: 'Choisir…',
       required: 'Cette réponse est obligatoire.', email: 'Indiquez une adresse courriel valide, par exemple nom@exemple.com.',
-      date: 'Indiquez une date complète.', number: (min, max) => `Indiquez un nombre entre ${min} et ${max}.`,
+      date: 'Indiquez une date complète.', month: 'Indiquez le mois et l’année.', format: 'Vérifiez le format de cette réponse.', checked: 'Oui', number: (min, max) => `Indiquez un nombre entre ${min} et ${max}.`,
       remove: 'Retirer', item: (label, n) => `${label} ${n}`,
       missingTitle: 'Il manque quelques réponses avant de créer le PDF :',
       working: 'Création du PDF…',
@@ -78,7 +78,7 @@
       otherVersion: 'This file comes from another version of the questionnaire and cannot be restored.',
       choose: 'Choose…',
       required: 'This answer is required.', email: 'Enter a valid email address, for example name@example.com.',
-      date: 'Enter a full date.', number: (min, max) => `Enter a number between ${min} and ${max}.`,
+      date: 'Enter a full date.', month: 'Enter the month and year.', format: 'Check the format of this answer.', checked: 'Yes', number: (min, max) => `Enter a number between ${min} and ${max}.`,
       remove: 'Remove', item: (label, n) => `${label} ${n}`,
       missingTitle: 'A few answers are missing before the PDF can be created:',
       working: 'Creating the PDF…',
@@ -103,7 +103,16 @@
     }
   }[LANG];
 
-  const L = (o) => (o ? o[LANG] || o.fr : '');
+  const L = (o) => (typeof o === 'string' ? o : o ? o[LANG] || o.fr : '');
+  const LISTS = window.IRCC_LISTS || {};
+  // Fields whose value picks another field's list (province -> cities): changing them redraws the section.
+  const LIST_KEYS = new Set();
+  (function collect(fields) {
+    for (const f of fields) {
+      if (f.listBy) LIST_KEYS.add(f.listBy);
+      if (f.fields) collect(f.fields);
+    }
+  })(DEF.sections.flatMap((s) => s.fields));
 
   // ---------- state and storage ----------
   const storageOk = (() => {
@@ -167,6 +176,11 @@
     for (const p of parts) { if (v == null) return ''; v = v[p]; }
     return v == null ? '' : v;
   }
+  function rawAt(path) {
+    let v = state.answers;
+    for (const p of path.split('.')) { if (v == null) return undefined; v = v[p]; }
+    return v;
+  }
   function setAt(path, value) {
     const parts = path.split('.');
     let o = state.answers;
@@ -185,11 +199,22 @@
   }
 
   // ---------- rules ----------
+  function valueIn(key, scope) {
+    return scope && Object.prototype.hasOwnProperty.call(scope, key) ? scope[key] : state.answers[key];
+  }
+  // showIf: one condition or a list (shown if any matches). { field, in: [...] } or { field, notIn: [...] }.
   function shown(field, scope) {
     if (!field.showIf) return true;
-    const key = field.showIf.field;
-    const v = scope && Object.prototype.hasOwnProperty.call(scope, key) ? scope[key] : state.answers[key];
-    return field.showIf.in.indexOf(v) !== -1;
+    return [].concat(field.showIf).some((c) => {
+      const v = valueIn(c.field, scope);
+      return c.in ? c.in.indexOf(v) !== -1 : c.notIn.indexOf(v == null ? '' : v) === -1;
+    });
+  }
+  function optionsOf(field, scope) {
+    if (field.options) return field.options;
+    let list = LISTS[field.list] || [];
+    if (field.listBy) list = list[valueIn(field.listBy, scope)] || [];
+    return list.map(([value, label]) => ({ value, label }));
   }
   // Visible answerable fields of a section, flattened: [{ field, path, scope, owner }]
   function leaves(section) {
@@ -198,6 +223,7 @@
     const walk = (fields, prefix, scope, where) => {
       for (const f of fields) {
         if (!shown(f, scope)) continue;
+        if (f.type === 'note') continue;
         if (f.type === 'group') walk(f.fields, prefix, scope, where.concat(L(f.label)));
         else if (f.type === 'repeat') items(f).forEach((item, i) => walk(f.fields, `${prefix}${f.id}.${i}.`, item, where.concat(UI.item(L(f.label), i + 1))));
         else out.push({ field: f, path: prefix + f.id, scope, where });
@@ -208,9 +234,11 @@
   }
   function errorFor(field, value) {
     const v = String(value == null ? '' : value).trim();
-    if (!v) return field.required ? (field.type === 'date' ? UI.date : UI.required) : '';
+    if (!v) return field.required ? (field.type === 'date' ? UI.date : field.type === 'month' ? UI.month : UI.required) : '';
     if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return UI.email;
     if (field.type === 'date' && !/^\d{4}-\d{2}-\d{2}$/.test(v)) return UI.date;
+    if (field.type === 'month' && !/^\d{4}-\d{2}$/.test(v)) return UI.month;
+    if (field.pattern && !new RegExp(field.pattern).test(v)) return field.patternMsg ? L(field.patternMsg) : UI.format;
     if (field.type === 'number') {
       const n = Number(v);
       const min = field.min != null ? field.min : -Infinity;
@@ -235,21 +263,31 @@
     return new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(d);
   }
   const fmtStamp = (iso) => fmtDate(new Date(iso || Date.now()).toISOString().slice(0, 10));
-  function display(field, value) {
+  function fmtMonth(v) {
+    const m = /^(\d{4})-(\d{2})$/.exec(v || '');
+    if (!m) return v || '';
+    return new Intl.DateTimeFormat(LOCALE, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(Date.UTC(+m[1], +m[2] - 1, 1)));
+  }
+  function display(field, value, scope) {
     const v = String(value == null ? '' : value).trim();
     if (!v) return field.empty ? L(field.empty) : UI.empty;
-    if (field.options) {
-      const o = field.options.find((x) => x.value === v);
+    if (field.type === 'checkbox') return UI.checked;
+    if (field.options || field.list) {
+      const o = optionsOf(field, scope).find((x) => x.value === v);
       return o ? L(o.label) : v;
     }
     if (field.type === 'date') return fmtDate(v);
+    if (field.type === 'month') return fmtMonth(v);
     return v;
   }
   const today = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   };
-  const clientName = () => String(state.answers.fullName || '').trim();
+  const clientName = () => {
+    const a = state.answers;
+    return [a.givenNames, a.familyName].filter(Boolean).join(' ').trim() || String(a.fullName || '').trim();
+  };
   const slug = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const domId = (path) => 'ik-' + path.replace(/\./g, '-');
 
@@ -394,7 +432,9 @@
 
   function renderFields(parent, fields, prefix, scope) {
     for (const f of fields) {
-      if (f.type === 'group') {
+      if (f.type === 'note') {
+        parent.append(h('p', { class: 'ik-info', 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix, text: L(f.text) }));
+      } else if (f.type === 'group') {
         const box = h('div', { class: 'ik-group', 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix }, [
           h('p', { class: 'ik-group-label', text: L(f.label) })
         ]);
@@ -404,7 +444,7 @@
         parent.append(box);
       } else if (f.type === 'repeat') {
         const list = items(f);
-        const wrap = h('div', { class: 'ik-repeat' });
+        const wrap = h('div', { class: 'ik-repeat', 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix });
         list.forEach((item, i) => {
           const p = `${prefix}${f.id}.${i}.`;
           const fs = h('fieldset', { class: 'ik-item' }, [
@@ -416,19 +456,20 @@
           renderFields(grid, f.fields, p, item);
           wrap.append(fs);
         });
-        wrap.append(h('button', {
+        if (!f.max || list.length < f.max) wrap.append(h('button', {
           type: 'button', class: 'btn btn-outline btn-sm ik-add',
           onclick: () => { list.push({}); changed(); renderForm(); const n = list.length - 1; const el = document.getElementById(domId(`${prefix}${f.id}.${n}.${f.fields[0].id}`)); if (el) el.focus(); }
         }, '+ ' + L(f.add)));
         parent.append(wrap);
       } else {
-        parent.append(fieldEl(f, prefix + f.id, prefix));
+        parent.append(fieldEl(f, prefix + f.id, prefix, scope));
       }
     }
   }
 
-  function fieldEl(f, path, prefix) {
+  function fieldEl(f, path, prefix, scope) {
     const id = domId(path);
+    if (f.default != null && rawAt(path) === undefined) setAt(path, f.default);
     const value = getAt(path);
     const err = h('p', { class: 'ik-err', id: id + '-err', hidden: true });
     const hint = f.hint ? h('p', { class: 'ik-hint', id: id + '-hint', text: L(f.hint) }) : null;
@@ -447,9 +488,17 @@
       control.append(chips);
       return h('div', { class: 'ik-f wide', 'data-field': path, 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix }, [control, hint, err]);
     }
+    if (f.type === 'checkbox') {
+      return h('div', { class: 'ik-f wide', 'data-field': path, 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix }, [
+        h('label', { class: 'ik-check' }, [
+          h('input', { type: 'checkbox', id, 'data-path': path, value: 'Y', checked: value === 'Y', 'aria-describedby': describedby }),
+          h('span', { text: L(f.label) })
+        ]), hint, err
+      ]);
+    }
     const common = { id, name: path, 'data-path': path, 'aria-describedby': describedby, required: f.required, autocomplete: f.autocomplete || 'off' };
     if (f.type === 'select') {
-      control = h('select', common, [h('option', { value: '', text: UI.choose })].concat(f.options.map((o) => h('option', { value: o.value, text: L(o.label) }))));
+      control = h('select', common, [h('option', { value: '', text: UI.choose })].concat(optionsOf(f, scope).map((o) => h('option', { value: o.value, text: L(o.label) }))));
       control.value = value;
     } else if (f.type === 'textarea') {
       control = h('textarea', { ...common, rows: '4' });
@@ -457,6 +506,7 @@
     } else {
       control = h('input', {
         ...common, type: f.type === 'number' ? 'text' : f.type, inputmode: f.type === 'number' ? 'numeric' : null,
+        placeholder: f.type === 'month' ? (LANG === 'fr' ? 'AAAA-MM' : 'YYYY-MM') : f.placeholder || null,
         min: f.min, max: f.max
       });
       control.value = value;
@@ -471,8 +521,14 @@
     const path = el.dataset && el.dataset.path;
     if (!path) return;
     if (el.type === 'radio' && !el.checked) return;
-    setAt(path, el.value);
+    setAt(path, el.type === 'checkbox' ? (el.checked ? 'Y' : '') : el.value);
     changed();
+    if (e.type === 'change' && LIST_KEYS.has(path.split('.').pop())) {
+      renderForm();
+      const again = document.getElementById(domId(path));
+      if (again) again.focus();
+      return;
+    }
     refreshVisibility();
     renderSteps('form');
     const box = document.querySelector(`[data-field="${CSS.escape(path)}"] .ik-err`);
@@ -505,7 +561,7 @@
     if (onlyIfFilled && !String(value).trim()) msg = box.hidden ? '' : msg;
     box.textContent = msg;
     box.hidden = !msg;
-    const control = wrap.querySelector('input:not([type=radio]), select, textarea, fieldset');
+    const control = wrap.querySelector('input:not([type=radio]):not([type=checkbox]), select, textarea, fieldset');
     if (control) control.setAttribute('aria-invalid', msg ? 'true' : 'false');
   }
 
@@ -672,7 +728,7 @@
     };
     const fieldsOut = (fields, prefix, scope) => {
       for (const f of fields) {
-        if (!shown(f, scope)) continue;
+        if (!shown(f, scope) || f.type === 'note') continue;
         if (f.type === 'group') {
           subhead(L(f.label));
           fieldsOut(f.fields, prefix, scope);
@@ -681,7 +737,7 @@
             subhead(UI.item(L(f.label), i + 1));
             fieldsOut(f.fields, `${prefix}${f.id}.${i}.`, item);
           });
-        } else row(L(f.label), display(f, getAt(prefix + f.id)));
+        } else row(L(f.label), display(f, getAt(prefix + f.id), scope));
       }
     };
     DEF.sections.forEach((sec, i) => {

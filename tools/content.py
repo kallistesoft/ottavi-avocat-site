@@ -24,10 +24,12 @@ ADDRESS = dict(street='204, rue du Saint-Sacrement, bureau 300', city='Montréal
 PAGES = ['home', 'services', 'ressources', 'cabinet', 'contact']
 LEGAL_PAGES = ['cgv', 'privacy']
 # Reachable only by a link Me Poughon sends: noindex, not in the nav, the sitemap or robots-allowed paths.
-HIDDEN_PAGES = ['form']
+HIDDEN_PAGES = ['form', 'outil']
+# French only: no English version is generated.
+FR_ONLY = ['outil']
 URL = {
-    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/', 'form': '/formulaire/'},
-    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/', 'form': '/en/form/'},
+    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/', 'form': '/formulaire/', 'outil': '/outil/imm5710/'},
+    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/', 'form': '/en/form/', 'outil': '/en/'},
 }
 T = {
     'fr': dict(
@@ -265,3 +267,11 @@ T['en'].update(
 )
 T['en']['titles']['form'] = 'Client questionnaire'
 T['en']['descs']['form'] = 'Ottavi Law Firm Inc. client questionnaire: your answers stay on your device.'
+
+# Private tool page (/outil/imm5710/), French only: Me Poughon turns a client's questionnaire PDF into the filled IMM 5710.
+T['fr']['titles']['outil'] = 'Remplir l’IMM 5710'
+T['fr']['descs']['outil'] = 'Outil interne : remplir le formulaire IMM 5710 à partir du questionnaire d’un client.'
+T['fr'].update(
+    outilEyebrow='Outil interne', outilTitle='Remplir l’IMM 5710',
+    outilLead="Déposez le PDF du questionnaire envoyé par le client : le formulaire IMM 5710 d’IRCC est rempli dans votre navigateur et téléchargé. Rien n'est envoyé sur Internet.",
+)

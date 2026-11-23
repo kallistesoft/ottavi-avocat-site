@@ -10,3 +10,7 @@ here with the default taken and keep working; ask only when it blocks.
 | 2026-11-23 | Intake form: fonts in the PDF | Noto Sans (covers Latin, Greek, Cyrillic); other scripts (Arabic, Chinese…) print as `?` | to validate |
 | 2026-11-23 | Intake form: answers as data in the PDF | `reponses.json` attached + a paperclip and a printed line on page 1 (icon shows in Acrobat, not in Preview or Chrome) | to validate |
 | 2026-11-23 | Intake form: privacy | page-only CSP `connect-src 'none'; form-action 'none'`, noindex, `robots.txt` Disallow, no analytics on the page | to validate |
+| 2026-11-23 | IMM 5710: who fills it | the client answers the questionnaire; Me Poughon drops the PDF on private `/outil/imm5710/`, which fills IRCC's form in her browser (owner's choice) | validated by the owner |
+| 2026-11-23 | IMM 5710: IUC and EIMT number | typed by Me Poughon on `/outil/imm5710/`, not asked to the client (owner) | validated by the owner |
+| 2026-11-23 | IMM 5710: IRCC lists on the English questionnaire | French labels (owner declined downloading the English form); questions translated by Claude | validated by the owner |
+| 2026-11-23 | IMM 5710: how the PDF is filled | incremental update (IRCC's bytes kept, XFA datasets re-encrypted with the form's key): certification and Reader rights stay valid | to validate |
