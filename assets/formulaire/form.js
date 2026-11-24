@@ -46,8 +46,8 @@
       doneWhere: (pages) => `Dans vos Téléchargements · ${pages} page${pages > 1 ? 's' : ''}`,
       sendTitle: 'Dernière étape : envoyez-le à Me Poughon',
       sendSteps: ['Cliquez sur « Écrire le courriel » ci-dessous : le courriel s’ouvre, adressé à Me Poughon.', 'Joignez le PDF : il est dans vos Téléchargements (un lien de courriel ne peut pas joindre de fichier).', 'Envoyez.'],
-      shareSteps: ['Touchez « Envoyer le PDF » et choisissez votre application de courriel : le PDF est déjà joint.', 'Collez l’adresse de Me Poughon comme destinataire (elle est copiée).', 'Envoyez.'],
-      share: 'Envoyer le PDF', copyAddr: 'Copier l’adresse', copied: 'Adresse copiée',
+      shareSteps: ['« Envoyer le PDF » : le PDF est déjà joint ; collez l’adresse de Me Poughon comme destinataire (elle est copiée).', 'Ou « Écrire le courriel » : l’adresse est remplie ; joignez le PDF depuis vos Téléchargements.'],
+      share: 'Envoyer le PDF (joint)', copyAddr: 'Copier l’adresse', copied: 'Adresse copiée',
       writeMail: 'Écrire le courriel', again: 'Télécharger à nouveau', edit: 'Modifier mes réponses', clearDevice: 'Effacer mes réponses de cet appareil',
       doneNote: (email) => `Adresse : ${email}. Vos réponses restent enregistrées sur cet appareil jusqu'à ce que vous les effaciez.`,
       mailSubject: (name) => `Questionnaire – ${name}`,
@@ -91,8 +91,8 @@
       doneWhere: (pages) => `In your Downloads · ${pages} page${pages > 1 ? 's' : ''}`,
       sendTitle: 'Last step: send it to Ms. Poughon',
       sendSteps: ['Click “Write the email” below: the email opens, addressed to Ms. Poughon.', 'Attach the PDF: it is in your Downloads (an email link cannot attach a file).', 'Send.'],
-      shareSteps: ['Tap “Send the PDF” and pick your email app: the PDF is already attached.', 'Paste Ms. Poughon’s address as the recipient (it is copied).', 'Send.'],
-      share: 'Send the PDF', copyAddr: 'Copy the address', copied: 'Address copied',
+      shareSteps: ['“Send the PDF”: the PDF is already attached; paste Ms. Poughon’s address as the recipient (it is copied).', 'Or “Write the email”: the address is filled in; attach the PDF from your Downloads.'],
+      share: 'Send the PDF (attached)', copyAddr: 'Copy the address', copied: 'Address copied',
       writeMail: 'Write the email', again: 'Download again', edit: 'Edit my answers', clearDevice: 'Clear my answers from this device',
       doneNote: (email) => `Address: ${email}. Your answers stay saved on this device until you clear them.`,
       mailSubject: (name) => `Questionnaire – ${name}`,
@@ -665,7 +665,7 @@
       h('p', { class: 'ik-send-title', text: UI.sendTitle }),
       h('ol', { class: 'ik-how' }, (canShare ? UI.shareSteps : UI.sendSteps).map((s) => h('li', { text: s }))),
       h('div', { class: 'btn-row' }, canShare
-        ? [shareBtn, copyBtn, h('button', { type: 'button', class: 'btn btn-outline', onclick: () => download(lastPdf.blob, lastPdf.name) }, [icon('down'), UI.again])]
+        ? [shareBtn, h('a', { class: 'btn btn-outline', href: mailto }, [icon('mail'), UI.writeMail]), copyBtn]
         : [
           h('a', { class: 'btn btn-primary', href: mailto }, [icon('mail'), UI.writeMail]),
           h('button', { type: 'button', class: 'btn btn-outline', onclick: () => download(lastPdf.blob, lastPdf.name) }, [icon('down'), UI.again])
