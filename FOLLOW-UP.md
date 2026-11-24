@@ -26,7 +26,8 @@ device, and the PDF is made in the browser and emailed by the client. Nothing re
 - [x] Francophone Mobility (2026-11-24): first question = where the client is; in Canada → IMM 5710, outside → IMM 1295; questionnaire version 3
 - [ ] IMM 5707 (family information) set aside by the owner: PDF + `assets/ircc/imm5707-map.js` kept; re-add to `tools/ircc/prepare.py` FORMS and the questionnaire when needed
 - [ ] Me Poughon reviews the questionnaire wording and the English translations of the questions
-- [ ] Open an IMM 5710 and an IMM 1295 filled by `/outil/mobilite-francophone/` in Acrobat Reader and click « Valider » with real-looking data: note any field it rejects
+- [x] « Valider » passes in Acrobat on an IMM 5710 (client in Canada) and an IMM 1295 (client in France) made by the tool (owner, 2026-11-24)
+- [ ] Re-run « Valider » on the first real client files (other statuses, permit types, US/phone cases not covered by the test client)
 - [ ] When IRCC publishes a new IMM 5710 or IMM 1295: replace the PDF in `tools/ircc/`, run `tools/ircc/prepare.py`, check the field paths in `assets/ircc/imm5710-map.js` / `imm1295-map.js`
 - [x] Address that receives the PDFs: `contact@vpavocat.com` (owner, 2026-11-23)
 - [ ] Privacy page: add a line saying the questionnaire keeps answers on the client's device and sends nothing (ask before legal wording)
