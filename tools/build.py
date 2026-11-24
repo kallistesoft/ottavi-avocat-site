@@ -13,7 +13,7 @@ import posixpath
 import re
 
 from legal import DRAFT_NOTE, LEGAL, UPDATED
-from content import (ADDRESS, AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, GUIDE_FREE, HIDDEN_PAGES, INSTALL_GUIDE, INSTA, LEGAL_PAGES, NEWSLETTER, PAGES,
+from content import (ADDRESS, AUDIT, AUDIT_STUDENT, CALENDLY, CALENDLY_FLASH, CV_FREE, EBOOK, EMAIL, FR_ONLY, GUIDE_FREE, HIDDEN_PAGES, INSTALL_GUIDE, INSTA, LEGAL_PAGES, NEWSLETTER, PAGES,
                      PHONE, PHONE_TEL, SITE, T, URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -567,7 +567,26 @@ def form(lang):
 </section>'''
 
 
-BODY = {'home': home, 'services': services, 'ressources': ressources, 'cabinet': cabinet, 'contact': contact, 'form': form}
+def outil(lang):
+    """Private tool: assets/ircc/outil.js fills IRCC's IMM 5710 (client in Canada) or IMM 1295 (outside) from a client's questionnaire PDF."""
+    t = T[lang]
+    return f'''{page_head(t["outilEyebrow"], t["outilTitle"], t["outilLead"])}
+
+<section class="imm-section">
+  <div class="wrap imm-wrap">
+    <div id="imm-tool"><noscript><p class="intake-noscript">Cet outil a besoin de JavaScript.</p></noscript></div>
+  </div>
+</section>'''
+
+
+BODY = {'home': home, 'services': services, 'ressources': ressources, 'cabinet': cabinet, 'contact': contact, 'form': form, 'outil': outil}
+
+# Scripts and styles of the hidden pages, after site.css/site.js.
+PAGE_ASSETS = {
+    'form': ['assets/formulaire/form.css', 'assets/formulaire/ircc-lists.js', 'assets/formulaire/form-def.js', 'assets/formulaire/form.js'],
+    'outil': ['assets/ircc/outil.css', 'assets/formulaire/vendor/pdf-lib.min.js', 'assets/formulaire/ircc-lists.js', 'assets/formulaire/form-def.js', 'assets/ircc/imm5710f.js',
+              'assets/ircc/imm1295f.js', 'assets/ircc/imm5710-map.js', 'assets/ircc/imm1295-map.js', 'assets/ircc/outil.js'],
+}
 
 # Form page only: nothing on it can send data (fetch, XHR, beacons, form posts), so the answers can't leave the device.
 FORM_CSP = ("default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; "
@@ -645,16 +664,15 @@ def render(lang, page):
     t = T[lang]
     hidden = page in HIDDEN_PAGES
     extra = assets = ''
-    if page == 'form':
+    if hidden:
         # The CSP meta must come first: it only covers what loads after it.
         extra = (f'<meta http-equiv="Content-Security-Policy" content="{FORM_CSP}">\n'
                  '<meta name="robots" content="noindex, nofollow">\n'
                  '<meta name="referrer" content="no-referrer">\n')
-        assets = (f'\n<link rel="stylesheet" href="/assets/formulaire/form.css?v={asset_version("assets/formulaire/form.css")}">'
-                  f'\n<script src="/assets/formulaire/form-def.js?v={asset_version("assets/formulaire/form-def.js")}" defer></script>'
-                  f'\n<script src="/assets/formulaire/form.js?v={asset_version("assets/formulaire/form.js")}" defer></script>')
+        assets = ''.join(f'\n<link rel="stylesheet" href="/{a}?v={asset_version(a)}">' if a.endswith('.css')
+                         else f'\n<script src="/{a}?v={asset_version(a)}" defer></script>' for a in PAGE_ASSETS[page])
     title = t['titles'][page] if page == 'home' else f'{t["titles"][page]} — Ottavi Law Firm Inc.'
-    alts = '\n'.join(f'<link rel="alternate" hreflang="{code}" href="{SITE}{URL[code][page]}">' for code in ('fr', 'en'))
+    alts = '' if page in HIDDEN_PAGES else '\n'.join(f'<link rel="alternate" hreflang="{code}" href="{SITE}{URL[code][page]}">' for code in ('fr', 'en'))
     other = 'en' if lang == 'fr' else 'fr'
     return f'''<!doctype html>
 <html lang="{lang}">
@@ -678,7 +696,7 @@ def render(lang, page):
 <meta property="og:locale:alternate" content="{'fr_CA' if other == 'fr' else 'en_CA'}">
 <meta name="twitter:card" content="summary_large_image">
 {alts}
-<link rel="alternate" hreflang="x-default" href="{SITE}{URL["fr"][page]}">
+{'' if page in HIDDEN_PAGES else f'<link rel="alternate" hreflang="x-default" href="{SITE}{URL["fr"][page]}">'}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -730,6 +748,8 @@ def main():
         f.write(sitemap())
     for lang in ('fr', 'en'):
         for page in PAGES + LEGAL_PAGES + HIDDEN_PAGES:
+            if lang != 'fr' and page in FR_ONLY:
+                continue
             here = URL[lang][page]
             path = os.path.join(ROOT, here.strip('/'), 'index.html')
             os.makedirs(os.path.dirname(path), exist_ok=True)

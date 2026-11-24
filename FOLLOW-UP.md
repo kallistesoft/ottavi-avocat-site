@@ -17,12 +17,18 @@ Guide, CV and newsletter are done: their buttons open her systeme.io pages (`/gu
 
 Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop working when `www` switches.
 
-## Intake form (`/formulaire/`, `/en/form/`)
+## Intake form (`/formulaire/mobilite-francophone/`, French only for now)
 
 Private link Me Poughon sends to clients: answers save in the client's browser, a progress file moves them to another
 device, and the PDF is made in the browser and emailed by the client. Nothing reaches a server.
 
-- [ ] Replace the made-up questions with Me Poughon's real ones: only `assets/formulaire/form-def.js` changes
+- [x] Questions = IMM 5710 (work permit inside Canada), in IRCC's wording (2026-11-23); questionnaire version 2
+- [x] Francophone Mobility (2026-11-24): first question = where the client is; in Canada → IMM 5710, outside → IMM 1295; questionnaire version 3
+- [ ] IMM 5707 (family information) set aside by the owner: PDF + `assets/ircc/imm5707-map.js` kept; re-add to `tools/ircc/prepare.py` FORMS and the questionnaire when needed
+- [ ] Me Poughon reviews the questionnaire wording and the English translations of the questions
+- [x] « Valider » passes in Acrobat on an IMM 5710 (client in Canada) and an IMM 1295 (client in France) made by the tool (owner, 2026-11-24)
+- [ ] Re-run « Valider » on the first real client files (other statuses, permit types, US/phone cases not covered by the test client)
+- [ ] When IRCC publishes a new IMM 5710 or IMM 1295: replace the PDF in `tools/ircc/`, run `tools/ircc/prepare.py`, check the field paths in `assets/ircc/imm5710-map.js` / `imm1295-map.js`
 - [x] Address that receives the PDFs: `contact@vpavocat.com` (owner, 2026-11-23)
 - [ ] Privacy page: add a line saying the questionnaire keeps answers on the client's device and sends nothing (ask before legal wording)
 - [ ] Test on a phone (iPhone Safari + Android Chrome): resume after closing the browser, progress file, PDF download

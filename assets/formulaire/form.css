@@ -11,15 +11,6 @@
 .ik-banner .ik-ico { color: var(--plum); margin-top: 2px; }
 .ik-banner.warn { background: #FFF6E5; border-color: #EBD3A0; }
 
-.ik-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.ik-step button { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; text-align: center; font-size: 13px; line-height: 1.3; color: var(--ink-3); padding-bottom: 2px; }
-.ik-step button:focus-visible { outline: 2px solid var(--plum); outline-offset: 3px; border-radius: 4px; }
-.ik-bar { display: block; height: 6px; border-radius: 3px; background: var(--line); margin-bottom: 7px; }
-.ik-step.done button { color: var(--ok); }
-.ik-step.done .ik-bar { background: var(--ok); }
-.ik-step.cur button { color: var(--plum); font-weight: 600; }
-.ik-step.cur .ik-bar { background: var(--plum); }
-
 .ik-status { font-size: 13px; color: var(--ink-3); margin: 12px 0 16px; display: flex; align-items: center; gap: 7px; }
 .ik-status::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--line-2); flex: none; }
 .ik-status.ok { color: var(--ok); }
@@ -28,16 +19,17 @@
 .ik-status.off::before { background: #D8A23A; }
 
 .ik-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 4vw, 32px); box-shadow: var(--shadow); }
+.ik-card .ik-eyebrow { display: none; } /* the tracker already says 6/11 */
 .ik-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--plum); margin-bottom: 6px; }
-.ik-card h2 { font-size: clamp(24px, 3vw, 30px); margin-bottom: 18px; }
+.ik-card h2 { font-size: clamp(24px, 3vw, 30px); margin-bottom: 20px; }
 .ik-card h2:focus { outline: none; }
-.ik-lead { color: var(--ink-2); margin: -8px 0 18px; }
+.ik-lead { color: var(--ink-2); margin: -10px 0 24px; }
 
 .ik-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
-.ik-card > .ik-f, .ik-card > .ik-group, .ik-card > .ik-repeat { margin-bottom: 4px; }
-.ik-f { margin-bottom: 16px; min-width: 0; }
+.ik-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 10px; }
+.ik-f { margin-bottom: 24px; min-width: 0; }
 .ik-grid > .ik-f.wide { grid-column: 1 / -1; }
-.ik-label { display: block; font-weight: 500; font-size: 15px; margin-bottom: 6px; color: var(--ink); padding: 0; }
+.ik-label { display: block; font-weight: 500; font-size: 15px; line-height: 1.4; margin-bottom: 8px; color: var(--ink); padding: 0; }
 .ik-f input, .ik-f select, .ik-f textarea {
   width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: #fff; border: 1px solid var(--line-2); border-radius: var(--radius-sm);
   padding: 10px 12px; min-height: 46px; appearance: none; -webkit-appearance: none;
@@ -46,10 +38,12 @@
 .ik-f textarea { min-height: 110px; resize: vertical; }
 .ik-f input:focus, .ik-f select:focus, .ik-f textarea:focus { outline: none; border-color: var(--plum); box-shadow: 0 0 0 3px var(--plum-tint); }
 .ik-f [aria-invalid="true"] { border-color: var(--bad); }
-.ik-hint { font-size: 13px; color: var(--ink-3); margin-top: 5px; }
-.ik-err { font-size: 13px; color: var(--bad); margin-top: 5px; }
+.ik-hint { font-size: 13px; line-height: 1.45; color: var(--ink-3); margin-top: 7px; }
+.ik-err { font-size: 13px; line-height: 1.45; color: var(--bad); margin-top: 7px; }
 
 .ik-radios { border: 0; margin: 0; padding: 0; min-width: 0; }
+.ik-radios > legend.ik-label { float: left; width: 100%; margin-bottom: 10px; }
+.ik-radios > legend + * { clear: both; }
 .ik-radios:focus { outline: none; }
 .ik-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .ik-chip { position: relative; cursor: pointer; }
@@ -59,18 +53,19 @@
 .ik-chip input:focus-visible + span { outline: 2px solid var(--plum); outline-offset: 2px; }
 .ik-radios[aria-invalid="true"] .ik-chip span { border-color: var(--bad); }
 
-.ik-group { border-left: 3px solid var(--plum-soft); padding: 2px 0 0 16px; margin: 2px 0 16px; }
-.ik-group-label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--plum); margin-bottom: 10px; }
+.ik-group { border-left: 3px solid var(--plum-soft); padding: 2px 0 0 18px; margin: 4px 0 28px; }
+.ik-group > .ik-grid > .ik-f:last-child, .ik-group > .ik-grid > :last-child .ik-f:last-child { margin-bottom: 4px; }
+.ik-group-label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--plum); margin-bottom: 14px; }
 
-.ik-repeat { display: grid; gap: 14px; margin-bottom: 18px; }
-.ik-item { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px 16px 2px; margin: 0; background: var(--bg); min-width: 0; }
-.ik-item legend { font-family: var(--serif); font-size: 18px; padding: 0 6px; margin-left: -6px; }
+.ik-repeat { display: grid; gap: 16px; margin-bottom: 28px; }
+.ik-item { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 16px 18px 4px; margin: 0; background: var(--bg); min-width: 0; }
+.ik-item > legend { font-family: var(--serif); font-size: 18px; padding: 0 6px; margin-left: -6px; }
 .ik-remove { all: unset; cursor: pointer; float: right; font-size: 13px; color: var(--ink-3); margin: -4px 0 8px; text-decoration: underline; text-underline-offset: 3px; }
 .ik-remove:hover { color: var(--bad); }
 .ik-remove:focus-visible { outline: 2px solid var(--plum); outline-offset: 2px; border-radius: 3px; }
 .ik-add { justify-self: start; }
 
-.ik-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 20px; }
+.ik-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; }
 .ik-nav .btn, .ik-done .btn { display: inline-flex; align-items: center; gap: 8px; }
 .ik-nav .btn[disabled] { opacity: .7; cursor: progress; }
 
@@ -79,7 +74,7 @@
 .ik-missing ul { margin: 0; padding-left: 18px; }
 .ik-missing li { margin: 2px 0; }
 
-.ik-tools { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--line-2); }
+.ik-tools { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-top: 32px; padding-top: 20px; border-top: 1px dashed var(--line-2); }
 .ik-link { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; color: var(--plum); font-size: 15px; font-weight: 500; text-align: left; }
 .ik-link:hover { color: var(--plum-dark); text-decoration: underline; text-underline-offset: 3px; }
 .ik-link:focus-visible { outline: 2px solid var(--plum); outline-offset: 3px; border-radius: 4px; }
@@ -107,9 +102,73 @@
 .ik-dialog h2 { font-size: 24px; margin-bottom: 10px; }
 .ik-dialog p { color: var(--ink-2); margin-bottom: 18px; }
 
+/* Checkbox = a full-width option card, plum when checked (same language as the Oui/Non chips). */
+.ik-check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: 15px; line-height: 1.45; padding: 13px 14px; background: #fff; border: 1px solid var(--line-2); border-radius: var(--radius-sm); transition: border-color .15s, background .15s; }
+.ik-check:hover { border-color: var(--plum-soft); }
+.ik-check:has(input:checked) { border-color: var(--plum); background: var(--plum-tint); color: var(--plum-dark); }
+.ik-check:has(input:focus-visible) { outline: 2px solid var(--plum); outline-offset: 2px; }
+.ik-check input:focus-visible { outline: none; }
+/* Checkboxes: undo the text-input look of .ik-f input (it stretched them into tall ovals). */
+.ik-f .ik-check input { width: 22px; height: 22px; min-height: 0; padding: 0; margin: 0; border-radius: 4px; flex: none; appearance: auto; -webkit-appearance: checkbox; accent-color: var(--plum); background: none; box-shadow: none; }
+.ik-f:has(.ik-check) { margin-bottom: 10px; }
+.ik-info { grid-column: 1 / -1; margin: 0 0 24px; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--tint); color: var(--ink-2); font-size: 14px; line-height: 1.5; }
+.ik-label { overflow-wrap: anywhere; }
+
+/* Locked value (type 'fixed'), e.g. Canada for a client already in Canada. */
+.ik-f input.ik-fixed, .ik-f input.ik-fixed:focus { background: var(--tint); color: var(--ink-2); border-color: var(--line); box-shadow: none; cursor: not-allowed; }
+
+/* Progress tracker: count, section menu, bar. */
+.ik-msteps { margin-bottom: 4px; }
+.ik-msteps-row { display: flex; align-items: center; gap: 10px; }
+.ik-msteps-count { flex: none; min-width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--plum); color: #fff; font-weight: 600; font-size: 14px; font-variant-numeric: tabular-nums; }
+.ik-msteps-select {
+  flex: 1; min-width: 0; font: inherit; font-size: 16px; font-weight: 600; color: var(--ink); background: #fff; border: 1px solid var(--line-2); border-radius: var(--radius-sm);
+  min-height: 48px; padding: 10px 38px 10px 14px; appearance: none; -webkit-appearance: none; text-overflow: ellipsis;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%239B3F78' stroke-width='1.8'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center;
+}
+.ik-msteps-select:focus { outline: none; border-color: var(--plum); box-shadow: 0 0 0 3px var(--plum-tint); }
+.ik-mbar { height: 6px; border-radius: 3px; background: var(--line); margin-top: 12px; overflow: hidden; }
+.ik-mbar-fill { display: block; height: 100%; background: var(--ok); border-radius: 3px; transition: width .3s; }
+
+/* ---------- Phones ---------- */
+@media (max-width: 760px) {
+
+  /* Private pages: no booking bar over the form. */
+  body.page-form, body.page-outil { padding-bottom: 0; }
+  .page-form .mobile-bar, .page-outil .mobile-bar { display: none; }
+
+  /* Shorter page head: the questions start on the first screen. */
+  .page-form .page-head { padding: 28px 0 24px; }
+  .page-form .page-head .wrap { gap: 10px; }
+  .page-form .page-head h1 { font-size: 30px; }
+  .page-form .page-head .lead { font-size: 15px; line-height: 1.55; }
+  .intake-section { padding-top: 20px; padding-bottom: 48px; }
+
+  .ik-card { padding: 22px 18px 4px; }
+  .ik-card h2 { font-size: 25px; margin-bottom: 16px; }
+  .ik-group { padding-left: 14px; }
+  .ik-item { padding: 14px 14px 4px; }
+  /* Chips fill the line: Oui / Non side by side, long answers one per line. */
+  .ik-chip { flex: 1 1 auto; }
+  .ik-chip span { display: block; text-align: center; padding: 11px 18px; }
+  .ik-chips { gap: 10px; }
+
+  /* Previous / next stay at the bottom of the screen while the section scrolls. */
+  .ik-nav {
+    position: sticky; bottom: 0; z-index: 20; margin: 20px -16px 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: rgba(250, 247, 242, .97); border-top: 1px solid var(--line); box-shadow: 0 -6px 20px rgba(31, 26, 28, .06);
+  }
+  .ik-nav .btn { min-height: 48px; justify-content: center; padding-left: 18px; padding-right: 18px; }
+  .ik-nav .btn-primary { flex: 1; }
+  .ik-nav > span:empty { display: none; }
+
+  /* Save / resume / clear: one per line, easy to tap. */
+  .ik-tools, .ik-done-links { flex-direction: column; gap: 16px; }
+}
 @media (max-width: 600px) {
   .ik-grid { grid-template-columns: 1fr; }
-  .ik-steps { gap: 5px; }
-  .ik-step button { font-size: 11.5px; }
-  .ik-nav .btn { padding-left: 18px; padding-right: 18px; }
+  .ik-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+/* The last block of a group or repeated item carries no extra bottom space. */
+.ik-group .ik-grid > :last-child, .ik-item .ik-grid > :last-child { margin-bottom: 6px; }
+.ik-item .ik-grid > .ik-f:last-child { margin-bottom: 14px; }

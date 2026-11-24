@@ -36,15 +36,18 @@
       otherVersion: "Ce fichier vient d'une autre version du questionnaire et ne peut pas être repris.",
       choose: 'Choisir…',
       required: 'Cette réponse est obligatoire.', email: 'Indiquez une adresse courriel valide, par exemple nom@exemple.com.',
-      date: 'Indiquez une date complète.', number: (min, max) => `Indiquez un nombre entre ${min} et ${max}.`,
+      date: 'Indiquez une date complète.', notFuture: 'Cette date ne peut pas être après aujourd’hui.', future: 'Cette date doit être après aujourd’hui.', notPast: 'Cette date doit être aujourd’hui ou plus tard.', after: 'Cette date doit être après la date de début.', notBefore: 'Cette date ne peut pas être avant la date de début.', month: 'Indiquez le mois et l’année.', format: 'Vérifiez le format de cette réponse.', checked: 'Oui', number: (min, max) => `Indiquez un nombre entre ${min} et ${max}.`,
       remove: 'Retirer', item: (label, n) => `${label} ${n}`,
+      jump: 'Aller à une section', finished: 'PDF', sectionsDone: (n, all) => `${n} section${n > 1 ? 's' : ''} sur ${all} terminée${n > 1 ? 's' : ''}`,
       missingTitle: 'Il manque quelques réponses avant de créer le PDF :',
       working: 'Création du PDF…',
       pdfError: "Le PDF n'a pas pu être créé. Réessayez ; si cela continue, enregistrez votre avancement et écrivez-nous.",
       doneTitle: 'Votre PDF est prêt', doneLead: "Il a été créé sur votre appareil. Rien n'a été envoyé sur Internet.",
       doneWhere: (pages) => `Dans vos Téléchargements · ${pages} page${pages > 1 ? 's' : ''}`,
       sendTitle: 'Dernière étape : envoyez-le à Me Poughon',
-      sendSteps: ['Cliquez sur « Écrire le courriel » ci-dessous.', 'Joignez le PDF depuis vos Téléchargements.', 'Envoyez.'],
+      sendSteps: ['Cliquez sur « Écrire le courriel » ci-dessous : le courriel s’ouvre, adressé à Me Poughon.', 'Joignez le PDF : il est dans vos Téléchargements (un lien de courriel ne peut pas joindre de fichier).', 'Envoyez.'],
+      shareSteps: ['Cliquez sur « Envoyer le PDF » et choisissez votre application de courriel : le PDF est déjà joint.', 'Collez l’adresse de Me Poughon comme destinataire : elle est copiée.', 'Envoyez.'],
+      share: 'Envoyer le PDF',
       writeMail: 'Écrire le courriel', again: 'Télécharger à nouveau', edit: 'Modifier mes réponses', clearDevice: 'Effacer mes réponses de cet appareil',
       doneNote: (email) => `Adresse : ${email}. Vos réponses restent enregistrées sur cet appareil jusqu'à ce que vous les effaciez.`,
       mailSubject: (name) => `Questionnaire – ${name}`,
@@ -78,15 +81,18 @@
       otherVersion: 'This file comes from another version of the questionnaire and cannot be restored.',
       choose: 'Choose…',
       required: 'This answer is required.', email: 'Enter a valid email address, for example name@example.com.',
-      date: 'Enter a full date.', number: (min, max) => `Enter a number between ${min} and ${max}.`,
+      date: 'Enter a full date.', notFuture: 'This date cannot be after today.', future: 'This date must be after today.', notPast: 'This date must be today or later.', after: 'This date must be after the start date.', notBefore: 'This date cannot be before the start date.', month: 'Enter the month and year.', format: 'Check the format of this answer.', checked: 'Yes', number: (min, max) => `Enter a number between ${min} and ${max}.`,
       remove: 'Remove', item: (label, n) => `${label} ${n}`,
+      jump: 'Go to a section', finished: 'PDF', sectionsDone: (n, all) => `${n} of ${all} section${all > 1 ? 's' : ''} done`,
       missingTitle: 'A few answers are missing before the PDF can be created:',
       working: 'Creating the PDF…',
       pdfError: "The PDF couldn't be created. Try again; if it keeps failing, save your progress and write to us.",
       doneTitle: 'Your PDF is ready', doneLead: 'It was created on your device. Nothing was sent over the Internet.',
       doneWhere: (pages) => `In your Downloads · ${pages} page${pages > 1 ? 's' : ''}`,
       sendTitle: 'Last step: send it to Ms. Poughon',
-      sendSteps: ['Click “Write the email” below.', 'Attach the PDF from your Downloads.', 'Send.'],
+      sendSteps: ['Click “Write the email” below: the email opens, addressed to Ms. Poughon.', 'Attach the PDF: it is in your Downloads (an email link cannot attach a file).', 'Send.'],
+      shareSteps: ['Click “Send the PDF” and pick your email app: the PDF is already attached.', 'Paste Ms. Poughon’s address as the recipient: it is copied.', 'Send.'],
+      share: 'Send the PDF',
       writeMail: 'Write the email', again: 'Download again', edit: 'Edit my answers', clearDevice: 'Clear my answers from this device',
       doneNote: (email) => `Address: ${email}. Your answers stay saved on this device until you clear them.`,
       mailSubject: (name) => `Questionnaire – ${name}`,
@@ -103,7 +109,16 @@
     }
   }[LANG];
 
-  const L = (o) => (o ? o[LANG] || o.fr : '');
+  const L = (o) => (typeof o === 'string' ? o : o ? o[LANG] || o.fr : '');
+  const LISTS = window.IRCC_LISTS || {};
+  // Fields whose value picks another field's list (province -> cities): changing them redraws the section.
+  const LIST_KEYS = new Set();
+  (function collect(fields) {
+    for (const f of fields) {
+      if (f.listBy) LIST_KEYS.add(f.listBy);
+      if (f.fields) collect(f.fields);
+    }
+  })(DEF.sections.flatMap((s) => s.fields));
 
   // ---------- state and storage ----------
   const storageOk = (() => {
@@ -167,6 +182,11 @@
     for (const p of parts) { if (v == null) return ''; v = v[p]; }
     return v == null ? '' : v;
   }
+  function rawAt(path) {
+    let v = state.answers;
+    for (const p of path.split('.')) { if (v == null) return undefined; v = v[p]; }
+    return v;
+  }
   function setAt(path, value) {
     const parts = path.split('.');
     let o = state.answers;
@@ -185,11 +205,22 @@
   }
 
   // ---------- rules ----------
+  function valueIn(key, scope) {
+    return scope && Object.prototype.hasOwnProperty.call(scope, key) ? scope[key] : state.answers[key];
+  }
+  // showIf: one condition or a list (shown if any matches). { field, in: [...] } or { field, notIn: [...] }.
   function shown(field, scope) {
     if (!field.showIf) return true;
-    const key = field.showIf.field;
-    const v = scope && Object.prototype.hasOwnProperty.call(scope, key) ? scope[key] : state.answers[key];
-    return field.showIf.in.indexOf(v) !== -1;
+    return [].concat(field.showIf).some((c) => {
+      const v = valueIn(c.field, scope);
+      return c.in ? c.in.indexOf(v) !== -1 : c.notIn.indexOf(v == null ? '' : v) === -1;
+    });
+  }
+  function optionsOf(field, scope) {
+    if (field.options) return field.options;
+    let list = LISTS[field.list] || [];
+    if (field.listBy) list = list[valueIn(field.listBy, scope)] || [];
+    return list.map(([value, label]) => ({ value, label }));
   }
   // Visible answerable fields of a section, flattened: [{ field, path, scope, owner }]
   function leaves(section) {
@@ -198,6 +229,7 @@
     const walk = (fields, prefix, scope, where) => {
       for (const f of fields) {
         if (!shown(f, scope)) continue;
+        if (f.type === 'note' || f.type === 'fixed') continue;
         if (f.type === 'group') walk(f.fields, prefix, scope, where.concat(L(f.label)));
         else if (f.type === 'repeat') items(f).forEach((item, i) => walk(f.fields, `${prefix}${f.id}.${i}.`, item, where.concat(UI.item(L(f.label), i + 1))));
         else out.push({ field: f, path: prefix + f.id, scope, where });
@@ -206,11 +238,28 @@
     walk(section.fields, '', null, []);
     return out;
   }
-  function errorFor(field, value) {
+  function errorFor(field, value, scope) {
     const v = String(value == null ? '' : value).trim();
-    if (!v) return field.required ? (field.type === 'date' ? UI.date : UI.required) : '';
+    // requiredUnless: 'id' = required when that other answer is empty (e.g. street number unless a P.O. box).
+    if (!v && field.requiredUnless && !String(valueIn(field.requiredUnless, scope) || '').trim()) return UI.required;
+    if (!v) return field.required ? (field.type === 'date' ? UI.date : field.type === 'month' ? UI.month : UI.required) : '';
     if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return UI.email;
     if (field.type === 'date' && !/^\d{4}-\d{2}-\d{2}$/.test(v)) return UI.date;
+    // IRCC's own date rules (from the forms' validation scripts):
+    // notFuture = today or before; future = after today; notPast = today or later;
+    // after: 'id' = after that date; notBefore: 'id' = that date or later (same item, or top level).
+    if (field.type === 'date') {
+      const now = today();
+      if (field.notFuture && v > now) return UI.notFuture;
+      if (field.future && v <= now) return field.futureMsg ? L(field.futureMsg) : UI.future;
+      if (field.notPast && v < now) return UI.notPast;
+      const other = (id) => String(valueIn(id, scope) || '').trim();
+      if (field.after && other(field.after) && v <= other(field.after)) return UI.after;
+      if (field.notBefore && other(field.notBefore) && v < other(field.notBefore)) return UI.notBefore;
+      if (field.notAfter && other(field.notAfter) && v > other(field.notAfter)) return field.notAfterMsg ? L(field.notAfterMsg) : UI.format;
+    }
+    if (field.type === 'month' && !/^\d{4}-\d{2}$/.test(v)) return UI.month;
+    if (field.pattern && !new RegExp(field.pattern).test(v)) return field.patternMsg ? L(field.patternMsg) : UI.format;
     if (field.type === 'number') {
       const n = Number(v);
       const min = field.min != null ? field.min : -Infinity;
@@ -221,7 +270,7 @@
   }
   function problems(section) {
     return leaves(section)
-      .map((l) => ({ ...l, msg: errorFor(l.field, getAt(l.path)) }))
+      .map((l) => ({ ...l, msg: errorFor(l.field, getAt(l.path), l.scope) }))
       .filter((l) => l.msg);
   }
   const isDone = (section) => problems(section).length === 0;
@@ -235,21 +284,31 @@
     return new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(d);
   }
   const fmtStamp = (iso) => fmtDate(new Date(iso || Date.now()).toISOString().slice(0, 10));
-  function display(field, value) {
+  function fmtMonth(v) {
+    const m = /^(\d{4})-(\d{2})$/.exec(v || '');
+    if (!m) return v || '';
+    return new Intl.DateTimeFormat(LOCALE, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(Date.UTC(+m[1], +m[2] - 1, 1)));
+  }
+  function display(field, value, scope) {
     const v = String(value == null ? '' : value).trim();
     if (!v) return field.empty ? L(field.empty) : UI.empty;
-    if (field.options) {
-      const o = field.options.find((x) => x.value === v);
+    if (field.type === 'checkbox') return UI.checked;
+    if (field.options || field.list) {
+      const o = optionsOf(field, scope).find((x) => x.value === v);
       return o ? L(o.label) : v;
     }
     if (field.type === 'date') return fmtDate(v);
+    if (field.type === 'month') return fmtMonth(v);
     return v;
   }
   const today = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   };
-  const clientName = () => String(state.answers.fullName || '').trim();
+  const clientName = () => {
+    const a = state.answers;
+    return [a.givenNames, a.familyName].filter(Boolean).join(' ').trim() || String(a.fullName || '').trim();
+  };
   const slug = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const domId = (path) => 'ik-' + path.replace(/\./g, '-');
 
@@ -282,7 +341,13 @@
   // ---------- layout ----------
   root.textContent = '';
   const banners = h('div', { class: 'ik-banners' });
-  const steps = h('ol', { class: 'ik-steps' });
+  // Progress: "6/11", a menu of the sections (✓ = done) to jump to any of them, and one bar of sections done.
+  // (11 sections: a row of step labels didn't fit, even on a computer.)
+  const mJump = h('select', { class: 'ik-msteps-select', 'aria-label': UI.jump, onchange: (e) => { const i = +e.target.value; if (i >= 0) goTo(i); } });
+  const mCount = h('span', { class: 'ik-msteps-count', 'aria-hidden': 'true' });
+  const mFill = h('span', { class: 'ik-mbar-fill' });
+  const mBar = h('div', { class: 'ik-mbar', role: 'img' }, mFill);
+  const msteps = h('div', { class: 'ik-msteps' }, [h('div', { class: 'ik-msteps-row' }, [mCount, mJump]), mBar]);
   const status = h('p', { class: 'ik-status', 'aria-live': 'off' });
   const main = h('div', { class: 'ik-main' });
   const live = h('p', { class: 'ik-toast', role: 'status', 'aria-live': 'polite' });
@@ -293,7 +358,7 @@
     h('button', { type: 'button', class: 'ik-link muted', onclick: clearAll }, UI.clear),
     fileInput
   ]);
-  root.append(banners, steps, status, main, live, tools);
+  root.append(banners, msteps, status, main, live, tools);
 
   function icon(kind) {
     const paths = {
@@ -337,17 +402,14 @@
   setInterval(renderStatus, 15000);
 
   function renderSteps(view) {
-    steps.textContent = '';
-    DEF.sections.forEach((sec, i) => {
-      const done = isDone(sec);
-      const cur = view === 'form' && i === state.section;
-      const btn = h('button', { type: 'button', 'aria-current': cur ? 'step' : null, onclick: () => goTo(i) }, [
-        h('span', { class: 'ik-bar', 'aria-hidden': 'true' }),
-        h('span', { class: 'ik-step-label' }, [done ? '✓ ' : '', L(sec.title)]),
-        done ? h('span', { class: 'sr-only', text: ' ✓' }) : null
-      ]);
-      steps.append(h('li', { class: 'ik-step' + (done ? ' done' : '') + (cur ? ' cur' : '') }, btn));
-    });
+    const doneN = doneCount();
+    mJump.textContent = '';
+    DEF.sections.forEach((sec, i) => mJump.append(h('option', { value: String(i), text: `${i + 1}. ${L(sec.title)}${isDone(sec) ? '  ✓' : ''}` })));
+    if (view !== 'form') mJump.append(h('option', { value: '-1', text: UI.finished }));
+    mJump.value = view === 'form' ? String(state.section) : '-1';
+    mCount.textContent = view === 'form' ? `${state.section + 1}/${N}` : '✓';
+    mFill.style.width = `${Math.round((doneN / N) * 100)}%`;
+    mBar.setAttribute('aria-label', UI.sectionsDone(doneN, N));
   }
 
   // ---------- form view ----------
@@ -394,17 +456,26 @@
 
   function renderFields(parent, fields, prefix, scope) {
     for (const f of fields) {
-      if (f.type === 'group') {
+      if (f.type === 'note') {
+        parent.append(h('p', { class: 'ik-info', 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix, text: L(f.text) }));
+      } else if (f.type === 'fixed') {
+        // A value set by the questionnaire itself (e.g. Canada), shown locked: nothing to answer.
+        const id = domId(prefix + f.id);
+        parent.append(h('div', { class: 'ik-f', 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix }, [
+          h('label', { class: 'ik-label', for: id, text: L(f.label) }),
+          h('input', { id, type: 'text', value: L(f.text), readonly: true, 'aria-readonly': 'true', class: 'ik-fixed', tabindex: '-1' })
+        ]));
+      } else if (f.type === 'group') {
         const box = h('div', { class: 'ik-group', 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix }, [
           h('p', { class: 'ik-group-label', text: L(f.label) })
         ]);
-        const grid = h('div', { class: 'ik-grid' });
+        const grid = h('div', { class: 'ik-grid' + (f.cols === 3 ? ' cols-3' : '') });
         box.append(grid);
         renderFields(grid, f.fields, prefix, scope);
         parent.append(box);
       } else if (f.type === 'repeat') {
         const list = items(f);
-        const wrap = h('div', { class: 'ik-repeat' });
+        const wrap = h('div', { class: 'ik-repeat', 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix });
         list.forEach((item, i) => {
           const p = `${prefix}${f.id}.${i}.`;
           const fs = h('fieldset', { class: 'ik-item' }, [
@@ -416,19 +487,20 @@
           renderFields(grid, f.fields, p, item);
           wrap.append(fs);
         });
-        wrap.append(h('button', {
+        if (!f.max || list.length < f.max) wrap.append(h('button', {
           type: 'button', class: 'btn btn-outline btn-sm ik-add',
           onclick: () => { list.push({}); changed(); renderForm(); const n = list.length - 1; const el = document.getElementById(domId(`${prefix}${f.id}.${n}.${f.fields[0].id}`)); if (el) el.focus(); }
         }, '+ ' + L(f.add)));
         parent.append(wrap);
       } else {
-        parent.append(fieldEl(f, prefix + f.id, prefix));
+        parent.append(fieldEl(f, prefix + f.id, prefix, scope));
       }
     }
   }
 
-  function fieldEl(f, path, prefix) {
+  function fieldEl(f, path, prefix, scope) {
     const id = domId(path);
+    if (f.default != null && rawAt(path) === undefined) setAt(path, f.default);
     const value = getAt(path);
     const err = h('p', { class: 'ik-err', id: id + '-err', hidden: true });
     const hint = f.hint ? h('p', { class: 'ik-hint', id: id + '-hint', text: L(f.hint) }) : null;
@@ -447,9 +519,17 @@
       control.append(chips);
       return h('div', { class: 'ik-f wide', 'data-field': path, 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix }, [control, hint, err]);
     }
+    if (f.type === 'checkbox') {
+      return h('div', { class: 'ik-f wide', 'data-field': path, 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix }, [
+        h('label', { class: 'ik-check' }, [
+          h('input', { type: 'checkbox', id, 'data-path': path, value: 'Y', checked: value === 'Y', 'aria-describedby': describedby }),
+          h('span', { text: L(f.label) })
+        ]), hint, err
+      ]);
+    }
     const common = { id, name: path, 'data-path': path, 'aria-describedby': describedby, required: f.required, autocomplete: f.autocomplete || 'off' };
     if (f.type === 'select') {
-      control = h('select', common, [h('option', { value: '', text: UI.choose })].concat(f.options.map((o) => h('option', { value: o.value, text: L(o.label) }))));
+      control = h('select', common, [h('option', { value: '', text: UI.choose })].concat(optionsOf(f, scope).map((o) => h('option', { value: o.value, text: L(o.label) }))));
       control.value = value;
     } else if (f.type === 'textarea') {
       control = h('textarea', { ...common, rows: '4' });
@@ -457,7 +537,8 @@
     } else {
       control = h('input', {
         ...common, type: f.type === 'number' ? 'text' : f.type, inputmode: f.type === 'number' ? 'numeric' : null,
-        min: f.min, max: f.max
+        placeholder: f.type === 'month' ? (LANG === 'fr' ? 'AAAA-MM' : 'YYYY-MM') : f.placeholder || null,
+        min: f.notPast || f.future ? today() : f.min, max: f.notFuture ? today() : f.max
       });
       control.value = value;
     }
@@ -471,8 +552,14 @@
     const path = el.dataset && el.dataset.path;
     if (!path) return;
     if (el.type === 'radio' && !el.checked) return;
-    setAt(path, el.value);
+    setAt(path, el.type === 'checkbox' ? (el.checked ? 'Y' : '') : el.value);
     changed();
+    if (e.type === 'change' && LIST_KEYS.has(path.split('.').pop())) {
+      renderForm();
+      const again = document.getElementById(domId(path));
+      if (again) again.focus();
+      return;
+    }
     refreshVisibility();
     renderSteps('form');
     const box = document.querySelector(`[data-field="${CSS.escape(path)}"] .ik-err`);
@@ -488,24 +575,24 @@
     });
   }
 
-  function fieldDef(path) {
+  function leafAt(path) {
     const sec = DEF.sections[state.section];
-    const l = leaves(sec).find((x) => x.path === path);
-    return l && l.field;
+    return leaves(sec).find((x) => x.path === path);
   }
 
   // onlyIfFilled: on leaving a field, flag a wrong format but not an empty required answer (that waits for "Next").
   function showError(path, onlyIfFilled) {
-    const f = fieldDef(path);
+    const l = leafAt(path);
+    const f = l && l.field;
     const wrap = document.querySelector(`[data-field="${CSS.escape(path)}"]`);
     if (!wrap) return;
     const box = wrap.querySelector('.ik-err');
     const value = getAt(path);
-    let msg = f ? errorFor(f, value) : '';
+    let msg = f ? errorFor(f, value, l.scope) : '';
     if (onlyIfFilled && !String(value).trim()) msg = box.hidden ? '' : msg;
     box.textContent = msg;
     box.hidden = !msg;
-    const control = wrap.querySelector('input:not([type=radio]), select, textarea, fieldset');
+    const control = wrap.querySelector('input:not([type=radio]):not([type=checkbox]), select, textarea, fieldset');
     if (control) control.setAttribute('aria-invalid', msg ? 'true' : 'false');
   }
 
@@ -554,6 +641,20 @@
     renderSteps('done');
     const name = clientName();
     const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(UI.mailSubject(name))}&body=${encodeURIComponent(UI.mailBody(name))}`;
+    // A mailto: link can't attach a file. Where the device can share files (phones, Safari, Edge…), the share sheet
+    // opens the email app with the PDF already attached; the recipient can't be set that way, so the address is copied.
+    const file = new File([lastPdf.blob], lastPdf.name, { type: 'application/pdf' });
+    let canShare = false;
+    try { canShare = !!(navigator.canShare && navigator.canShare({ files: [file] })); } catch (e) { canShare = false; }
+    const copyAddress = async () => {
+      try { await navigator.clipboard.writeText(EMAIL); return true; } catch (e) { return false; }
+    };
+    const shareBtn = h('button', { type: 'button', class: 'btn btn-primary', onclick: async () => {
+      await copyAddress();
+      try {
+        await navigator.share({ files: [file], title: UI.mailSubject(name), text: UI.mailBody(name) + '\n\n' + EMAIL });
+      } catch (e) { /* closed by the client */ }
+    } }, [icon('mail'), UI.share]);
     main.textContent = '';
     main.append(h('div', { class: 'ik-card ik-done' }, [
       h('div', { class: 'ik-big-ok', 'aria-hidden': 'true' }, icon('check')),
@@ -561,11 +662,13 @@
       h('p', { class: 'ik-lead', text: UI.doneLead }),
       h('div', { class: 'ik-file' }, [icon('doc'), h('span', {}, [h('strong', { text: lastPdf.name }), h('small', { text: UI.doneWhere(lastPdf.pages) })])]),
       h('p', { class: 'ik-send-title', text: UI.sendTitle }),
-      h('ol', { class: 'ik-how' }, UI.sendSteps.map((s) => h('li', { text: s }))),
-      h('div', { class: 'btn-row' }, [
-        h('a', { class: 'btn btn-primary', href: mailto }, [icon('mail'), UI.writeMail]),
-        h('button', { type: 'button', class: 'btn btn-outline', onclick: () => download(lastPdf.blob, lastPdf.name) }, [icon('down'), UI.again])
-      ]),
+      h('ol', { class: 'ik-how' }, (canShare ? UI.shareSteps : UI.sendSteps).map((s) => h('li', { text: s }))),
+      h('div', { class: 'btn-row' }, canShare
+        ? [shareBtn]
+        : [
+          h('a', { class: 'btn btn-primary', href: mailto }, [icon('mail'), UI.writeMail]),
+          h('button', { type: 'button', class: 'btn btn-outline', onclick: () => download(lastPdf.blob, lastPdf.name) }, [icon('down'), UI.again])
+        ]),
       h('p', { class: 'ik-note', text: UI.doneNote(EMAIL) }),
       h('div', { class: 'ik-done-links' }, [
         h('button', { type: 'button', class: 'ik-link', onclick: () => goTo(0) }, '← ' + UI.edit),
@@ -672,16 +775,18 @@
     };
     const fieldsOut = (fields, prefix, scope) => {
       for (const f of fields) {
-        if (!shown(f, scope)) continue;
+        if (!shown(f, scope) || f.type === 'note') continue;
         if (f.type === 'group') {
           subhead(L(f.label));
           fieldsOut(f.fields, prefix, scope);
+        } else if (f.type === 'fixed') {
+          row(L(f.label), L(f.text));
         } else if (f.type === 'repeat') {
           items(f).forEach((item, i) => {
             subhead(UI.item(L(f.label), i + 1));
             fieldsOut(f.fields, `${prefix}${f.id}.${i}.`, item);
           });
-        } else row(L(f.label), display(f, getAt(prefix + f.id)));
+        } else row(L(f.label), display(f, getAt(prefix + f.id), scope));
       }
     };
     DEF.sections.forEach((sec, i) => {

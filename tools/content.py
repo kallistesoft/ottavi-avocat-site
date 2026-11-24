@@ -24,10 +24,12 @@ ADDRESS = dict(street='204, rue du Saint-Sacrement, bureau 300', city='Montréal
 PAGES = ['home', 'services', 'ressources', 'cabinet', 'contact']
 LEGAL_PAGES = ['cgv', 'privacy']
 # Reachable only by a link Me Poughon sends: noindex, not in the nav, the sitemap or robots-allowed paths.
-HIDDEN_PAGES = ['form']
+HIDDEN_PAGES = ['form', 'outil']
+# French only: no English version is generated.
+FR_ONLY = ['form', 'outil']
 URL = {
-    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/', 'form': '/formulaire/'},
-    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/', 'form': '/en/form/'},
+    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/', 'form': '/formulaire/mobilite-francophone/', 'outil': '/outil/mobilite-francophone/'},
+    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/', 'form': '/en/', 'outil': '/en/'},
 }
 T = {
     'fr': dict(
@@ -250,7 +252,7 @@ T['en'].update(
     studentBonus="<strong>A little extra:</strong> if you then entrust us with your entire application, your $49 is fully deducted from our fee.",
 )
 
-# Intake form page (/formulaire/, /en/form/): the questions are in assets/formulaire/form-def.js.
+# Intake form page (/formulaire/mobilite-francophone/, French only for now): the questions are in assets/formulaire/form-def.js.
 T['fr'].update(
     formEyebrow='Questionnaire client', formTitle="Votre questionnaire",
     formLead="Répondez à votre rythme : vos réponses s'enregistrent sur votre appareil et ne sont envoyées nulle part. À la fin, vous créez un PDF et vous l'envoyez à Me Poughon par courriel.",
@@ -265,3 +267,11 @@ T['en'].update(
 )
 T['en']['titles']['form'] = 'Client questionnaire'
 T['en']['descs']['form'] = 'Ottavi Law Firm Inc. client questionnaire: your answers stay on your device.'
+
+# Private tool page (/outil/mobilite-francophone/), French only: Me Poughon turns a client's questionnaire PDF into the filled IMM 5710 (in Canada) or IMM 1295 (outside Canada).
+T['fr']['titles']['outil'] = 'Mobilité francophone : IMM 5710 ou IMM 1295'
+T['fr']['descs']['outil'] = 'Outil interne : remplir le formulaire IMM 5710 ou IMM 1295 à partir du questionnaire d’un client.'
+T['fr'].update(
+    outilEyebrow='Outil interne', outilTitle='Mobilité francophone : IMM 5710 ou IMM 1295',
+    outilLead="Déposez le PDF du questionnaire envoyé par le client : le formulaire d’IRCC est rempli dans votre navigateur : IMM 5710 si le client est au Canada, IMM 1295 s’il est à l’extérieur. Rien n'est envoyé sur Internet.",
+)
