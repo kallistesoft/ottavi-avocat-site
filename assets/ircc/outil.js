@@ -1,5 +1,6 @@
-// /outil/mobilite-francophone/: turns a client's questionnaire PDF (with reponses.json attached) into IRCC's
-// IMM 5710 and IMM 5707, filled. Everything runs here: the page's CSP has connect-src 'none'.
+// /outil/mobilite-francophone/: turns a client's questionnaire PDF (with reponses.json attached) into IRCC's work
+// permit form, filled: IMM 5710 when the client is in Canada, IMM 1295 when outside (questionnaire's first answer).
+// Everything runs here: the page's CSP has connect-src 'none'.
 // Same method as Acrobat when a form is filled: IRCC's bytes are kept and an incremental update is appended (the
 // XFA packets rewritten, AES-128 encrypted with the form's own keys, plus a cross-reference stream), so IRCC's
 // certification and Reader rights stay valid.
@@ -9,10 +10,11 @@
   if (!root) return;
   const FORM_ID = 'ottavi-intake';
   const FORM_VERSION = 3;
-  const FORMS = [
-    { id: 'imm5710', name: 'IMM 5710', map: (a, lawyer) => ({ values: window.IMM5710_MAP(a, lawyer) }) },
-    { id: 'imm5707', name: 'IMM 5707', map: (a) => window.IMM5707_MAP(a) }
-  ];
+  // One form per client, picked by the questionnaire's first answer (where the client is).
+  const FORMS = {
+    in: { id: 'imm5710', name: 'IMM 5710', title: 'permis de travail au Canada', map: (a, lawyer) => ({ values: window.IMM5710_MAP(a, lawyer) }) },
+    out: { id: 'imm1295', name: 'IMM 1295', title: 'permis de travail présentée à l’extérieur du Canada', map: (a, lawyer) => ({ values: window.IMM1295_MAP(a, lawyer) }) }
+  };
 
   const enc = new TextEncoder();
   const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
@@ -293,24 +295,31 @@
       return { input, err, box: h('div', { class: 'imm-field' }, [h('label', { for: id, text: label }), input, h('p', { class: 'imm-hint', id: id + '-hint', text: hint }), err]) };
     };
     const uci = field('imm-uci', 'IUC du client (facultatif)', 'Chiffres seulement. Il figure sur le permis d’études ou de travail du client.');
-    const lmia = field('imm-lmia', 'No de l’EIMT ou de l’offre d’emploi (facultatif)', 'Chiffres seulement, de 6000000 à 99999999 : sans la lettre A du début.');
+    // IRCC's rule (validateLMIAandExemptionCode, both forms): with an LMIA exemption (ELMO, e.g. Francophone
+    // Mobility) it's the job offer number, a letter + 7 digits (A1234567); otherwise the LMIA number, 6000000-99999999.
+    const exempt = a.permitType === 'ELMO';
+    const lmia = exempt
+      ? field('imm-lmia', 'Numéro de l’offre d’emploi (facultatif)', 'Une lettre et 7 chiffres, comme dans le Portail des employeurs : par exemple A1234567.')
+      : field('imm-lmia', 'No de l’EIMT (facultatif)', 'Chiffres seulement, de 6000000 à 99999999.');
+    if (exempt) { lmia.input.inputMode = 'text'; lmia.input.setAttribute('autocapitalize', 'characters'); }
     const check = () => {
       let ok = true;
       const u = uci.input.value.replace(/[\s-]/g, '');
       uci.err.hidden = !u || /^[0-9]+$/.test(u);
       uci.err.textContent = 'Chiffres seulement.';
       ok = ok && uci.err.hidden;
-      const l = lmia.input.value.replace(/\s/g, '').replace(/^[Aa]/, '');
-      const lOk = !l || (/^[0-9]+$/.test(l) && +l >= 6000000 && +l <= 99999999);
+      const l = lmia.input.value.replace(/\s/g, '').toUpperCase();
+      const lOk = !l || (exempt ? /^[A-Z]\d{7}$/.test(l) : /^[0-9]{7,8}$/.test(l) && +l >= 6000000 && +l <= 99999999);
       lmia.err.hidden = lOk;
-      lmia.err.textContent = 'IRCC exige un nombre de 6000000 à 99999999 (chiffres seulement).';
+      lmia.err.textContent = exempt ? 'IRCC exige une lettre suivie de 7 chiffres, par exemple A1234567.' : 'IRCC exige un nombre de 6000000 à 99999999 (chiffres seulement).';
       ok = ok && lOk;
       return ok && { uci: u, lmia: openPermit ? '' : l };
     };
-    // The IMM 5710 is for people already in Canada (IRCC locks its country fields to Canada).
+    // In Canada = IMM 5710 (IRCC locks its country fields to Canada); outside = IMM 1295.
     const abroad = a.location === 'out';
-    const forms = FORMS.filter((f) => !(abroad && f.id === 'imm5710'));
-    const LABEL = abroad ? 'Créer l’IMM 5707' : 'Créer l’IMM 5710 et l’IMM 5707';
+    const form = FORMS[abroad ? 'out' : 'in'];
+    const forms = [form];
+    const LABEL = 'Créer l’' + form.name;
     const go = h('button', { type: 'button', class: 'btn btn-primary' }, LABEL);
     const done = h('div');
     go.addEventListener('click', async () => {
@@ -351,24 +360,23 @@
         ].filter(Boolean)));
       }
       done.append(h('ol', {}, [
-        h('li', { text: 'Ouvrez chaque fichier dans Adobe Acrobat Reader (pas dans le navigateur ni dans Aperçu).' }),
+        h('li', { text: 'Ouvrez le fichier dans Adobe Acrobat Reader (pas dans le navigateur ni dans Aperçu).' }),
         h('li', { text: 'Relisez chaque page et complétez ce qui manque.' }),
-        h('li', { text: 'Cliquez sur « Valider » dans chaque formulaire (IMM 5710 : la page des codes-barres se crée).' }),
-        h('li', { text: (abroad ? 'Faites signer et dater le client : IMM 5707' : 'Faites signer et dater le client : IMM 5710, et IMM 5707') + ' section C (plus la note 1 s’il n’a ni époux ni conjoint, la note 2 s’il n’a pas d’enfants).' })
+        h('li', { text: 'Cliquez sur « Valider » : la page des codes-barres se crée.' }),
+        h('li', { text: 'Faites signer et dater le client.' })
       ]));
     });
 
     result.textContent = '';
     result.append(h('div', { class: 'imm-card ok' }, [
       h('h2', { text: `Client : ${name || 'sans nom'}` }),
-      abroad
-        ? h('p', { class: 'warn', text: 'Client à l’extérieur du Canada : l’IMM 5710 ne s’applique pas (il est réservé aux personnes déjà au Canada). Seul l’IMM 5707 est créé.' })
-        : h('p', { text: 'Ajoutez ce que le client ne fournit pas, puis créez les deux formulaires.' }),
-      abroad ? null : uci.box,
-      abroad ? null : openPermit ? h('p', { class: 'imm-hint', text: 'Permis ouvert ou postdiplôme : pas de numéro d’EIMT.' }) : lmia.box,
+      h('p', { class: 'imm-form' }, [h('strong', { text: form.name }), ` · demande de ${form.title} (client ${abroad ? 'à l’extérieur du Canada' : 'au Canada'})`]),
+      h('p', { text: 'Ajoutez ce que le client ne fournit pas, puis créez le formulaire.' }),
+      uci.box,
+      openPermit ? h('p', { class: 'imm-hint', text: 'Permis ouvert ou postdiplôme : pas de numéro d’EIMT.' }) : lmia.box,
       h('p', {}, go),
       done
     ]), recap(a));
-    if (!abroad) uci.input.focus();
+    uci.input.focus();
   }
 })();

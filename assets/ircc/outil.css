@@ -38,3 +38,4 @@
 .imm-recap tr.sub th { text-align: left; font-weight: 600; padding: 12px 8px 4px; font-size: 13px; }
 .imm-recap tr.empty td:last-child { color: var(--ink-3); }
 @media (max-width: 640px) { .imm-recap { padding: 16px; } .imm-recap td:first-child { width: 45%; } }
+.imm-form { background: var(--tint); border-radius: var(--radius-sm); padding: 10px 14px; }

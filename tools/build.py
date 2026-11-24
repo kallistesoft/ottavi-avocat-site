@@ -568,7 +568,7 @@ def form(lang):
 
 
 def outil(lang):
-    """Private tool: assets/ircc/outil.js fills IRCC's IMM 5710 and IMM 5707 from a client's questionnaire PDF."""
+    """Private tool: assets/ircc/outil.js fills IRCC's IMM 5710 (client in Canada) or IMM 1295 (outside) from a client's questionnaire PDF."""
     t = T[lang]
     return f'''{page_head(t["outilEyebrow"], t["outilTitle"], t["outilLead"])}
 
@@ -585,7 +585,7 @@ BODY = {'home': home, 'services': services, 'ressources': ressources, 'cabinet':
 PAGE_ASSETS = {
     'form': ['assets/formulaire/form.css', 'assets/formulaire/ircc-lists.js', 'assets/formulaire/form-def.js', 'assets/formulaire/form.js'],
     'outil': ['assets/ircc/outil.css', 'assets/formulaire/vendor/pdf-lib.min.js', 'assets/formulaire/ircc-lists.js', 'assets/formulaire/form-def.js', 'assets/ircc/imm5710f.js',
-              'assets/ircc/imm5707f.js', 'assets/ircc/imm5710-map.js', 'assets/ircc/imm5707-map.js', 'assets/ircc/outil.js'],
+              'assets/ircc/imm1295f.js', 'assets/ircc/imm5710-map.js', 'assets/ircc/imm1295-map.js', 'assets/ircc/outil.js'],
 }
 
 # Form page only: nothing on it can send data (fetch, XHR, beacons, form posts), so the answers can't leave the device.

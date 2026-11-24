@@ -1,7 +1,7 @@
-// Questionnaire for a Francophone Mobility work permit: the questions of IRCC's IMM 5710 (work permit) and IMM 5707
-// (family information), in IRCC's wording, plus the instructions from their pages on canada.ca. A fact both forms
-// need (names, birth, marital status, spouse, address) is asked once. The answers feed /outil/mobilite-francophone/,
-// which fills both official PDFs.
+// Questionnaire for a Francophone Mobility work permit, in IRCC's wording plus the instructions from canada.ca.
+// The first question (location) picks the IRCC form the answers feed on /outil/mobilite-francophone/:
+// in Canada = IMM 5710 (work permit inside Canada), outside = IMM 1295 (work permit made outside Canada).
+// The two forms ask nearly the same questions; the few that differ show only for their side.
 // Only this file changes when the questions change. Each label is { fr, en } (or a plain string).
 //
 // Owner rule: the client never sees IRCC form names or numbers; the wording is the questions themselves.
@@ -14,7 +14,7 @@
 // Rules: required, pattern + patternMsg, default, empty (printed when blank), hint,
 //   showIf: { field, in: [...] } or { field, notIn: [...] }, or a list of those (shown if any matches).
 // Answers are stored by field id (IRCC codes for lists); a repeat stores an array of objects.
-// The ids are read by assets/ircc/imm5710-map.js and assets/ircc/imm5707-map.js: rename one there too.
+// The ids are read by assets/ircc/imm5710-map.js and assets/ircc/imm1295-map.js: rename one there too.
 // Bump `version` when ids change in a way old saved answers can't follow; the engine then ignores them.
 (function () {
   const t = (fr, en) => ({ fr, en });
@@ -26,44 +26,6 @@
   const yn = (id, fr, en, more) => ({ id, type: 'radio', required: true, options: YN, label: t(fr, en), ...more });
   const prov = (id, country, more) => ({ id, type: 'select', list: 'ProvinceAbbrev', required: true, showIf: { field: country, in: ['511'] }, label: t('Province', 'Province'), ...more });
   const state = (id, country) => ({ id, type: 'select', list: 'StateAbbrev', required: true, showIf: { field: country, in: ['461'] }, label: t('État', 'State') });
-
-  // IMM 5707 relatives. Codes are the IMM 5707's own (parents and children: statuses 1 to 7).
-  const REL_MARITAL = [['1', 'Conjoint(e) de fait', 'Common-law'], ['2', 'Célibataire', 'Single'], ['3', 'Divorcé(e)', 'Divorced'],
-    ['4', 'Mariage annulé', 'Annulled marriage'], ['5', 'Marié(e)', 'Married'], ['6', 'Séparé(e) légalement', 'Legally separated'],
-    ['7', 'Veuf(ve)', 'Widowed']].map(([value, fr, en]) => ({ value, label: t(fr, en) }));
-  const RELATIONSHIP = [['2', 'Fille', 'Daughter'], ['1', 'Fils', 'Son'], ['3', 'Belle-fille (fille de l’époux ou du conjoint)', 'Stepdaughter'],
-    ['4', 'Beau-fils (fils de l’époux ou du conjoint)', 'Stepson'], ['5', 'Fille adoptive', 'Adopted daughter'], ['6', 'Fils adoptif', 'Adopted son']]
-    .map(([value, fr, en]) => ({ value, label: t(fr, en) }));
-  const WHERE = (dead) => [{ value: 'same', label: t('À la même adresse que moi', 'At the same address as me') }, { value: 'other', label: t('À une autre adresse', 'At another address') }]
-    .concat(dead ? [{ value: 'dead', label: t('Décédé(e)', 'Deceased') }] : []);
-  // Where a relative lives (or died), as the IMM 5707 asks: « Adresse actuelle », or « décédé » + city, country, date.
-  const whereabouts = (p, dead, scoped) => {
-    const f = (id) => (scoped ? id : p + id[0].toUpperCase() + id.slice(1));
-    return [
-      { id: f('where'), type: 'radio', required: true, options: WHERE(dead), label: t('Adresse actuelle', 'Current address') },
-      { id: f('address'), type: 'textarea', required: true, showIf: { field: f('where'), in: ['other'] }, label: t('Adresse complète (numéro et rue, ville, pays, code postal)', 'Full address (number and street, city, country, postal code)') }
-    ].concat(dead ? [
-      { id: f('deathCity'), type: 'text', required: true, showIf: { field: f('where'), in: ['dead'] }, label: t('Ville du décès', 'City of death') },
-      { id: f('deathCountry'), type: 'select', list: 'Country', required: true, showIf: { field: f('where'), in: ['dead'] }, label: t('Pays ou territoire du décès', 'Country or territory of death') },
-      { id: f('deathDate'), type: 'date', required: true, showIf: { field: f('where'), in: ['dead'] }, label: t('Date du décès', 'Date of death') }
-    ] : []);
-  };
-  const OCCUPATION_HINT = t('S’il ou elle ne travaille pas : retraité(e), aux études, au foyer, sans emploi, etc.', 'If not working: retired, student, homemaker, unemployed, etc.');
-  const accompany = (id, showIf) => yn(id, 'Accompagnera-t-il (elle) au Canada?', 'Will this person accompany you to Canada?', showIf ? { showIf } : {});
-  const parent = (n) => {
-    const p = 'parent' + n;
-    return {
-      id: p, type: 'group', label: t('Parent ' + n + ' (mère ou père)', 'Parent ' + n + ' (mother or father)'),
-      fields: [
-        { id: p + 'Family', type: 'text', required: true, label: t('Nom de famille', 'Family name'), ...NAME },
-        { id: p + 'Given', type: 'text', label: t('Prénom(s)', 'Given name(s)'), ...NAME },
-        { id: p + 'Dob', type: 'date', required: true, label: t('Date de naissance', 'Date of birth') },
-        { id: p + 'BirthCountry', type: 'select', list: 'CountryOfBirth', required: true, label: t('Pays ou territoire de naissance', 'Country or territory of birth') },
-        { id: p + 'Marital', type: 'select', options: REL_MARITAL, required: true, label: t('État matrimonial', 'Marital status') },
-        { id: p + 'Occupation', type: 'text', required: true, label: t('Profession actuelle (ou la dernière, si décédé(e))', 'Present occupation (or last one, if deceased)'), hint: OCCUPATION_HINT }
-      ].concat(whereabouts(p, true), [accompany(p + 'Accompany', { field: p + 'Where', in: ['same', 'other'] })])
-    };
-  };
 
   window.OTTAVI_FORM = {
     id: 'ottavi-intake',
@@ -98,7 +60,6 @@
             'Write your names exactly as in your passport, even if misspelled, without initials. If you have no family name, write all your given names under “Family name” and leave “Given name(s)” empty.') },
           { id: 'familyName', type: 'text', required: true, autocomplete: 'family-name', label: t('Nom de famille', 'Family name'), ...NAME },
           { id: 'givenNames', type: 'text', autocomplete: 'given-name', label: t('Prénom(s)', 'Given name(s)'), ...NAME },
-          { id: 'nativeName', type: 'text', label: t('Nom dans votre langue maternelle, s’il s’écrit dans un autre alphabet (facultatif)', 'Name in your native language, if written in another alphabet (optional)') },
           yn('aliasYN', 'Avez-vous déjà utilisé un autre nom (pseudonyme, nom de jeune fille, alias, etc.)?', 'Have you ever used any other name (nickname, maiden name, alias, etc.)?'),
           {
             id: 'alias', type: 'group', label: t('Autre nom utilisé', 'Other name used'), showIf: yes('aliasYN'),
@@ -121,8 +82,8 @@
           },
           { id: 'birthCity', type: 'text', required: true, label: t('Lieu de naissance : ville ou village', 'Place of birth: city or town') },
           { id: 'birthCountry', type: 'select', list: 'CountryOfBirth', required: true, label: t('Lieu de naissance : pays ou territoire', 'Place of birth: country or territory') },
-          { id: 'citizenship', type: 'select', list: 'CountryOfCitizenship', required: true, label: t('Citoyenneté', 'Citizenship') },
-          { id: 'occupation', type: 'text', required: true, label: t('Profession actuelle', 'Present occupation'), hint: t('Si vous ne travaillez pas : aux études, au foyer, sans emploi, etc.', 'If you are not working: student, homemaker, unemployed, etc.') }
+          { id: 'citizenship', type: 'select', list: 'CountryOfCitizenship', required: true, label: t('Citoyenneté', 'Citizenship'),
+            hint: t('Plusieurs citoyennetés : choisissez le pays du passeport que vous utiliserez.', 'Several citizenships: choose the country of the passport you will use.') }
         ]
       },
       {
@@ -147,7 +108,7 @@
           {
             id: 'corAbroad', type: 'group', label: t('Pays ou territoire de résidence actuel', 'Current country or territory of residence'), showIf: { field: 'location', in: ['out'] },
             fields: [
-              { id: 'corOutCountry', type: 'select', list: 'Country', required: true, label: t('Pays ou territoire', 'Country or territory') },
+              { id: 'corOutCountry', type: 'select', list: 'CountryOfLastPermanentResident', required: true, label: t('Pays ou territoire', 'Country or territory') },
               { id: 'corOutStatus', type: 'select', list: 'ImmigrationStatus', required: true, label: t('Statut dans ce pays', 'Status in that country') },
               { id: 'corOutOther', type: 'text', required: true, showIf: { field: 'corOutStatus', in: ['06'] }, label: t('Si « Autre », précisez', 'If “Other”, give details') },
               { id: 'corOutFrom', type: 'date', required: true, showIf: { field: 'corOutStatus', in: ['03', '04', '05', '06'] }, label: t('Statut : date de début', 'Status: start date') },
@@ -166,6 +127,20 @@
               { id: 'from', type: 'date', required: true, label: t('Date de début', 'Start date') },
               { id: 'to', type: 'date', required: true, label: t('Date de fin', 'End date') }
             ]
+          },
+          // IMM 1295 question 9 (outside Canada only).
+          yn('sameCountryYN', 'Présentez-vous votre demande depuis votre pays ou territoire de résidence actuel?', 'Are you applying from your current country or territory of residence?', { showIf: { field: 'location', in: ['out'] } }),
+          {
+            id: 'applyFrom', type: 'group', label: t('Pays ou territoire où vous présentez la demande', 'Country or territory where you are applying'),
+            showIf: { field: 'sameCountryYN', in: ['N'] },
+            fields: [
+              { id: 'applyCountry', type: 'select', list: 'CountryOfLastPermanentResident', required: true, label: t('Pays ou territoire', 'Country or territory') },
+              { id: 'applyStatus', type: 'select', list: 'ImmigrationStatus', required: true, label: t('Statut dans ce pays', 'Status in that country') },
+              { id: 'applyOther', type: 'text', required: true, showIf: { field: 'applyStatus', in: ['06'] }, label: t('Si « Autre », précisez', 'If “Other”, give details') },
+              { id: 'applyFromDate', type: 'date', required: true, showIf: { field: 'applyStatus', in: ['03', '04', '05', '06'] }, label: t('Statut : date de début', 'Status: start date') },
+              { id: 'applyToDate', type: 'date', required: true, showIf: { field: 'applyStatus', in: ['03', '04', '05', '06'] }, label: t('Statut : date de fin', 'Status: end date') },
+              { id: 'applyNote', type: 'note', text: t('Si vous n’êtes pas citoyen de ce pays, vous devrez fournir la preuve de votre statut légal.', 'If you are not a citizen of that country, you will need proof of your legal status.') }
+            ]
           }
         ]
       },
@@ -174,7 +149,6 @@
         title: t('État matrimonial', 'Marital status'),
         fields: [
           { id: 'marital', type: 'select', list: 'MaritalStatus', required: true, label: t('État matrimonial actuel', 'Current marital status') },
-          yn('marriedInPerson', 'Étiez-vous physiquement présent(e) à votre cérémonie de mariage?', 'Were you physically present at your marriage ceremony?', { showIf: { field: 'marital', in: ['01'] } }),
           {
             id: 'spouse', type: 'group', label: t('Votre époux(se) ou conjoint(e) de fait', 'Your spouse or common-law partner'),
             showIf: { field: 'marital', in: ['01', '03'] },
@@ -182,14 +156,7 @@
               { id: 'marriageDate', type: 'date', required: true, label: t('Date du mariage ou du début de l’union de fait', 'Date of marriage or start of the common-law relationship') },
               { id: 'spouseFamily', type: 'text', required: true, label: t('Nom de famille', 'Family name'), ...NAME },
               { id: 'spouseGiven', type: 'text', label: t('Prénom(s)', 'Given name(s)'), ...NAME },
-              { id: 'spouseNative', type: 'text', label: t('Nom dans sa langue maternelle, s’il s’écrit dans un autre alphabet (facultatif)', 'Name in their native language, if written in another alphabet (optional)') },
-              { id: 'spouseDob', type: 'date', required: true, label: t('Date de naissance', 'Date of birth') },
-              { id: 'spouseBirthCountry', type: 'select', list: 'CountryOfBirth', required: true, label: t('Pays ou territoire de naissance', 'Country or territory of birth') },
-              { id: 'spouseOccupation', type: 'text', required: true, label: t('Profession actuelle', 'Present occupation'), hint: OCCUPATION_HINT },
-              yn('spouseCdn', 'Votre époux(se) ou conjoint(e) de fait est-il (elle) citoyen(ne) ou résident(e) permanent(e) du Canada?', 'Is your spouse or common-law partner a Canadian citizen or permanent resident?'),
-              yn('spouseInPerson', 'Votre époux(se) était-il (elle) physiquement présent(e) à la cérémonie de mariage?', 'Was your spouse physically present at the marriage ceremony?', { showIf: { field: 'marital', in: ['01'] } }),
-              ...whereabouts('spouse', false),
-              accompany('spouseAccompany')
+              yn('spouseCdn', 'Votre époux(se) ou conjoint(e) de fait est-il (elle) citoyen(ne) ou résident(e) permanent(e) du Canada?', 'Is your spouse or common-law partner a Canadian citizen or permanent resident?', { showIf: { field: 'location', in: ['in'] } })
             ]
           },
           { id: 'marriedNote', type: 'note', showIf: { field: 'marital', in: ['01'] }, text: t('À joindre à votre demande : une photocopie de votre certificat ou de votre licence de mariage.', 'Include a photocopy of your marriage certificate or licence with your application.') },
@@ -204,37 +171,6 @@
               { id: 'prevFrom', type: 'date', required: true, label: t('Date de début', 'Start date') },
               { id: 'prevTo', type: 'date', required: true, label: t('Date de fin', 'End date') },
               { id: 'prevDob', type: 'date', label: t('Date de naissance de cette personne', 'Their date of birth') }
-            ]
-          }
-        ]
-      },
-      {
-        id: 'parents',
-        title: t('Parents', 'Parents'),
-        lead: t('Vos deux parents, même s’ils sont décédés. Écrivez leurs noms comme sur leur passeport ou document de voyage.',
-          'Both of your parents, even if deceased. Write their names as in their passport or travel document.'),
-        fields: [parent(1), parent(2)]
-      },
-      {
-        id: 'enfants',
-        title: t('Enfants', 'Children'),
-        fields: [
-          { id: 'childrenNote', type: 'note', text: t('Inscrivez tous vos enfants, même s’ils sont déjà résidents permanents ou citoyens canadiens : les enfants mariés, adoptés, ceux de votre époux(se) ou conjoint(e) de fait, ceux adoptés par d’autres personnes et ceux confiés à la garde d’un ex-époux, ex-conjoint ou autre tuteur.',
-            'List all your children, even if they are already Canadian permanent residents or citizens: married and adopted children, your spouse’s or common-law partner’s children, children adopted by others and children in the custody of a former spouse, partner or other guardian.') },
-          yn('childrenYN', 'Avez-vous des enfants?', 'Do you have children?'),
-          {
-            id: 'children', type: 'repeat', min: 1, max: 12, showIf: yes('childrenYN'),
-            label: t('Enfant', 'Child'), add: t('Ajouter un enfant', 'Add a child'),
-            fields: [
-              { id: 'relationship', type: 'select', options: RELATIONSHIP, required: true, label: t('Lien de parenté', 'Relationship') },
-              { id: 'family', type: 'text', required: true, label: t('Nom de famille', 'Family name'), ...NAME },
-              { id: 'given', type: 'text', label: t('Prénom(s)', 'Given name(s)'), ...NAME },
-              { id: 'dob', type: 'date', required: true, label: t('Date de naissance', 'Date of birth') },
-              { id: 'birthCountry', type: 'select', list: 'CountryOfBirth', required: true, label: t('Pays ou territoire de naissance', 'Country or territory of birth') },
-              { id: 'marital', type: 'select', options: REL_MARITAL, required: true, label: t('État matrimonial', 'Marital status') },
-              { id: 'occupation', type: 'text', required: true, label: t('Profession actuelle', 'Present occupation'), hint: t('S’il ou elle ne travaille pas : élève, étudiant(e), enfant d’âge préscolaire, etc.', 'If not working: pupil, student, preschool child, etc.') },
-              ...whereabouts('', true, true),
-              accompany('accompany', { field: 'where', in: ['same', 'other'] })
             ]
           }
         ]
@@ -295,9 +231,8 @@
               { id: 'mailStreet', type: 'text', required: true, label: t('Nom de rue', 'Street name') },
               { id: 'mailCity', type: 'text', required: true, label: t('Ville ou village', 'City or town') },
               { id: 'mailCanada', type: 'fixed', showIf: { field: 'location', in: ['in'] }, label: t('Pays ou territoire', 'Country or territory'), text: t('Canada', 'Canada') },
-              { id: 'mailCountry', type: 'select', list: 'Country', required: true, showIf: { field: 'location', in: ['out'] }, label: t('Pays ou territoire', 'Country or territory') },
+              { id: 'mailCountry', type: 'select', list: 'CountryOfBirth', required: true, showIf: { field: 'location', in: ['out'] }, label: t('Pays ou territoire', 'Country or territory') },
               { id: 'mailProv', type: 'select', list: 'ProvinceAbbrev', required: true, showIf: [{ field: 'location', in: ['in'] }, { field: 'mailCountry', in: ['511'] }], label: t('Province ou territoire', 'Province or territory') },
-              { id: 'mailState', type: 'select', list: 'StateAbbrev', required: true, showIf: { field: 'mailCountry', in: ['461'] }, label: t('État', 'State') },
               { id: 'mailPostal', type: 'text', required: true, label: t('Code postal', 'Postal code'), pattern: '^[- A-Za-z0-9]+$',
                 patternMsg: t('Lettres, chiffres, espaces et traits d’union seulement.', 'Letters, digits, spaces and hyphens only.') }
             ]
@@ -310,7 +245,7 @@
               { id: 'resStreetNum', type: 'text', label: t('Numéro de rue', 'Street number') },
               { id: 'resStreet', type: 'text', required: true, label: t('Nom de rue', 'Street name') },
               { id: 'resCity', type: 'text', required: true, label: t('Ville ou village', 'City or town') },
-              { id: 'resCountry', type: 'select', list: 'Country', default: '511', required: true, label: t('Pays ou territoire', 'Country or territory') },
+              { id: 'resCountry', type: 'select', list: 'CountryOfBirth', default: '511', required: true, label: t('Pays ou territoire', 'Country or territory') },
               prov('resProv', 'resCountry'),
               state('resState', 'resCountry'),
               { id: 'resPostal', type: 'text', label: t('Code postal', 'Postal code') }
@@ -344,7 +279,7 @@
       },
       {
         id: 'travail',
-        title: t('Entrée et travail', 'Entry and work'),
+        title: t('Travail au Canada', 'Work in Canada'),
         fields: [
           {
             id: 'entry', type: 'group', label: t('Entrée au Canada', 'Coming into Canada'), showIf: { field: 'location', in: ['in'] },
@@ -358,9 +293,10 @@
               { id: 'prevDocNum', type: 'text', pattern: '^[A-Za-z][0-9]{9}$', patternMsg: t('Une lettre suivie de 9 chiffres, par exemple U123456789.', 'One letter followed by 9 digits, for example U123456789.'), label: t('Numéro du document le plus récent (fiche du visiteur, permis d’études ou de travail), s’il y a lieu', 'Number of your most recent document (visitor record, study or work permit), if any') }
             ]
           },
-          { id: 'permitType', type: 'select', list: 'WorkPermitTypeInLand', required: true, label: t('Pour quel genre de permis de travail faites-vous une demande?', 'What type of work permit are you applying for?'),
-            hint: t('« Autre » seulement pour : levée de conditions médicales sur un permis, ou travail pour une mission étrangère, une organisation internationale, un gouvernement étranger ou l’administration d’un pont ou d’un tunnel (contrat ou lettre d’emploi requis).',
-              '“Other” only for: removing medical conditions from a permit, or work for a foreign mission, an international organization, a foreign government or a bridge or tunnel authority (employment contract or letter required).') },
+          // The permit types differ in and outside Canada (IRCC's two forms have their own lists).
+          { id: 'permitType', type: 'select', list: 'WorkPermitTypeBy', listBy: 'location', required: true, label: t('Pour quel genre de permis de travail faites-vous une demande?', 'What type of work permit are you applying for?'),
+            hint: t('Mobilité francophone : choisissez « Dispense d’étude d’impact sur le marché du travail ». « Autre » seulement pour : levée de conditions médicales sur un permis, ou travail pour une mission étrangère, une organisation internationale, un gouvernement étranger ou l’administration d’un pont ou d’un tunnel (contrat ou lettre d’emploi requis).',
+              'Francophone Mobility: choose the LMIA exemption. “Other” only for: removing medical conditions from a permit, or work for a foreign mission, an international organization, a foreign government or a bridge or tunnel authority (employment contract or letter required).') },
           { id: 'permitOther', type: 'text', required: true, showIf: { field: 'permitType', in: ['Other'] }, label: t('Si « Autre », précisez', 'If “Other”, give details') },
           { id: 'openNote', type: 'note', showIf: { field: 'permitType', in: ['OWP', 'PGWP'] }, text: t('Permis ouvert ou postdiplôme : les questions sur l’employeur et l’emploi ne s’appliquent pas.', 'Open or post-graduation work permit: the employer and job questions do not apply.') },
           {
@@ -380,7 +316,7 @@
                 hint: t('Selon l’EIMT, l’offre d’emploi ou la catégorie de permis, et pas au-delà de la validité de votre passeport.', 'As per the LMIA, the job offer or the permit category, and not past your passport’s validity.') },
               { id: 'caqNum', type: 'text', showIf: { field: 'workProv', in: ['05'] }, label: t('Certificat d’acceptation du Québec (CAQ) : numéro', 'Québec Acceptance Certificate (CAQ): number') },
               { id: 'caqExpiry', type: 'date', showIf: { field: 'workProv', in: ['05'] }, label: t('CAQ : date d’expiration', 'CAQ: expiry date') },
-              yn('pnpYN', 'Vous a-t-on délivré un certificat en vertu du Programme des candidats des provinces?', 'Have you received a certificate of nomination under the Provincial Nominee Program?')
+              yn('pnpYN', 'Vous a-t-on délivré un certificat en vertu du Programme des candidats des provinces?', 'Have you received a certificate of nomination under the Provincial Nominee Program?', { showIf: { field: 'location', in: ['in'] } })
             ]
           }
         ]

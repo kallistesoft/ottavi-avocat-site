@@ -268,10 +268,10 @@ T['en'].update(
 T['en']['titles']['form'] = 'Client questionnaire'
 T['en']['descs']['form'] = 'Ottavi Law Firm Inc. client questionnaire: your answers stay on your device.'
 
-# Private tool page (/outil/mobilite-francophone/), French only: Me Poughon turns a client's questionnaire PDF into the filled IMM 5710 and IMM 5707.
-T['fr']['titles']['outil'] = 'Mobilité francophone : IMM 5710 et IMM 5707'
-T['fr']['descs']['outil'] = 'Outil interne : remplir les formulaires IMM 5710 et IMM 5707 à partir du questionnaire d’un client.'
+# Private tool page (/outil/mobilite-francophone/), French only: Me Poughon turns a client's questionnaire PDF into the filled IMM 5710 (in Canada) or IMM 1295 (outside Canada).
+T['fr']['titles']['outil'] = 'Mobilité francophone : IMM 5710 ou IMM 1295'
+T['fr']['descs']['outil'] = 'Outil interne : remplir le formulaire IMM 5710 ou IMM 1295 à partir du questionnaire d’un client.'
 T['fr'].update(
-    outilEyebrow='Outil interne', outilTitle='Mobilité francophone : IMM 5710 et IMM 5707',
-    outilLead="Déposez le PDF du questionnaire envoyé par le client : les formulaires IMM 5710 et IMM 5707 d’IRCC sont remplis dans votre navigateur et téléchargés. Rien n'est envoyé sur Internet.",
+    outilEyebrow='Outil interne', outilTitle='Mobilité francophone : IMM 5710 ou IMM 1295',
+    outilLead="Déposez le PDF du questionnaire envoyé par le client : le formulaire d’IRCC est rempli dans votre navigateur : IMM 5710 si le client est au Canada, IMM 1295 s’il est à l’extérieur. Rien n'est envoyé sur Internet.",
 )
