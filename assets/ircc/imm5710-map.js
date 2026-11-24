@@ -64,11 +64,15 @@ window.IMM5710_MAP = function (a, lawyer) {
   set(P + 'q3-4-5/pob/PlaceBirthCountry', a.birthCountry);
   set(P + 'Citizenship/Citizenship', a.citizenship);
   const C = P + 'CurrentCOR/';
-  set(C + 'CurrentCOR/Row2/Country', a.corCountry);
+  // Question 7: always Canada (IRCC's field is locked). Dates only with a temporary status: IRCC's form erases a
+  // citizen/PR/protected/claimant status that comes with dates.
+  set(C + 'CurrentCOR/Row2/Country', '511');
   set(C + 'CurrentCOR/Row2/Status', a.corStatus);
   if (a.corStatus === '06') set(C + 'CurrentCOR/Row2/Other', a.corOther);
-  date(C + 'CurrentCOR/Row2/FromDate', a.corFrom, [C + 'CORDates/FromYr', C + 'CORDates/FromMM', C + 'CORDates/FromDD']);
-  date(C + 'CurrentCOR/Row2/ToDate', a.corTo, [C + 'CORDates/ToYr', C + 'CORDates/ToMM', C + 'CORDates/ToDD']);
+  if (['03', '04', '05', '06'].includes(a.corStatus)) {
+    date(C + 'CurrentCOR/Row2/FromDate', a.corFrom, [C + 'CORDates/FromYr', C + 'CORDates/FromMM', C + 'CORDates/FromDD']);
+    date(C + 'CurrentCOR/Row2/ToDate', a.corTo, [C + 'CORDates/ToYr', C + 'CORDates/ToMM', C + 'CORDates/ToDD']);
+  }
   set(P + 'PrevCOR/PCRIndicator', a.prevCorYN);
   if (Y(a.prevCorYN)) {
     (a.prevCor || []).slice(0, 2).forEach((r, i) => {
@@ -132,9 +136,9 @@ window.IMM5710_MAP = function (a, lawyer) {
   set(CI + 'Mailing/AddrLine1/StreetNum', a.mailStreetNum);
   set(CI + 'Mailing/AddrLine1/Streetname', a.mailStreet);
   set(CI + 'Mailing/AddrLine2/City', a.mailCity);
-  set(CI + 'Mailing/AddrLine2/Country', a.mailCountry);
-  set(CI + 'Mailing/AddrLine2/Prov', provOrState(a.mailCountry, a.mailProv, a.mailState));
-  set(CI + 'Mailing/AddrLine2/PostalCode', a.mailPostal);
+  set(CI + 'Mailing/AddrLine2/Country', '511'); // locked to Canada in IRCC's form
+  set(CI + 'Mailing/AddrLine2/Prov', a.mailProv);
+  set(CI + 'Mailing/AddrLine2/PostalCode', v(a.mailPostal).toUpperCase().replace(/^([A-Z]\d[A-Z])\s*(\d[A-Z]\d)$/, '$1 $2'));
   set(CI + 'Resi/SameAsAddr/SameAsMailingInd', a.sameAddrYN);
   if (a.sameAddrYN === 'N') {
     set(CI + 'Resi/AddrLine1/AptUnit', a.resApt);

@@ -24,7 +24,7 @@ window.IMM5707_MAP = function (a) {
   const place = (country, prov, state) => [country === '511' ? label('ProvinceAbbrev', prov) : country === '461' ? label('StateAbbrev', state) : '', label('Country', country)];
   const mine = a.sameAddrYN === 'N'
     ? [[a.resApt, a.resStreetNum, a.resStreet].map(v).filter(Boolean).join(' '), a.resCity, ...place(a.resCountry, a.resProv, a.resState), a.resPostal]
-    : [[a.mailApt, a.mailStreetNum, a.mailStreet].map(v).filter(Boolean).join(' '), a.mailCity, ...place(a.mailCountry, a.mailProv, a.mailState), a.mailPostal];
+    : [[a.mailApt, a.mailStreetNum, a.mailStreet].map(v).filter(Boolean).join(' '), a.mailCity, ...place('511', a.mailProv), a.mailPostal];
   const myAddress = mine.map(v).filter(Boolean).join(', ');
   // « Adresse actuelle » as IRCC asks: the address, or « Décédé(e) » then city, country and date of death.
   const address = (where, other, city, country, date) =>

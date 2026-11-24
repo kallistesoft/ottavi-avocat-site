@@ -125,13 +125,17 @@
         title: t('Résidence', 'Residence'),
         fields: [
           {
-            id: 'cor', type: 'group', label: t('Pays ou territoire de résidence actuel', 'Current country or territory of residence'),
+            // IMM 5710 question 7: the country is always Canada (IRCC's field is locked), only the status is asked.
+            // IRCC's form erases a citizen, permanent resident, protected person or claimant status given with
+            // dates, so the dates are asked only for a temporary status.
+            id: 'cor', type: 'group', label: t('Votre statut actuel au Canada', 'Your current status in Canada'),
             fields: [
-              { id: 'corCountry', type: 'select', list: 'Country', default: '511', required: true, label: t('Pays ou territoire', 'Country or territory') },
-              { id: 'corStatus', type: 'select', list: 'ImmigrationStatus', required: true, label: t('Statut d’immigrant', 'Immigration status') },
+              { id: 'corStatus', type: 'select', required: true, label: t('Statut d’immigrant au Canada', 'Immigration status in Canada'),
+                options: [['03', 'Visiteur', 'Visitor'], ['04', 'Travailleur', 'Worker'], ['05', 'Étudiant', 'Student'], ['07', 'Personne protégée', 'Protected person'],
+                  ['08', 'Demandeur d’asile', 'Refugee claimant'], ['06', 'Autre', 'Other']].map(([value, fr, en]) => ({ value, label: t(fr, en) })) },
               { id: 'corOther', type: 'text', required: true, showIf: { field: 'corStatus', in: ['06'] }, label: t('Si « Autre », précisez', 'If “Other”, give details') },
-              { id: 'corFrom', type: 'date', required: true, label: t('Statut : date de début', 'Status: start date') },
-              { id: 'corTo', type: 'date', label: t('Statut : date de fin', 'Status: end date') }
+              { id: 'corFrom', type: 'date', required: true, showIf: { field: 'corStatus', in: ['03', '04', '05', '06'] }, label: t('Statut : date de début', 'Status: start date') },
+              { id: 'corTo', type: 'date', required: true, showIf: { field: 'corStatus', in: ['03', '04', '05', '06'] }, label: t('Statut : date de fin (celle de votre permis ou de votre fiche de visiteur)', 'Status: end date (that of your permit or visitor record)') }
             ]
           },
           yn('prevCorYN', 'Au cours des cinq dernières années, avez-vous vécu dans un pays autre que celui de votre citoyenneté ou de votre résidence actuelle pendant plus de six mois?',
@@ -266,17 +270,17 @@
         fields: [
           { id: 'streetNote', type: 'note', text: t('Écrivez les noms de rue au long (rue, avenue, boulevard, chemin), sans abréviation, sauf les points cardinaux (N.-O.).', 'Write street names in full (street, avenue, boulevard, road), without abbreviations, except compass points (N.W.).') },
           {
-            id: 'mail', type: 'group', label: t('Adresse postale actuelle', 'Current mailing address'),
+            // IMM 5710: the mailing address is in Canada (IRCC's country field is locked to Canada).
+            id: 'mail', type: 'group', label: t('Adresse postale actuelle au Canada', 'Current mailing address in Canada'),
             fields: [
               { id: 'mailPOBox', type: 'text', label: t('Case postale', 'P.O. box') },
               { id: 'mailApt', type: 'text', label: t('No d’appartement ou d’unité', 'Apt./Unit') },
               { id: 'mailStreetNum', type: 'text', label: t('Numéro de rue', 'Street number') },
               { id: 'mailStreet', type: 'text', required: true, label: t('Nom de rue', 'Street name') },
               { id: 'mailCity', type: 'text', required: true, label: t('Ville ou village', 'City or town') },
-              { id: 'mailCountry', type: 'select', list: 'Country', default: '511', required: true, label: t('Pays ou territoire', 'Country or territory') },
-              prov('mailProv', 'mailCountry'),
-              state('mailState', 'mailCountry'),
-              { id: 'mailPostal', type: 'text', required: true, label: t('Code postal', 'Postal code') }
+              { id: 'mailProv', type: 'select', list: 'ProvinceAbbrev', required: true, label: t('Province ou territoire', 'Province or territory') },
+              { id: 'mailPostal', type: 'text', required: true, label: t('Code postal', 'Postal code'), pattern: '^[A-Za-z][0-9][A-Za-z] ?[0-9][A-Za-z][0-9]$',
+                patternMsg: t('Un code postal canadien, par exemple H2J 2L3.', 'A Canadian postal code, for example H2J 2L3.') }
             ]
           },
           yn('sameAddrYN', 'L’adresse de votre domicile est-elle la même que votre adresse postale?', 'Is your residential address the same as your mailing address?'),
