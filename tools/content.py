@@ -26,10 +26,10 @@ LEGAL_PAGES = ['cgv', 'privacy']
 # Reachable only by a link Me Poughon sends: noindex, not in the nav, the sitemap or robots-allowed paths.
 HIDDEN_PAGES = ['form', 'outil']
 # French only: no English version is generated.
-FR_ONLY = ['outil']
+FR_ONLY = ['form', 'outil']
 URL = {
-    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/', 'form': '/formulaire/', 'outil': '/outil/imm5710/'},
-    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/', 'form': '/en/form/', 'outil': '/en/'},
+    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/', 'form': '/formulaire/mobilite-francophone/', 'outil': '/outil/imm5710/'},
+    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/', 'form': '/en/', 'outil': '/en/'},
 }
 T = {
     'fr': dict(
@@ -252,7 +252,7 @@ T['en'].update(
     studentBonus="<strong>A little extra:</strong> if you then entrust us with your entire application, your $49 is fully deducted from our fee.",
 )
 
-# Intake form page (/formulaire/, /en/form/): the questions are in assets/formulaire/form-def.js.
+# Intake form page (/formulaire/mobilite-francophone/, French only for now): the questions are in assets/formulaire/form-def.js.
 T['fr'].update(
     formEyebrow='Questionnaire client', formTitle="Votre questionnaire",
     formLead="Répondez à votre rythme : vos réponses s'enregistrent sur votre appareil et ne sont envoyées nulle part. À la fin, vous créez un PDF et vous l'envoyez à Me Poughon par courriel.",

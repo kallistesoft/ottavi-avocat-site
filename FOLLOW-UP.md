@@ -17,7 +17,7 @@ Guide, CV and newsletter are done: their buttons open her systeme.io pages (`/gu
 
 Her old forms and thank-you pages only exist on `www.vpavocat.com`, so they stop working when `www` switches.
 
-## Intake form (`/formulaire/`, `/en/form/`)
+## Intake form (`/formulaire/mobilite-francophone/`, French only for now)
 
 Private link Me Poughon sends to clients: answers save in the client's browser, a progress file moves them to another
 device, and the PDF is made in the browser and emailed by the client. Nothing reaches a server.
