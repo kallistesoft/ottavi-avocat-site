@@ -28,7 +28,7 @@ HIDDEN_PAGES = ['form', 'outil']
 # French only: no English version is generated.
 FR_ONLY = ['form', 'outil']
 URL = {
-    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/', 'form': '/formulaire/mobilite-francophone/', 'outil': '/outil/imm5710/'},
+    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/', 'form': '/formulaire/mobilite-francophone/', 'outil': '/outil/mobilite-francophone/'},
     'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/', 'form': '/en/', 'outil': '/en/'},
 }
 T = {
@@ -268,10 +268,10 @@ T['en'].update(
 T['en']['titles']['form'] = 'Client questionnaire'
 T['en']['descs']['form'] = 'Ottavi Law Firm Inc. client questionnaire: your answers stay on your device.'
 
-# Private tool page (/outil/imm5710/), French only: Me Poughon turns a client's questionnaire PDF into the filled IMM 5710.
-T['fr']['titles']['outil'] = 'Remplir l’IMM 5710'
-T['fr']['descs']['outil'] = 'Outil interne : remplir le formulaire IMM 5710 à partir du questionnaire d’un client.'
+# Private tool page (/outil/mobilite-francophone/), French only: Me Poughon turns a client's questionnaire PDF into the filled IMM 5710 and IMM 5707.
+T['fr']['titles']['outil'] = 'Mobilité francophone : IMM 5710 et IMM 5707'
+T['fr']['descs']['outil'] = 'Outil interne : remplir les formulaires IMM 5710 et IMM 5707 à partir du questionnaire d’un client.'
 T['fr'].update(
-    outilEyebrow='Outil interne', outilTitle='Remplir l’IMM 5710',
-    outilLead="Déposez le PDF du questionnaire envoyé par le client : le formulaire IMM 5710 d’IRCC est rempli dans votre navigateur et téléchargé. Rien n'est envoyé sur Internet.",
+    outilEyebrow='Outil interne', outilTitle='Mobilité francophone : IMM 5710 et IMM 5707',
+    outilLead="Déposez le PDF du questionnaire envoyé par le client : les formulaires IMM 5710 et IMM 5707 d’IRCC sont remplis dans votre navigateur et téléchargés. Rien n'est envoyé sur Internet.",
 )

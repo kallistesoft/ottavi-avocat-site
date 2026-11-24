@@ -1,7 +1,7 @@
-// Questionnaire answers (assets/formulaire/form-def.js, version 2) -> IMM 5710 XFA data paths (under form1).
+// Questionnaire answers (assets/formulaire/form-def.js, version 3) -> IMM 5710 XFA data paths (under form1).
 // Values are IRCC codes already (the questionnaire's lists come from the form). A field the questionnaire hides
 // is never written, so stale answers (e.g. a spouse before choosing "Célibataire") don't reach the form.
-// `lawyer` holds what Me Poughon types on /outil/imm5710/ (not asked to the client): { uci, lmia }.
+// `lawyer` holds what Me Poughon types on /outil/mobilite-francophone/ (not asked to the client): { uci, lmia }.
 window.IMM5710_MAP = function (a, lawyer) {
   lawyer = lawyer || {};
   const out = [];

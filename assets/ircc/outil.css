@@ -1,4 +1,4 @@
-/* /outil/imm5710/: private tool page. Ivoire tokens from site.css. */
+/* /outil/mobilite-francophone/: private tool page. Ivoire tokens from site.css. */
 .imm-section { padding: clamp(32px, 5vw, 56px) 0 var(--section-pad); }
 .imm-wrap { max-width: 760px; }
 .imm-drop { display: grid; gap: 6px; place-items: center; text-align: center; padding: 44px 20px; border: 2px dashed var(--line-2); border-radius: var(--radius); background: var(--surface); cursor: pointer; transition: border-color .15s, background .15s; }
@@ -25,3 +25,5 @@
 .imm-hint { font-size: 13px; color: var(--ink-3); margin: 5px 0 0 !important; }
 .imm-err { font-size: 13px; color: #B3261E; margin: 5px 0 0 !important; }
 .imm-ok { color: #2F7D5B !important; font-weight: 500; margin-top: 14px; }
+.imm-file { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 14px; }
+.imm-file p { margin: 4px 0; }

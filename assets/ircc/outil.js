@@ -1,15 +1,18 @@
-// /outil/imm5710/: turns a client's questionnaire PDF (with reponses.json attached) into IRCC's IMM 5710, filled.
-// Everything runs here: the page's CSP has connect-src 'none'. Same method as Acrobat when a form is filled:
-// IRCC's bytes are kept and an incremental update is appended (new XFA datasets stream, AES-128 encrypted with
-// the form's own key, plus a cross-reference stream), so IRCC's certification and Reader rights stay valid.
+// /outil/mobilite-francophone/: turns a client's questionnaire PDF (with reponses.json attached) into IRCC's
+// IMM 5710 and IMM 5707, filled. Everything runs here: the page's CSP has connect-src 'none'.
+// Same method as Acrobat when a form is filled: IRCC's bytes are kept and an incremental update is appended (the
+// XFA packets rewritten, AES-128 encrypted with the form's own keys, plus a cross-reference stream), so IRCC's
+// certification and Reader rights stay valid.
 (function () {
   'use strict';
-  const PACK = window.IMM5710;
-  const MAP = window.IMM5710_MAP;
   const root = document.getElementById('imm-tool');
   if (!root) return;
   const FORM_ID = 'ottavi-intake';
-  const FORM_VERSION = 2;
+  const FORM_VERSION = 3;
+  const FORMS = [
+    { id: 'imm5710', name: 'IMM 5710', map: (a, lawyer) => ({ values: window.IMM5710_MAP(a, lawyer) }) },
+    { id: 'imm5707', name: 'IMM 5707', map: (a) => window.IMM5707_MAP(a) }
+  ];
 
   const enc = new TextEncoder();
   const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
@@ -58,21 +61,70 @@
   }
 
   // ---------- fill ----------
-  function fillDatasets(values) {
-    const xml = new DOMParser().parseFromString(PACK.datasets.trim(), 'application/xml');
+  const kids = (node, name) => Array.from(node.children).filter((e) => e.localName === name);
+  const step = (part) => {
+    const m = /^(.+?)(?:\[(\d+)\])?$/.exec(part);
+    return { name: m[1], i: m[2] ? +m[2] : 0 };
+  };
+  const parse = (text) => {
+    const xml = new DOMParser().parseFromString(text.trim(), 'application/xml');
     if (xml.getElementsByTagName('parsererror').length) throw new Error('xml');
-    const data = Array.from(xml.documentElement.children).find((e) => e.localName === 'data');
-    const form1 = Array.from(data.children).find((e) => e.localName === 'form1');
-    const missing = [];
-    for (const [path, value] of values) {
-      let node = form1;
-      for (const part of path.split('/')) {
-        node = node && Array.from(node.children).find((e) => e.localName === part);
+    return xml;
+  };
+  const clear = (node) => { for (const e of node.querySelectorAll('*')) if (!e.children.length) e.textContent = ''; return node; };
+
+  // Data packet: `a/b[1]/c` = the 2nd <b> under <a>, then its <c>.
+  function fillData(xml, plan, missing) {
+    const data = kids(xml.documentElement, 'data')[0];
+    const top = data.firstElementChild;
+    const find = (path) => path.split('/').reduce((node, part) => {
+      if (!node) return null;
+      const { name, i } = step(part);
+      return kids(node, name)[i] || null;
+    }, top);
+    for (const [path, n] of Object.entries(plan.instances || {})) {
+      const parts = path.split('/');
+      const parent = find(parts.slice(0, -1).join('/'));
+      const name = parts[parts.length - 1];
+      let rows = kids(parent, name);
+      while (rows.length < n) {
+        rows[rows.length - 1].after(clear(rows[rows.length - 1].cloneNode(true)));
+        rows = kids(parent, name);
       }
+    }
+    for (const [path, value] of plan.values) {
+      const node = find(path);
       if (!node) { missing.push(path); continue; }
       node.textContent = value;
     }
-    return { xml: '\n' + new XMLSerializer().serializeToString(xml.documentElement) + '\n', missing };
+  }
+
+  // Form packet (what Acrobat shows or hides): subforms by name, created when missing, each kind preceded by its
+  // <instanceManager name="_Name"/> as Acrobat writes them.
+  function fillForm(xml, plan) {
+    const ns = xml.documentElement.namespaceURI;
+    const subforms = (node, name) => Array.from(node.children).filter((e) => e.localName === 'subform' && e.getAttribute('name') === name);
+    const add = (parent, name) => {
+      const list = subforms(parent, name);
+      const el = xml.createElementNS(ns, 'subform');
+      el.setAttribute('name', name);
+      if (list.length) { list[list.length - 1].after(el); return el; }
+      const im = xml.createElementNS(ns, 'instanceManager');
+      im.setAttribute('name', '_' + name);
+      parent.append(im, el);
+      return el;
+    };
+    const top = Array.from(xml.documentElement.children).find((e) => e.localName === 'subform');
+    const get = (path) => path.split('/').reduce((node, part) => {
+      const { name, i } = step(part);
+      while (subforms(node, name).length <= i) add(node, name);
+      return subforms(node, name)[i];
+    }, top);
+    for (const [path, n] of Object.entries(plan.instances || {})) {
+      const parts = path.split('/');
+      get(parts.slice(0, -1).join('/') + '/' + parts[parts.length - 1] + '[' + (n - 1) + ']');
+    }
+    for (const [path, presence] of plan.form || []) get(path).setAttribute('presence', presence);
   }
 
   async function deflate(bytes) {
@@ -80,36 +132,50 @@
     return new Uint8Array(await new Response(stream).arrayBuffer());
   }
 
-  async function encrypt(bytes) {
-    const key = await crypto.subtle.importKey('raw', hex(PACK.objKey), { name: 'AES-CBC' }, false, ['encrypt']);
+  async function encrypt(keyHex, bytes) {
+    const key = await crypto.subtle.importKey('raw', hex(keyHex), { name: 'AES-CBC' }, false, ['encrypt']);
     const iv = crypto.getRandomValues(new Uint8Array(16));
     const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-CBC', iv }, key, bytes));
     return concat([iv, ct]);
   }
 
-  async function buildPdf(values) {
-    const original = b64(PACK.pdf);
+  async function buildPdf(pack, plan) {
+    const original = b64(pack.pdf);
     const sum = toHex(await crypto.subtle.digest('SHA-256', original));
-    if (sum !== PACK.sha256) throw new Error('sha');
-    const { xml, missing } = fillDatasets(values);
-    const body = await encrypt(await deflate(enc.encode(xml)));
+    if (sum !== pack.sha256) throw new Error('sha');
+    const missing = [];
+    const texts = {};
+    const ds = parse(pack.packets.datasets.xml);
+    fillData(ds, plan, missing);
+    texts.datasets = '\n' + new XMLSerializer().serializeToString(ds.documentElement) + '\n';
+    if (pack.packets.form) {
+      const fm = parse(pack.packets.form.xml);
+      fillForm(fm, plan);
+      texts.form = new XMLSerializer().serializeToString(fm.documentElement);
+    }
 
     const parts = [original];
     let length = original.length;
     if (original[length - 1] !== 0x0a) { parts.push(enc.encode('\n')); length += 1; }
-    const dsOffset = length;
-    const obj = concat([enc.encode(`${PACK.num} ${PACK.gen} obj\n<</Filter/FlateDecode/Length ${body.length}>>stream\n`), body, enc.encode('\nendstream\nendobj\n')]);
-    parts.push(obj);
-    length += obj.length;
-    const xrefNum = PACK.size;
+    const objs = Object.keys(texts).map((k) => pack.packets[k]).sort((x, y) => x.num - y.num);
+    const offsets = [];
+    for (const p of objs) {
+      const name = Object.keys(pack.packets).find((k) => pack.packets[k] === p);
+      const body = await encrypt(p.key, await deflate(enc.encode(texts[name])));
+      offsets.push([length, p.gen]);
+      const obj = concat([enc.encode(`${p.num} ${p.gen} obj\n<</Filter/FlateDecode/Length ${body.length}>>stream\n`), body, enc.encode('\nendstream\nendobj\n')]);
+      parts.push(obj);
+      length += obj.length;
+    }
+    const xrefNum = pack.size;
     const xrefOffset = length;
-    const rows = new Uint8Array(12);
+    offsets.push([xrefOffset, 0]);
+    const rows = new Uint8Array(6 * offsets.length);
     const dv = new DataView(rows.buffer);
-    rows[0] = 1; dv.setUint32(1, dsOffset); rows[5] = PACK.gen;
-    rows[6] = 1; dv.setUint32(7, xrefOffset); rows[11] = 0;
-    const ids = PACK.ids.map((x) => `<${x}>`).join('');
-    parts.push(enc.encode(`${xrefNum} 0 obj\n<</Type/XRef/Size ${xrefNum + 1}/Index[${PACK.num} 1 ${xrefNum} 1]/W[1 4 1]` +
-      `/Root ${PACK.root}/Encrypt ${PACK.encrypt}/Info ${PACK.info}/ID[${ids}]/Prev ${PACK.prev}/Length ${rows.length}>>stream\n`));
+    offsets.forEach(([off, gen], i) => { rows[i * 6] = 1; dv.setUint32(i * 6 + 1, off); rows[i * 6 + 5] = gen; });
+    const ids = pack.ids.map((x) => `<${x}>`).join('');
+    parts.push(enc.encode(`${xrefNum} 0 obj\n<</Type/XRef/Size ${xrefNum + 1}/Index[${objs[0].num} ${objs.length} ${xrefNum} 1]/W[1 4 1]` +
+      `/Root ${pack.root}/Encrypt ${pack.encrypt}/Info ${pack.info}/ID[${ids}]/Prev ${pack.prev}/Length ${rows.length}>>stream\n`));
     parts.push(rows, enc.encode(`\nendstream\nendobj\nstartxref\n${xrefOffset}\n%%EOF\n`));
     return { blob: new Blob([concat(parts)], { type: 'application/pdf' }), missing };
   }
@@ -158,12 +224,11 @@
       return;
     }
     if (data.version !== FORM_VERSION) {
-      message('bad', 'Ancienne version du questionnaire', `Ce client a rempli la version ${data.version} du questionnaire, qui ne correspond pas à l’IMM 5710. Envoyez-lui le lien du questionnaire actuel.`);
+      message('bad', 'Ancienne version du questionnaire', `Ce client a rempli la version ${data.version} du questionnaire, qui ne correspond pas aux formulaires actuels. Envoyez-lui le lien du questionnaire actuel.`);
       return;
     }
     const a = data.answers;
     const name = [a.givenNames, a.familyName].filter(Boolean).join(' ');
-    const fileName = `IMM5710-${slug(name) || 'client'}-${today()}.pdf`;
     const openPermit = a.permitType === 'OWP' || a.permitType === 'PGWP';
 
     // What the lawyer adds herself (never asked to the client), with IRCC's own format rules.
@@ -187,51 +252,58 @@
       ok = ok && lOk;
       return ok && { uci: u, lmia: openPermit ? '' : l };
     };
-    const go = h('button', { type: 'button', class: 'btn btn-primary' }, 'Créer l’IMM 5710');
+    const LABEL = 'Créer l’IMM 5710 et l’IMM 5707';
+    const go = h('button', { type: 'button', class: 'btn btn-primary' }, LABEL);
     const done = h('div');
     go.addEventListener('click', async () => {
       const lawyer = check();
       if (!lawyer) return;
       go.disabled = true;
       go.textContent = 'Création…';
-      const values = MAP(a, lawyer);
-      let out;
+      const outs = [];
       try {
-        out = await buildPdf(values);
+        for (const f of FORMS) {
+          const pack = window.IRCC_FORMS[f.id];
+          const plan = f.map(a, lawyer);
+          const out = await buildPdf(pack, plan);
+          outs.push({ f, pack, plan, out, fileName: `${f.name.replace(' ', '')}-${slug(name) || 'client'}-${today()}.pdf` });
+        }
       } catch (e) {
         console.error(e);
         go.disabled = false;
-        go.textContent = 'Créer l’IMM 5710';
+        go.textContent = LABEL;
         done.textContent = '';
-        done.append(h('p', { class: 'imm-err', text: e.message === 'sha' ? 'Le formulaire IRCC enregistré sur le site est abîmé.' : 'Le PDF n’a pas pu être créé. Réessayez avec Chrome, Edge, Firefox ou Safari à jour.' }));
+        done.append(h('p', { class: 'imm-err', text: e.message === 'sha' ? 'Un formulaire IRCC enregistré sur le site est abîmé.' : 'Les PDF n’ont pas pu être créés. Réessayez avec Chrome, Edge, Firefox ou Safari à jour.' }));
         return;
       }
-      download(out.blob, fileName);
       go.disabled = false;
       go.textContent = 'Créer à nouveau';
-      const list = h('table', { class: 'imm-table' }, [h('thead', {}, h('tr', {}, [h('th', { text: 'Champ IMM 5710' }), h('th', { text: 'Valeur' })]))]);
-      const tbody = h('tbody');
-      values.forEach(([p, val]) => tbody.append(h('tr', {}, [h('td', { text: p }), h('td', { text: val })])));
-      list.append(tbody);
       done.textContent = '';
-      done.append(...[
-        h('p', { class: 'imm-ok', text: `${fileName} est dans vos Téléchargements · ${values.length} champs remplis · formulaire IRCC ${PACK.formVersion.replace(/^\./, '')}.` }),
-        h('p', {}, h('button', { type: 'button', class: 'btn btn-outline btn-sm', onclick: () => download(out.blob, fileName) }, 'Télécharger à nouveau')),
-        out.missing.length ? h('p', { class: 'warn', text: `Champs introuvables dans le formulaire (non remplis) : ${out.missing.join(', ')}` }) : null,
-        h('ol', {}, [
-          h('li', { text: 'Ouvrez le fichier dans Adobe Acrobat Reader (pas dans le navigateur ni dans Aperçu).' }),
-          h('li', { text: 'Relisez chaque page et complétez ce qui manque.' }),
-          h('li', { text: 'Cliquez sur « Valider » : la page des codes-barres se crée.' }),
-          h('li', { text: 'Imprimez, faites signer et dater le client.' })
-        ]),
-        h('details', {}, [h('summary', { text: 'Voir les valeurs écrites dans le formulaire' }), list])
-      ].filter(Boolean));
+      // One button per file: browsers block a second download that no click started.
+      for (const { f, pack, plan, out, fileName } of outs) {
+        const list = h('table', { class: 'imm-table' }, [h('thead', {}, h('tr', {}, [h('th', { text: 'Champ ' + f.name }), h('th', { text: 'Valeur' })]))]);
+        const tbody = h('tbody');
+        plan.values.forEach(([p, val]) => tbody.append(h('tr', {}, [h('td', { text: p }), h('td', { text: val })])));
+        list.append(tbody);
+        done.append(h('div', { class: 'imm-file' }, [
+          h('p', {}, h('button', { type: 'button', class: 'btn btn-primary', onclick: () => download(out.blob, fileName) }, 'Télécharger l’' + f.name)),
+          h('p', { class: 'imm-hint', text: `${fileName} · ${plan.values.length} champs remplis · formulaire IRCC ${pack.formVersion.replace(/^\./, '')}` }),
+          out.missing.length ? h('p', { class: 'warn', text: `Champs introuvables dans le formulaire (non remplis) : ${out.missing.join(', ')}` }) : null,
+          h('details', {}, [h('summary', { text: 'Voir les valeurs écrites dans l’' + f.name }), list])
+        ].filter(Boolean)));
+      }
+      done.append(h('ol', {}, [
+        h('li', { text: 'Ouvrez chaque fichier dans Adobe Acrobat Reader (pas dans le navigateur ni dans Aperçu).' }),
+        h('li', { text: 'Relisez chaque page et complétez ce qui manque.' }),
+        h('li', { text: 'Cliquez sur « Valider » dans chaque formulaire (IMM 5710 : la page des codes-barres se crée).' }),
+        h('li', { text: 'Faites signer et dater le client : IMM 5710, et IMM 5707 section C (plus la note 1 s’il n’a ni époux ni conjoint, la note 2 s’il n’a pas d’enfants).' })
+      ]));
     });
 
     result.textContent = '';
     result.append(h('div', { class: 'imm-card ok' }, [
       h('h2', { text: `Client : ${name || 'sans nom'}` }),
-      h('p', { text: 'Ajoutez ce que le client ne fournit pas, puis créez le formulaire.' }),
+      h('p', { text: 'Ajoutez ce que le client ne fournit pas, puis créez les deux formulaires.' }),
       uci.box,
       openPermit ? h('p', { class: 'imm-hint', text: 'Permis ouvert ou postdiplôme : pas de numéro d’EIMT.' }) : lmia.box,
       h('p', {}, go),

@@ -23,9 +23,11 @@ Private link Me Poughon sends to clients: answers save in the client's browser, 
 device, and the PDF is made in the browser and emailed by the client. Nothing reaches a server.
 
 - [x] Questions = IMM 5710 (work permit inside Canada), in IRCC's wording (2026-11-23); questionnaire version 2
+- [x] Francophone Mobility: + IMM 5707 (family information) questions, asked once for both forms; questionnaire version 3 (2026-11-24)
 - [ ] Me Poughon reviews the questionnaire wording and the English translations of the questions
-- [ ] Open a filled IMM 5710 from `/outil/imm5710/` in Acrobat Reader and click « Valider » with real-looking data: note any field it rejects
-- [ ] When IRCC publishes a new IMM 5710: replace `tools/imm5710/imm5710f.pdf`, run `tools/imm5710/prepare.py`, check the field paths in `assets/imm5710/imm5710-map.js`
+- [ ] Open the IMM 5710 and IMM 5707 filled by `/outil/mobilite-francophone/` in Acrobat Reader and click « Valider » with real-looking data: note any field it rejects
+- [ ] When IRCC publishes a new IMM 5710 or IMM 5707: replace the PDF in `tools/ircc/`, run `tools/ircc/prepare.py`, check the field paths in `assets/ircc/imm5710-map.js` / `imm5707-map.js`
+- [ ] IMM 5707 is for each applicant aged 18+: the questionnaire covers the main applicant only. An accompanying spouse who applies too needs their own IMM 5707 (later)
 - [x] Address that receives the PDFs: `contact@vpavocat.com` (owner, 2026-11-23)
 - [ ] Privacy page: add a line saying the questionnaire keeps answers on the client's device and sends nothing (ask before legal wording)
 - [ ] Test on a phone (iPhone Safari + Android Chrome): resume after closing the browser, progress file, PDF download
