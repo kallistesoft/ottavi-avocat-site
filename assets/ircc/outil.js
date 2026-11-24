@@ -219,6 +219,7 @@
         for (const f of fields) {
           if (!shown(f, scope) || f.type === 'note') continue;
           if (f.type === 'group') { sub(fr(f.label)); walk(f.fields, scope); }
+          else if (f.type === 'fixed') tbody.append(h('tr', {}, [h('td', { text: fr(f.label) }), h('td', { text: fr(f.text) })]));
           else if (f.type === 'repeat') {
             const list = Array.isArray(valueIn(f.id, scope)) ? valueIn(f.id, scope) : [];
             list.forEach((item, n) => { sub(`${fr(f.label)} ${n + 1}`); walk(f.fields, item); });
@@ -306,7 +307,10 @@
       ok = ok && lOk;
       return ok && { uci: u, lmia: openPermit ? '' : l };
     };
-    const LABEL = 'Créer l’IMM 5710 et l’IMM 5707';
+    // The IMM 5710 is for people already in Canada (IRCC locks its country fields to Canada).
+    const abroad = a.location === 'out';
+    const forms = FORMS.filter((f) => !(abroad && f.id === 'imm5710'));
+    const LABEL = abroad ? 'Créer l’IMM 5707' : 'Créer l’IMM 5710 et l’IMM 5707';
     const go = h('button', { type: 'button', class: 'btn btn-primary' }, LABEL);
     const done = h('div');
     go.addEventListener('click', async () => {
@@ -316,7 +320,7 @@
       go.textContent = 'Création…';
       const outs = [];
       try {
-        for (const f of FORMS) {
+        for (const f of forms) {
           const pack = window.IRCC_FORMS[f.id];
           const plan = f.map(a, lawyer);
           const out = await buildPdf(pack, plan);
@@ -350,19 +354,21 @@
         h('li', { text: 'Ouvrez chaque fichier dans Adobe Acrobat Reader (pas dans le navigateur ni dans Aperçu).' }),
         h('li', { text: 'Relisez chaque page et complétez ce qui manque.' }),
         h('li', { text: 'Cliquez sur « Valider » dans chaque formulaire (IMM 5710 : la page des codes-barres se crée).' }),
-        h('li', { text: 'Faites signer et dater le client : IMM 5710, et IMM 5707 section C (plus la note 1 s’il n’a ni époux ni conjoint, la note 2 s’il n’a pas d’enfants).' })
+        h('li', { text: (abroad ? 'Faites signer et dater le client : IMM 5707' : 'Faites signer et dater le client : IMM 5710, et IMM 5707') + ' section C (plus la note 1 s’il n’a ni époux ni conjoint, la note 2 s’il n’a pas d’enfants).' })
       ]));
     });
 
     result.textContent = '';
     result.append(h('div', { class: 'imm-card ok' }, [
       h('h2', { text: `Client : ${name || 'sans nom'}` }),
-      h('p', { text: 'Ajoutez ce que le client ne fournit pas, puis créez les deux formulaires.' }),
-      uci.box,
-      openPermit ? h('p', { class: 'imm-hint', text: 'Permis ouvert ou postdiplôme : pas de numéro d’EIMT.' }) : lmia.box,
+      abroad
+        ? h('p', { class: 'warn', text: 'Client à l’extérieur du Canada : l’IMM 5710 ne s’applique pas (il est réservé aux personnes déjà au Canada). Seul l’IMM 5707 est créé.' })
+        : h('p', { text: 'Ajoutez ce que le client ne fournit pas, puis créez les deux formulaires.' }),
+      abroad ? null : uci.box,
+      abroad ? null : openPermit ? h('p', { class: 'imm-hint', text: 'Permis ouvert ou postdiplôme : pas de numéro d’EIMT.' }) : lmia.box,
       h('p', {}, go),
       done
     ]), recap(a));
-    uci.input.focus();
+    if (!abroad) uci.input.focus();
   }
 })();

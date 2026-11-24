@@ -122,3 +122,6 @@
 .ik-check input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--plum); flex: none; }
 .ik-info { grid-column: 1 / -1; margin: 0 0 16px; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--tint); color: var(--ink-2); font-size: 14px; line-height: 1.5; }
 .ik-label { overflow-wrap: anywhere; }
+
+/* Locked value (type 'fixed'), e.g. Canada for a client already in Canada. */
+.ik-f input.ik-fixed, .ik-f input.ik-fixed:focus { background: var(--tint); color: var(--ink-2); border-color: var(--line); box-shadow: none; cursor: not-allowed; }

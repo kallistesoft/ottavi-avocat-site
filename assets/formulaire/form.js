@@ -223,7 +223,7 @@
     const walk = (fields, prefix, scope, where) => {
       for (const f of fields) {
         if (!shown(f, scope)) continue;
-        if (f.type === 'note') continue;
+        if (f.type === 'note' || f.type === 'fixed') continue;
         if (f.type === 'group') walk(f.fields, prefix, scope, where.concat(L(f.label)));
         else if (f.type === 'repeat') items(f).forEach((item, i) => walk(f.fields, `${prefix}${f.id}.${i}.`, item, where.concat(UI.item(L(f.label), i + 1))));
         else out.push({ field: f, path: prefix + f.id, scope, where });
@@ -434,6 +434,13 @@
     for (const f of fields) {
       if (f.type === 'note') {
         parent.append(h('p', { class: 'ik-info', 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix, text: L(f.text) }));
+      } else if (f.type === 'fixed') {
+        // A value set by the questionnaire itself (e.g. Canada), shown locked: nothing to answer.
+        const id = domId(prefix + f.id);
+        parent.append(h('div', { class: 'ik-f', 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix }, [
+          h('label', { class: 'ik-label', for: id, text: L(f.label) }),
+          h('input', { id, type: 'text', value: L(f.text), readonly: true, 'aria-readonly': 'true', class: 'ik-fixed', tabindex: '-1' })
+        ]));
       } else if (f.type === 'group') {
         const box = h('div', { class: 'ik-group', 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix }, [
           h('p', { class: 'ik-group-label', text: L(f.label) })
@@ -732,6 +739,8 @@
         if (f.type === 'group') {
           subhead(L(f.label));
           fieldsOut(f.fields, prefix, scope);
+        } else if (f.type === 'fixed') {
+          row(L(f.label), L(f.text));
         } else if (f.type === 'repeat') {
           items(f).forEach((item, i) => {
             subhead(UI.item(L(f.label), i + 1));
