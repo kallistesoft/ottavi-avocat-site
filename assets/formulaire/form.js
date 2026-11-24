@@ -45,7 +45,9 @@
       doneTitle: 'Votre PDF est prêt', doneLead: "Il a été créé sur votre appareil. Rien n'a été envoyé sur Internet.",
       doneWhere: (pages) => `Dans vos Téléchargements · ${pages} page${pages > 1 ? 's' : ''}`,
       sendTitle: 'Dernière étape : envoyez-le à Me Poughon',
-      sendSteps: ['Cliquez sur « Écrire le courriel » ci-dessous.', 'Joignez le PDF depuis vos Téléchargements.', 'Envoyez.'],
+      sendSteps: ['Cliquez sur « Écrire le courriel » ci-dessous : le courriel s’ouvre, adressé à Me Poughon.', 'Joignez le PDF : il est dans vos Téléchargements (un lien de courriel ne peut pas joindre de fichier).', 'Envoyez.'],
+      shareSteps: ['Touchez « Envoyer le PDF » et choisissez votre application de courriel : le PDF est déjà joint.', 'Collez l’adresse de Me Poughon comme destinataire (elle est copiée).', 'Envoyez.'],
+      share: 'Envoyer le PDF', copyAddr: 'Copier l’adresse', copied: 'Adresse copiée',
       writeMail: 'Écrire le courriel', again: 'Télécharger à nouveau', edit: 'Modifier mes réponses', clearDevice: 'Effacer mes réponses de cet appareil',
       doneNote: (email) => `Adresse : ${email}. Vos réponses restent enregistrées sur cet appareil jusqu'à ce que vous les effaciez.`,
       mailSubject: (name) => `Questionnaire – ${name}`,
@@ -88,7 +90,9 @@
       doneTitle: 'Your PDF is ready', doneLead: 'It was created on your device. Nothing was sent over the Internet.',
       doneWhere: (pages) => `In your Downloads · ${pages} page${pages > 1 ? 's' : ''}`,
       sendTitle: 'Last step: send it to Ms. Poughon',
-      sendSteps: ['Click “Write the email” below.', 'Attach the PDF from your Downloads.', 'Send.'],
+      sendSteps: ['Click “Write the email” below: the email opens, addressed to Ms. Poughon.', 'Attach the PDF: it is in your Downloads (an email link cannot attach a file).', 'Send.'],
+      shareSteps: ['Tap “Send the PDF” and pick your email app: the PDF is already attached.', 'Paste Ms. Poughon’s address as the recipient (it is copied).', 'Send.'],
+      share: 'Send the PDF', copyAddr: 'Copy the address', copied: 'Address copied',
       writeMail: 'Write the email', again: 'Download again', edit: 'Edit my answers', clearDevice: 'Clear my answers from this device',
       doneNote: (email) => `Address: ${email}. Your answers stay saved on this device until you clear them.`,
       mailSubject: (name) => `Questionnaire – ${name}`,
@@ -637,6 +641,21 @@
     renderSteps('done');
     const name = clientName();
     const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(UI.mailSubject(name))}&body=${encodeURIComponent(UI.mailBody(name))}`;
+    // A mailto: link can't attach a file. Where the device can share files (phones, Safari, Edge…), the share sheet
+    // opens the email app with the PDF already attached; the recipient can't be set that way, so the address is copied.
+    const file = new File([lastPdf.blob], lastPdf.name, { type: 'application/pdf' });
+    let canShare = false;
+    try { canShare = !!(navigator.canShare && navigator.canShare({ files: [file] })); } catch (e) { canShare = false; }
+    const copyAddress = async (btn) => {
+      try { await navigator.clipboard.writeText(EMAIL); if (btn) btn.lastChild.textContent = UI.copied; return true; } catch (e) { return false; }
+    };
+    const shareBtn = h('button', { type: 'button', class: 'btn btn-primary', onclick: async () => {
+      await copyAddress();
+      try {
+        await navigator.share({ files: [file], title: UI.mailSubject(name), text: UI.mailBody(name) + '\n\n' + EMAIL });
+      } catch (e) { /* closed by the client */ }
+    } }, [icon('mail'), UI.share]);
+    const copyBtn = h('button', { type: 'button', class: 'btn btn-outline', onclick: (e) => copyAddress(e.currentTarget) }, [icon('doc'), h('span', { text: UI.copyAddr })]);
     main.textContent = '';
     main.append(h('div', { class: 'ik-card ik-done' }, [
       h('div', { class: 'ik-big-ok', 'aria-hidden': 'true' }, icon('check')),
@@ -644,11 +663,13 @@
       h('p', { class: 'ik-lead', text: UI.doneLead }),
       h('div', { class: 'ik-file' }, [icon('doc'), h('span', {}, [h('strong', { text: lastPdf.name }), h('small', { text: UI.doneWhere(lastPdf.pages) })])]),
       h('p', { class: 'ik-send-title', text: UI.sendTitle }),
-      h('ol', { class: 'ik-how' }, UI.sendSteps.map((s) => h('li', { text: s }))),
-      h('div', { class: 'btn-row' }, [
-        h('a', { class: 'btn btn-primary', href: mailto }, [icon('mail'), UI.writeMail]),
-        h('button', { type: 'button', class: 'btn btn-outline', onclick: () => download(lastPdf.blob, lastPdf.name) }, [icon('down'), UI.again])
-      ]),
+      h('ol', { class: 'ik-how' }, (canShare ? UI.shareSteps : UI.sendSteps).map((s) => h('li', { text: s }))),
+      h('div', { class: 'btn-row' }, canShare
+        ? [shareBtn, copyBtn, h('button', { type: 'button', class: 'btn btn-outline', onclick: () => download(lastPdf.blob, lastPdf.name) }, [icon('down'), UI.again])]
+        : [
+          h('a', { class: 'btn btn-primary', href: mailto }, [icon('mail'), UI.writeMail]),
+          h('button', { type: 'button', class: 'btn btn-outline', onclick: () => download(lastPdf.blob, lastPdf.name) }, [icon('down'), UI.again])
+        ]),
       h('p', { class: 'ik-note', text: UI.doneNote(EMAIL) }),
       h('div', { class: 'ik-done-links' }, [
         h('button', { type: 'button', class: 'ik-link', onclick: () => goTo(0) }, '← ' + UI.edit),
