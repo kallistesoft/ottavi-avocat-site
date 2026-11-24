@@ -38,6 +38,7 @@
       required: 'Cette réponse est obligatoire.', email: 'Indiquez une adresse courriel valide, par exemple nom@exemple.com.',
       date: 'Indiquez une date complète.', month: 'Indiquez le mois et l’année.', format: 'Vérifiez le format de cette réponse.', checked: 'Oui', number: (min, max) => `Indiquez un nombre entre ${min} et ${max}.`,
       remove: 'Retirer', item: (label, n) => `${label} ${n}`,
+      jump: 'Aller à une section', finished: 'PDF', sectionsDone: (n, all) => `${n} section${n > 1 ? 's' : ''} sur ${all} terminée${n > 1 ? 's' : ''}`,
       missingTitle: 'Il manque quelques réponses avant de créer le PDF :',
       working: 'Création du PDF…',
       pdfError: "Le PDF n'a pas pu être créé. Réessayez ; si cela continue, enregistrez votre avancement et écrivez-nous.",
@@ -80,6 +81,7 @@
       required: 'This answer is required.', email: 'Enter a valid email address, for example name@example.com.',
       date: 'Enter a full date.', month: 'Enter the month and year.', format: 'Check the format of this answer.', checked: 'Yes', number: (min, max) => `Enter a number between ${min} and ${max}.`,
       remove: 'Remove', item: (label, n) => `${label} ${n}`,
+      jump: 'Go to a section', finished: 'PDF', sectionsDone: (n, all) => `${n} of ${all} section${all > 1 ? 's' : ''} done`,
       missingTitle: 'A few answers are missing before the PDF can be created:',
       working: 'Creating the PDF…',
       pdfError: "The PDF couldn't be created. Try again; if it keeps failing, save your progress and write to us.",
@@ -320,7 +322,13 @@
   // ---------- layout ----------
   root.textContent = '';
   const banners = h('div', { class: 'ik-banners' });
-  const steps = h('ol', { class: 'ik-steps' });
+  // Progress: "6/11", a menu of the sections (✓ = done) to jump to any of them, and one bar of sections done.
+  // (11 sections: a row of step labels didn't fit, even on a computer.)
+  const mJump = h('select', { class: 'ik-msteps-select', 'aria-label': UI.jump, onchange: (e) => { const i = +e.target.value; if (i >= 0) goTo(i); } });
+  const mCount = h('span', { class: 'ik-msteps-count', 'aria-hidden': 'true' });
+  const mFill = h('span', { class: 'ik-mbar-fill' });
+  const mBar = h('div', { class: 'ik-mbar', role: 'img' }, mFill);
+  const msteps = h('div', { class: 'ik-msteps' }, [h('div', { class: 'ik-msteps-row' }, [mCount, mJump]), mBar]);
   const status = h('p', { class: 'ik-status', 'aria-live': 'off' });
   const main = h('div', { class: 'ik-main' });
   const live = h('p', { class: 'ik-toast', role: 'status', 'aria-live': 'polite' });
@@ -331,7 +339,7 @@
     h('button', { type: 'button', class: 'ik-link muted', onclick: clearAll }, UI.clear),
     fileInput
   ]);
-  root.append(banners, steps, status, main, live, tools);
+  root.append(banners, msteps, status, main, live, tools);
 
   function icon(kind) {
     const paths = {
@@ -375,17 +383,14 @@
   setInterval(renderStatus, 15000);
 
   function renderSteps(view) {
-    steps.textContent = '';
-    DEF.sections.forEach((sec, i) => {
-      const done = isDone(sec);
-      const cur = view === 'form' && i === state.section;
-      const btn = h('button', { type: 'button', 'aria-current': cur ? 'step' : null, onclick: () => goTo(i) }, [
-        h('span', { class: 'ik-bar', 'aria-hidden': 'true' }),
-        h('span', { class: 'ik-step-label' }, [done ? '✓ ' : '', L(sec.title)]),
-        done ? h('span', { class: 'sr-only', text: ' ✓' }) : null
-      ]);
-      steps.append(h('li', { class: 'ik-step' + (done ? ' done' : '') + (cur ? ' cur' : '') }, btn));
-    });
+    const doneN = doneCount();
+    mJump.textContent = '';
+    DEF.sections.forEach((sec, i) => mJump.append(h('option', { value: String(i), text: `${i + 1}. ${L(sec.title)}${isDone(sec) ? '  ✓' : ''}` })));
+    if (view !== 'form') mJump.append(h('option', { value: '-1', text: UI.finished }));
+    mJump.value = view === 'form' ? String(state.section) : '-1';
+    mCount.textContent = view === 'form' ? `${state.section + 1}/${N}` : '✓';
+    mFill.style.width = `${Math.round((doneN / N) * 100)}%`;
+    mBar.setAttribute('aria-label', UI.sectionsDone(doneN, N));
   }
 
   // ---------- form view ----------
@@ -445,7 +450,7 @@
         const box = h('div', { class: 'ik-group', 'data-showif': f.showIf ? JSON.stringify(f.showIf) : null, 'data-scope': prefix }, [
           h('p', { class: 'ik-group-label', text: L(f.label) })
         ]);
-        const grid = h('div', { class: 'ik-grid' });
+        const grid = h('div', { class: 'ik-grid' + (f.cols === 3 ? ' cols-3' : '') });
         box.append(grid);
         renderFields(grid, f.fields, prefix, scope);
         parent.append(box);
