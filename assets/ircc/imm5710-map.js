@@ -67,9 +67,15 @@ window.IMM5710_MAP = function (a, lawyer) {
   // Question 7: always Canada (IRCC's field is locked). Dates only with a temporary status: IRCC's form erases a
   // citizen/PR/protected/claimant status that comes with dates.
   set(C + 'CurrentCOR/Row2/Country', '511');
-  set(C + 'CurrentCOR/Row2/Status', a.corStatus);
-  if (a.corStatus === '06') set(C + 'CurrentCOR/Row2/Other', a.corOther);
-  if (['03', '04', '05', '06'].includes(a.corStatus)) {
+  if (Y(a.applyRestore)) {
+    // IMM 5710 instructions, restoring status: « Autre », « Perte de statut, rétablissement », dates left empty.
+    set(C + 'CurrentCOR/Row2/Status', '06');
+    set(C + 'CurrentCOR/Row2/Other', 'Perte de statut, rétablissement');
+  } else {
+    set(C + 'CurrentCOR/Row2/Status', a.corStatus);
+    if (a.corStatus === '06') set(C + 'CurrentCOR/Row2/Other', a.corOther);
+  }
+  if (!Y(a.applyRestore) && ['03', '04', '05', '06'].includes(a.corStatus)) {
     date(C + 'CurrentCOR/Row2/FromDate', a.corFrom, [C + 'CORDates/FromYr', C + 'CORDates/FromMM', C + 'CORDates/FromDD']);
     date(C + 'CurrentCOR/Row2/ToDate', a.corTo, [C + 'CORDates/ToYr', C + 'CORDates/ToMM', C + 'CORDates/ToDD']);
   }
@@ -193,8 +199,10 @@ window.IMM5710_MAP = function (a, lawyer) {
     set(ED + 'EduLine2/Country', a.eduCountry);
     if (a.eduCountry === '511') set(ED + 'EduLine2/Prov', a.eduProv);
   }
+  // Co-op and post-graduation permits: the employment section is not required (IMM 5710 instructions).
+  const jobs = a.permitType === 'COWP' || a.permitType === 'PGWP' ? [] : a.jobs || [];
   ['Page3/Employment/EmpRec1/', 'Page4/EmpRec2/', 'Page4/EmpRec3/'].forEach((base, i) => {
-    const j = (a.jobs || [])[i];
+    const j = jobs[i];
     if (!j) return;
     month(base + 'Line1/From/YYYY', base + 'Line1/From/MM', j.from);
     month(base + 'Line2/To/YYYY', base + 'Line2/To/MM', j.to);

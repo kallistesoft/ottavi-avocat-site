@@ -36,7 +36,7 @@
       otherVersion: "Ce fichier vient d'une autre version du questionnaire et ne peut pas être repris.",
       choose: 'Choisir…',
       required: 'Cette réponse est obligatoire.', email: 'Indiquez une adresse courriel valide, par exemple nom@exemple.com.',
-      date: 'Indiquez une date complète.', month: 'Indiquez le mois et l’année.', format: 'Vérifiez le format de cette réponse.', checked: 'Oui', number: (min, max) => `Indiquez un nombre entre ${min} et ${max}.`,
+      date: 'Indiquez une date complète.', notFuture: 'Cette date ne peut pas être après aujourd’hui.', future: 'Cette date doit être après aujourd’hui.', notPast: 'Cette date doit être aujourd’hui ou plus tard.', after: 'Cette date doit être après la date de début.', notBefore: 'Cette date ne peut pas être avant la date de début.', month: 'Indiquez le mois et l’année.', format: 'Vérifiez le format de cette réponse.', checked: 'Oui', number: (min, max) => `Indiquez un nombre entre ${min} et ${max}.`,
       remove: 'Retirer', item: (label, n) => `${label} ${n}`,
       jump: 'Aller à une section', finished: 'PDF', sectionsDone: (n, all) => `${n} section${n > 1 ? 's' : ''} sur ${all} terminée${n > 1 ? 's' : ''}`,
       missingTitle: 'Il manque quelques réponses avant de créer le PDF :',
@@ -79,7 +79,7 @@
       otherVersion: 'This file comes from another version of the questionnaire and cannot be restored.',
       choose: 'Choose…',
       required: 'This answer is required.', email: 'Enter a valid email address, for example name@example.com.',
-      date: 'Enter a full date.', month: 'Enter the month and year.', format: 'Check the format of this answer.', checked: 'Yes', number: (min, max) => `Enter a number between ${min} and ${max}.`,
+      date: 'Enter a full date.', notFuture: 'This date cannot be after today.', future: 'This date must be after today.', notPast: 'This date must be today or later.', after: 'This date must be after the start date.', notBefore: 'This date cannot be before the start date.', month: 'Enter the month and year.', format: 'Check the format of this answer.', checked: 'Yes', number: (min, max) => `Enter a number between ${min} and ${max}.`,
       remove: 'Remove', item: (label, n) => `${label} ${n}`,
       jump: 'Go to a section', finished: 'PDF', sectionsDone: (n, all) => `${n} of ${all} section${all > 1 ? 's' : ''} done`,
       missingTitle: 'A few answers are missing before the PDF can be created:',
@@ -234,11 +234,26 @@
     walk(section.fields, '', null, []);
     return out;
   }
-  function errorFor(field, value) {
+  function errorFor(field, value, scope) {
     const v = String(value == null ? '' : value).trim();
+    // requiredUnless: 'id' = required when that other answer is empty (e.g. street number unless a P.O. box).
+    if (!v && field.requiredUnless && !String(valueIn(field.requiredUnless, scope) || '').trim()) return UI.required;
     if (!v) return field.required ? (field.type === 'date' ? UI.date : field.type === 'month' ? UI.month : UI.required) : '';
     if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return UI.email;
     if (field.type === 'date' && !/^\d{4}-\d{2}-\d{2}$/.test(v)) return UI.date;
+    // IRCC's own date rules (from the forms' validation scripts):
+    // notFuture = today or before; future = after today; notPast = today or later;
+    // after: 'id' = after that date; notBefore: 'id' = that date or later (same item, or top level).
+    if (field.type === 'date') {
+      const now = today();
+      if (field.notFuture && v > now) return UI.notFuture;
+      if (field.future && v <= now) return field.futureMsg ? L(field.futureMsg) : UI.future;
+      if (field.notPast && v < now) return UI.notPast;
+      const other = (id) => String(valueIn(id, scope) || '').trim();
+      if (field.after && other(field.after) && v <= other(field.after)) return UI.after;
+      if (field.notBefore && other(field.notBefore) && v < other(field.notBefore)) return UI.notBefore;
+      if (field.notAfter && other(field.notAfter) && v > other(field.notAfter)) return field.notAfterMsg ? L(field.notAfterMsg) : UI.format;
+    }
     if (field.type === 'month' && !/^\d{4}-\d{2}$/.test(v)) return UI.month;
     if (field.pattern && !new RegExp(field.pattern).test(v)) return field.patternMsg ? L(field.patternMsg) : UI.format;
     if (field.type === 'number') {
@@ -251,7 +266,7 @@
   }
   function problems(section) {
     return leaves(section)
-      .map((l) => ({ ...l, msg: errorFor(l.field, getAt(l.path)) }))
+      .map((l) => ({ ...l, msg: errorFor(l.field, getAt(l.path), l.scope) }))
       .filter((l) => l.msg);
   }
   const isDone = (section) => problems(section).length === 0;
@@ -519,7 +534,7 @@
       control = h('input', {
         ...common, type: f.type === 'number' ? 'text' : f.type, inputmode: f.type === 'number' ? 'numeric' : null,
         placeholder: f.type === 'month' ? (LANG === 'fr' ? 'AAAA-MM' : 'YYYY-MM') : f.placeholder || null,
-        min: f.min, max: f.max
+        min: f.notPast || f.future ? today() : f.min, max: f.notFuture ? today() : f.max
       });
       control.value = value;
     }
@@ -556,20 +571,20 @@
     });
   }
 
-  function fieldDef(path) {
+  function leafAt(path) {
     const sec = DEF.sections[state.section];
-    const l = leaves(sec).find((x) => x.path === path);
-    return l && l.field;
+    return leaves(sec).find((x) => x.path === path);
   }
 
   // onlyIfFilled: on leaving a field, flag a wrong format but not an empty required answer (that waits for "Next").
   function showError(path, onlyIfFilled) {
-    const f = fieldDef(path);
+    const l = leafAt(path);
+    const f = l && l.field;
     const wrap = document.querySelector(`[data-field="${CSS.escape(path)}"]`);
     if (!wrap) return;
     const box = wrap.querySelector('.ik-err');
     const value = getAt(path);
-    let msg = f ? errorFor(f, value) : '';
+    let msg = f ? errorFor(f, value, l.scope) : '';
     if (onlyIfFilled && !String(value).trim()) msg = box.hidden ? '' : msg;
     box.textContent = msg;
     box.hidden = !msg;
