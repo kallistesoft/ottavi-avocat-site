@@ -22,25 +22,24 @@ window.IMM1295_MAP = function (a, lawyer) {
     const m = /^(\d{4})-(\d{2})$/.exec(v(ym));
     if (m) { set(yPath, m[1]); set(mPath, m[2]); }
   };
+  // Phones are always written in IRCC's « Autre » layout (country code + number): it's the layout shown by default.
+  // The « Canada/États-Unis » 3-box layout only appears after a click in Acrobat, and IRCC's check rejects that box
+  // ticked while its boxes are hidden. Country code 1 + the 10 digits is accepted for a Canadian number.
   const phone = (base, format, type, country, number, ext) => {
-    const digits = v(number).replace(/\D/g, '');
+    let digits = v(number).replace(/\D/g, '');
     if (!digits) return;
+    let code = v(country).replace(/\D/g, '');
+    if (format !== 'other') {
+      code = '1';
+      if (digits.length === 11 && digits[0] === '1') digits = digits.slice(1);
+    }
     if (type) set(base + '/Type', type);
     set(base + '/NumberExt', ext);
     set(base + '/ActualNumber', digits);
-    if (format === 'other') {
-      set(base + '/CanadaUS', '0');
-      set(base + '/Other', '1');
-      set(base + '/NumberCountry', v(country).replace(/\D/g, ''));
-      set(base + '/IntlNumber/IntlNumber', digits);
-    } else {
-      const d = digits.length === 11 && digits[0] === '1' ? digits.slice(1) : digits;
-      set(base + '/CanadaUS', '1');
-      set(base + '/Other', '0');
-      set(base + '/NANumber/AreaCode', d.slice(0, 3));
-      set(base + '/NANumber/FirstThree', d.slice(3, 6));
-      set(base + '/NANumber/LastFive', d.slice(6));
-    }
+    set(base + '/CanadaUS', '0');
+    set(base + '/Other', '1');
+    set(base + '/NumberCountry', code);
+    set(base + '/IntlNumber/IntlNumber', digits);
   };
   const residence = (row, dates, country, status, other, from, to) => {
     set(row + 'Pays', country);

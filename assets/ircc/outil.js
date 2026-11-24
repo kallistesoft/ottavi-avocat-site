@@ -62,6 +62,34 @@
     throw new Error('nojson');
   }
 
+  // ---------- IRCC's characters ----------
+  // IRCC's free-text rule (util.validateFormat "Open Text", both forms): ASCII letters, digits, spaces, keyboard
+  // punctuation and the French accented letters only. Phones and word processors type ’ « » – … and no-break spaces,
+  // which make « Valider » fail: every value is cleaned before it's written, and the changes are listed.
+  const IRCC_OK = /^[a-zA-Z0-9\s~!@#$%^&*()_+{}:<>?`\-=[\]\\;',./"éàèùâêîôûëïöüæçœÉÀÈÙÂÊÎÔÛËÏÖÜÆÇŒ]*$/;
+  const SWAP = [[/«[\s\u00A0\u202F]*/g, '"'], [/[\s\u00A0\u202F]*»/g, '"'], [/[’‘‛′`´]/g, "'"], [/[“”„″«»]/g, '"'], [/[‐‑‒–—―−]/g, '-'], [/…/g, '...'], [/[\u00A0\u2007\u202F\u2009\u200A]/g, ' '], [/•/g, '-'], [/€/g, 'EUR'], [/°/g, ' deg']];
+  function irccText(value) {
+    let s = String(value);
+    for (const [re, to] of SWAP) s = s.replace(re, to);
+    // Any other letter: keep its base letter (ñ → n, ß → ss), unless IRCC accepts it as is (é, ç…).
+    s = Array.from(s, (ch) => {
+      if (IRCC_OK.test(ch)) return ch;
+      if (ch === 'ß') return 'ss';
+      const base = ch.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      return IRCC_OK.test(base) ? base : '';
+    }).join('');
+    return s.replace(/[ \t]{2,}/g, ' ').trim();
+  }
+  function cleanPlan(plan) {
+    const changed = [];
+    plan.values = plan.values.map(([path, value]) => {
+      const clean = irccText(value);
+      if (clean !== String(value)) changed.push([path, String(value), clean]);
+      return [path, clean];
+    });
+    return changed;
+  }
+
   // ---------- fill ----------
   const kids = (node, name) => Array.from(node.children).filter((e) => e.localName === name);
   const step = (part) => {
@@ -332,6 +360,7 @@
         for (const f of forms) {
           const pack = window.IRCC_FORMS[f.id];
           const plan = f.map(a, lawyer);
+          plan.changed = cleanPlan(plan);
           const out = await buildPdf(pack, plan);
           outs.push({ f, pack, plan, out, fileName: `${f.name.replace(' ', '')}-${slug(name) || 'client'}-${today()}.pdf` });
         }
@@ -356,6 +385,10 @@
           h('p', {}, h('button', { type: 'button', class: 'btn btn-primary', onclick: () => download(out.blob, fileName) }, 'Télécharger l’' + f.name)),
           h('p', { class: 'imm-hint', text: `${fileName} · ${plan.values.length} champs remplis · formulaire IRCC ${pack.formVersion.replace(/^\./, '')}` }),
           out.missing.length ? h('p', { class: 'warn', text: `Champs introuvables dans le formulaire (non remplis) : ${out.missing.join(', ')}` }) : null,
+          plan.changed.length ? h('details', { class: 'warn' }, [
+            h('summary', { text: `${plan.changed.length} réponse${plan.changed.length > 1 ? 's' : ''} adaptée${plan.changed.length > 1 ? 's' : ''} aux caractères acceptés par IRCC (’ « » – …)` }),
+            h('ul', {}, plan.changed.map(([p, from, to]) => h('li', { text: `${p} : « ${from} » → « ${to} »` })))
+          ]) : null,
           h('details', {}, [h('summary', { text: 'Voir les valeurs écrites dans l’' + f.name }), list])
         ].filter(Boolean)));
       }

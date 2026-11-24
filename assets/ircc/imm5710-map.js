@@ -7,6 +7,7 @@ window.IMM5710_MAP = function (a, lawyer) {
   const out = [];
   const v = (x) => (x == null ? '' : String(x).trim());
   const set = (path, value) => { if (v(value) !== '') out.push([path, v(value)]); };
+  const clear = (path) => out.push([path, '']); // empties a value IRCC's blank form already holds
   const Y = (x) => x === 'Y';
   const pad = (x) => (/^\d$/.test(v(x)) ? '0' + v(x) : v(x));
   const date = (base, iso, parts) => {
@@ -19,25 +20,24 @@ window.IMM5710_MAP = function (a, lawyer) {
     const m = /^(\d{4})-(\d{2})$/.exec(v(ym));
     if (m) { set(yPath, m[1]); set(mPath, m[2]); }
   };
+  // Phones are always written in IRCC's « Autre » layout (country code + number): it's the layout shown by default.
+  // The « Canada/États-Unis » 3-box layout only appears after a click in Acrobat, and IRCC's check rejects that box
+  // ticked while its boxes are hidden. Country code 1 + the 10 digits is accepted for a Canadian number.
   const phone = (base, format, type, country, number, ext) => {
-    const digits = v(number).replace(/\D/g, '');
+    let digits = v(number).replace(/\D/g, '');
     if (!digits) return;
+    let code = v(country).replace(/\D/g, '');
+    if (format !== 'other') {
+      code = '1';
+      if (digits.length === 11 && digits[0] === '1') digits = digits.slice(1);
+    }
     set(base + '/Type', type);
     set(base + '/NumberExt', ext);
     set(base + '/ActualNumber', digits);
-    if (format === 'other') {
-      set(base + '/CanOtherInd/CanadaUS', '0');
-      set(base + '/CanOtherInd/Other', '1');
-      set(base + '/NumberCountry', v(country).replace(/\D/g, ''));
-      set(base + '/IntlNumber/IntlNumber', digits);
-    } else {
-      const d = digits.length === 11 && digits[0] === '1' ? digits.slice(1) : digits;
-      set(base + '/CanOtherInd/CanadaUS', '1');
-      set(base + '/CanOtherInd/Other', '0');
-      set(base + '/NANumber/AreaCode', d.slice(0, 3));
-      set(base + '/NANumber/FirstThree', d.slice(3, 6));
-      set(base + '/NANumber/LastFive', d.slice(6));
-    }
+    set(base + '/CanOtherInd/CanadaUS', '0');
+    set(base + '/CanOtherInd/Other', '1');
+    set(base + '/NumberCountry', code);
+    set(base + '/IntlNumber/IntlNumber', digits);
   };
   const provOrState = (country, prov, state) => (country === '511' ? prov : country === '461' ? state : '');
 
@@ -146,6 +146,8 @@ window.IMM5710_MAP = function (a, lawyer) {
   set(CI + 'Mailing/AddrLine2/Prov', a.mailProv);
   set(CI + 'Mailing/AddrLine2/PostalCode', v(a.mailPostal).toUpperCase().replace(/^([A-Z]\d[A-Z])\s*(\d[A-Z]\d)$/, '$1 $2'));
   set(CI + 'Resi/SameAsAddr/SameAsMailingInd', a.sameAddrYN);
+  // IRCC's check: « same as mailing » = Y only if every residential field is empty; its blank form has Canada there.
+  if (a.sameAddrYN === 'Y') clear(CI + 'Resi/AddrLine2/Country');
   if (a.sameAddrYN === 'N') {
     set(CI + 'Resi/AddrLine1/AptUnit', a.resApt);
     set(CI + 'Resi/AddrLine1/StreetNum', a.resStreetNum);
