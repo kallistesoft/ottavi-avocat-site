@@ -584,7 +584,7 @@ BODY = {'home': home, 'services': services, 'ressources': ressources, 'cabinet':
 # Scripts and styles of the hidden pages, after site.css/site.js.
 PAGE_ASSETS = {
     'form': ['assets/formulaire/form.css', 'assets/formulaire/ircc-lists.js', 'assets/formulaire/form-def.js', 'assets/formulaire/form.js'],
-    'outil': ['assets/ircc/outil.css', 'assets/formulaire/vendor/pdf-lib.min.js', 'assets/formulaire/ircc-lists.js', 'assets/ircc/imm5710f.js',
+    'outil': ['assets/ircc/outil.css', 'assets/formulaire/vendor/pdf-lib.min.js', 'assets/formulaire/ircc-lists.js', 'assets/formulaire/form-def.js', 'assets/ircc/imm5710f.js',
               'assets/ircc/imm5707f.js', 'assets/ircc/imm5710-map.js', 'assets/ircc/imm5707-map.js', 'assets/ircc/outil.js'],
 }
 

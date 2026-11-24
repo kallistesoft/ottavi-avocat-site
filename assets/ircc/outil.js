@@ -180,6 +180,60 @@
     return { blob: new Blob([concat(parts)], { type: 'application/pdf' }), missing };
   }
 
+  // ---------- recap of the client's answers ----------
+  // Same walk as the questionnaire's own PDF (assets/formulaire/form.js): questions in order, hidden ones skipped,
+  // list codes shown as their labels.
+  const fr = (x) => (x && typeof x === 'object' ? x.fr : x || '');
+  function recap(a) {
+    const DEF = window.OTTAVI_FORM;
+    const LISTS = window.IRCC_LISTS || {};
+    const valueIn = (key, scope) => (scope && Object.prototype.hasOwnProperty.call(scope, key) ? scope[key] : a[key]);
+    const shown = (f, scope) => !f.showIf || [].concat(f.showIf).some((c) => {
+      const v = valueIn(c.field, scope);
+      return c.in ? c.in.indexOf(v) !== -1 : c.notIn.indexOf(v == null ? '' : v) === -1;
+    });
+    const fmtDate = (v, opts) => {
+      const m = /^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(v);
+      if (!m) return v;
+      return new Intl.DateTimeFormat('fr-CA', { ...opts, timeZone: 'UTC' }).format(new Date(Date.UTC(+m[1], +m[2] - 1, +(m[3] || 1))));
+    };
+    const display = (f, value, scope) => {
+      const v = String(value == null ? '' : value).trim();
+      if (!v) return f.empty ? fr(f.empty) : '';
+      if (f.type === 'checkbox') return 'Oui';
+      if (f.options || f.list) {
+        let list = f.options ? f.options.map((o) => [o.value, fr(o.label)]) : LISTS[f.list] || [];
+        if (f.listBy && !f.options) list = list[valueIn(f.listBy, scope)] || [];
+        const o = list.find((x) => x[0] === v);
+        return o ? o[1] : v;
+      }
+      if (f.type === 'date') return fmtDate(v, { day: 'numeric', month: 'long', year: 'numeric' });
+      if (f.type === 'month') return fmtDate(v, { month: 'long', year: 'numeric' });
+      return v;
+    };
+    const box = h('div', { class: 'imm-recap' }, [h('h2', { text: 'Réponses du client' })]);
+    DEF.sections.forEach((sec, i) => {
+      const tbody = h('tbody');
+      const sub = (label) => tbody.append(h('tr', { class: 'sub' }, h('th', { colspan: 2, text: label })));
+      const walk = (fields, scope) => {
+        for (const f of fields) {
+          if (!shown(f, scope) || f.type === 'note') continue;
+          if (f.type === 'group') { sub(fr(f.label)); walk(f.fields, scope); }
+          else if (f.type === 'repeat') {
+            const list = Array.isArray(valueIn(f.id, scope)) ? valueIn(f.id, scope) : [];
+            list.forEach((item, n) => { sub(`${fr(f.label)} ${n + 1}`); walk(f.fields, item); });
+          } else {
+            const val = display(f, valueIn(f.id, scope), scope);
+            tbody.append(h('tr', { class: val ? null : 'empty' }, [h('td', { text: fr(f.label) }), h('td', { text: val || '—' })]));
+          }
+        }
+      };
+      walk(sec.fields, null);
+      box.append(h('h3', { text: `${i + 1}. ${fr(sec.title)}` }), h('table', {}, tbody));
+    });
+    return box;
+  }
+
   // ---------- page ----------
   const slug = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const today = () => new Date().toISOString().slice(0, 10);
@@ -308,7 +362,7 @@
       openPermit ? h('p', { class: 'imm-hint', text: 'Permis ouvert ou postdiplôme : pas de numéro d’EIMT.' }) : lmia.box,
       h('p', {}, go),
       done
-    ]));
+    ]), recap(a));
     uci.input.focus();
   }
 })();

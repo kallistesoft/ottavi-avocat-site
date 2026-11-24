@@ -27,3 +27,14 @@
 .imm-ok { color: #2F7D5B !important; font-weight: 500; margin-top: 14px; }
 .imm-file { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 14px; }
 .imm-file p { margin: 4px 0; }
+
+/* Recap of the client's answers, under the card. */
+.imm-recap { margin-top: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow); }
+.imm-recap h2 { font-size: 20px; margin: 0 0 4px; }
+.imm-recap h3 { font-size: 16px; color: var(--plum); margin: 22px 0 6px; padding-bottom: 6px; border-bottom: 1px solid var(--plum); }
+.imm-recap table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.imm-recap td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
+.imm-recap td:first-child { color: var(--ink-3); width: 50%; }
+.imm-recap tr.sub th { text-align: left; font-weight: 600; padding: 12px 8px 4px; font-size: 13px; }
+.imm-recap tr.empty td:last-child { color: var(--ink-3); }
+@media (max-width: 640px) { .imm-recap { padding: 16px; } .imm-recap td:first-child { width: 45%; } }
