@@ -24,12 +24,12 @@ ADDRESS = dict(street='204, rue du Saint-Sacrement, bureau 300', city='Montréal
 PAGES = ['home', 'services', 'ressources', 'cabinet', 'contact']
 LEGAL_PAGES = ['cgv', 'privacy']
 # Reachable only by a link Me Poughon sends: noindex, not in the nav, the sitemap or robots-allowed paths.
-HIDDEN_PAGES = ['form', 'outil']
+HIDDEN_PAGES = ['form', 'formRP', 'outil']
 # French only: no English version is generated.
-FR_ONLY = ['form', 'outil']
+FR_ONLY = ['form', 'formRP', 'outil']
 URL = {
-    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/', 'form': '/formulaire/mobilite-francophone/', 'outil': '/outil/mobilite-francophone/'},
-    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/', 'form': '/en/', 'outil': '/en/'},
+    'fr': {'home': '/', 'services': '/services/', 'ressources': '/ressources/', 'cabinet': '/cabinet/', 'contact': '/contact/', 'cgv': '/cgv/', 'privacy': '/confidentialite/', 'form': '/formulaire/mobilite-francophone/', 'formRP': '/formulaire/immigration-permanente/', 'outil': '/outil/mobilite-francophone/'},
+    'en': {'home': '/en/', 'services': '/en/services/', 'ressources': '/en/resources/', 'cabinet': '/en/firm/', 'contact': '/en/contact/', 'cgv': '/en/terms/', 'privacy': '/en/privacy/', 'form': '/en/', 'formRP': '/en/', 'outil': '/en/'},
 }
 T = {
     'fr': dict(
@@ -265,8 +265,13 @@ T['en'].update(
     formLead='Answer at your own pace: your answers are saved on your device and sent nowhere. At the end, you create a PDF and email it to Ms. Poughon.',
     formNoscript='This questionnaire needs JavaScript. Turn it on in your browser, or write to us at',
 )
+# Permanent residence questionnaire (/formulaire/immigration-permanente/): same page, questions in assets/formulaire/form-def-rp.js.
+T['fr']['titles']['formRP'] = T['fr']['titles']['form']
+T['fr']['descs']['formRP'] = T['fr']['descs']['form']
 T['en']['titles']['form'] = 'Client questionnaire'
 T['en']['descs']['form'] = 'Ottavi Law Firm Inc. client questionnaire: your answers stay on your device.'
+T['en']['titles']['formRP'] = T['en']['titles']['form']
+T['en']['descs']['formRP'] = T['en']['descs']['form']
 
 # Private tool page (/outil/mobilite-francophone/), French only: Me Poughon turns a client's questionnaire PDF into the filled IMM 5710 (in Canada) or IMM 1295 (outside Canada).
 T['fr']['titles']['outil'] = 'Mobilité francophone : IMM 5710 ou IMM 1295'

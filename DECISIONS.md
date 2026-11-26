@@ -5,6 +5,9 @@ here with the default taken and keep working; ask only when it blocks.
 
 | Date | Decision | Default taken | Status |
 |---|---|---|---|
+| 2026-11-25 | Permanent residence questionnaire: merging the two Word questionnaires | one question file `assets/formulaire/form-def-rp.js`, each question asked once; Me Poughon's Express Entry questions + the detailed background questionnaire (addresses, family, offices, organizations, military, 12 background questions); no other firm's name anywhere; the « trajet » table became one optional text box under « séjours au Canada » | to validate |
+| 2026-11-25 | Permanent residence: IRCC tool | none: the Express Entry profile and the PR application are filled online, so the PDF is for Me Poughon to read (no /outil page) | to validate |
+| 2026-11-25 | Permanent residence: periods | jobs and diplomas' dates to the day (her questionnaire), addresses, stays, offices, organizations and military to the month | to validate |
 | 2026-11-21 | What `tools/check.sh` checks | a rebuild with `tools/build.py` that must change no file (stale committed pages fail the push) | to validate |
 | 2026-11-23 | Intake form: address the clients email the PDF to | `contact@vpavocat.com` (the site's `EMAIL`), shown on the end screen and in the mailto | validated by the owner 2026-11-23 |
 | 2026-11-23 | Intake form: fonts in the PDF | Noto Sans (covers Latin, Greek, Cyrillic); other scripts (Arabic, Chinese…) print as `?` | to validate |

@@ -34,6 +34,10 @@ device, and the PDF is made in the browser and emailed by the client. Nothing re
 - [ ] Test on a phone (iPhone Safari + Android Chrome): resume after closing the browser, progress file, PDF download
 - [ ] Later: read `reponses.json` from received PDFs in LawyerTool's import, so nothing is retyped
 
+## Permanent residence questionnaire (`/formulaire/immigration-permanente/`, French only)
+- [ ] Me Poughon reads the questions (merged from her « Création de profil Entrée express » and the detailed questionnaire), especially the choices in `DECISIONS.md` (2026-11-25).
+- [ ] Phone/Safari test, like the mobility form.
+
 ## 2. Content to confirm with her
 
 - [ ] Address: the site shows Montréal (204, rue du Saint-Sacrement), but her bio says she lives in Alberta
