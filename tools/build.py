@@ -1,4 +1,4 @@
-"""Builds the Ottavi Law Firm Inc. site: writes the pages (FR at the root, EN under /en/) and sitemap.xml from tools/content.py.
+"""Builds the Ottavi Law Firm site: writes the pages (FR at the root, EN under /en/) and sitemap.xml from tools/content.py.
 
 Usage: python3 tools/build.py
 
@@ -54,7 +54,7 @@ def li(items, cls=''):
 
 
 BRAND = ('<span class="brand-rule" aria-hidden="true"></span>'
-         '<span class="brand-text"><span class="brand-name">Ottavi</span><span class="brand-sub">Law Firm Inc.</span></span>')
+         '<span class="brand-text"><span class="brand-name">Ottavi</span><span class="brand-sub">Law Firm</span></span>')
 
 
 # Client questionnaires under /formulaire/.
@@ -129,7 +129,7 @@ def footer(lang, page=''):
     </div>
     <div class="footer-bottom">
       <span>{t["legal"]}</span>
-      <span>© 2026 Ottavi Law Firm Inc. · <a href="{u["cgv"]}">{t["legalNav"]["cgv"]}</a> · <a href="{u["privacy"]}">{t["legalNav"]["privacy"]}</a></span>
+      <span>© 2026 Ottavi Law Firm · <a href="{u["cgv"]}">{t["legalNav"]["cgv"]}</a> · <a href="{u["privacy"]}">{t["legalNav"]["privacy"]}</a></span>
     </div>
   </div>
 </footer>
@@ -163,6 +163,24 @@ def price(amount, unit='', note=''):
     unit_html = f'<span class="price-unit">{unit}</span>' if unit else ''
     note_html = f'<span class="price-note">{note}</span>' if note else ''
     return f'<div class="price"><span class="price-amount">{amount}</span>{unit_html}{note_html}</div>'
+
+
+def audit_after(lang):
+    """Small print right under an audit button: timeframe, refunds, what happens after payment."""
+    return '<ul class="after-buy">' + ''.join(f'<li>{x}</li>' for x in T[lang]['auditAfter']) + '</ul>'
+
+
+def short_bio(lang):
+    """Round photo and two lines on who reviews the audit."""
+    t, u = T[lang], URL[lang]
+    return f'''<div class="short-bio">
+      <img src="/assets/vanessa-poughon.jpg" alt="{t["photoLabel"]}" width="800" height="800" loading="lazy">
+      <div>
+        <h3 class="mini-title">{t["shortBioTitle"]}</h3>
+        <p>{t["shortBio"]}</p>
+        <a class="link-arrow" href="{u["cabinet"]}">{t["shortBioCta"]}{ico("arrow", 18)}</a>
+      </div>
+    </div>'''
 
 
 def offers(lang):
@@ -337,10 +355,11 @@ def services(lang):
 
     steps = numbered(t['auditSteps'])
     chips = [('audit', t['audit']), ('audit-etudiant', t['student']), ('consultations', t['consult']), ('flash', t['flash']), ('mandat', t['mandate']),
-             ('alberta', 'Ebook')]
+             ('alberta', 'Ebook'), ('faq', t['faqEyebrow'])]
+    faq = ''.join(f'<details><summary>{q}</summary><div class="faq-a">{a}</div></details>' for q, a in t['faq'])
     chip_html = ''.join(f'<a href="#{a}">{label}</a>' for a, label in chips)
 
-    def offer_block(anchor, title, body, price_html, btn_href, btn_label, extra='', side_extra='', tint=False, dark=False):
+    def offer_block(anchor, title, body, price_html, btn_href, btn_label, extra='', side_extra='', tint=False, dark=False, after_btn=''):
         external = '' if btn_href.startswith('/') else ' rel="noopener"'
         return f'''<section id="{anchor}" class="section offer{' tint' if tint else ''}{' dark' if dark else ''}">
   <div class="wrap offer-grid">
@@ -353,6 +372,7 @@ def services(lang):
       {price_html}
       {side_extra}
       <a class="btn btn-primary" href="{btn_href}"{external}>{btn_label}</a>
+      {after_btn}
     </aside>
   </div>
 </section>'''
@@ -381,8 +401,10 @@ def services(lang):
         {price(t['auditPrice'], t['auditUnit'], t['auditEuro'])}
         <p class="callout">{t["auditBonus"]}</p>
         <a class="btn btn-primary btn-lg" href="{AUDIT}" rel="noopener">{t["auditCta"]}</a>
+        {audit_after(lang)}
       </aside>
     </div>
+    {short_bio(lang)}
   </div>
 </section>'''
     student = offer_block(
@@ -391,7 +413,7 @@ def services(lang):
         extra=f'''<h3 class="mini-title">{t["studentListTitle"]}</h3>
       <ol class="steps">{numbered(t["studentPoints"])}</ol>
       <p class="fine">{t["auditDisclaimer"]}</p>''',
-        side_extra=f'<p class="callout">{t["studentBonus"]}</p>')
+        side_extra=f'<p class="callout">{t["studentBonus"]}</p>', after_btn=audit_after(lang))
     consult = offer_block('consultations', t['consult'], f'<p class="lead">{t["consultBlurb"]}</p>',
                           price(t['consultPrice'], t['taxes']), CALENDLY, t['consultCta'], dark=True)
     flash = offer_block('flash', t['flash'], f'<p class="lead">{t["flashBlurb"]}</p>',
@@ -431,6 +453,13 @@ def services(lang):
       </div>
       <p class="fine">{t["notAlberta"]}</p>
     </div>
+  </div>
+</section>
+
+<section id="faq" class="section tint">
+  <div class="wrap faq-wrap">
+    {section_head(t["faqEyebrow"], t["faqTitle"])}
+    <div class="faq">{faq}</div>
   </div>
 </section>
 
@@ -490,11 +519,11 @@ def cabinet(lang):
         f'<li><img src="/assets/logos/{img}.png" alt="{alt}" width="{w}" height="{h}" loading="lazy"><p>{text}</p>'
         + (f'<a class="link-arrow" href="{href}" rel="noopener">{t["affVisit"]}{ico("arrow", 18)}</a>' if href else '') + '</li>'
         for img, alt, w, h, text, href in t['affiliations'])
-    return f'''{page_head(t["nav"]["cabinet"], "Ottavi Law Firm Inc.", t["cabinetLead"])}
+    return f'''{page_head(t["nav"]["cabinet"], "Ottavi Law Firm", t["cabinetLead"])}
 
 <section class="section">
   <div class="wrap lawyer">
-    <figure class="lawyer-photo">
+    <figure class="lawyer-photo round">
       <img src="/assets/vanessa-poughon.jpg" alt="{t["photoLabel"]}" width="800" height="800" fetchpriority="high">
     </figure>
     <div class="lawyer-text">
@@ -643,7 +672,7 @@ def structured_data(lang, page):
     """schema.org data for the page, as a JSON-LD script."""
     t, u = T[lang], URL[lang]
     firm = {
-        '@type': 'LegalService', '@id': f'{SITE}/#firm', 'name': 'Ottavi Law Firm Inc.', 'url': SITE + u['home'],
+        '@type': 'LegalService', '@id': f'{SITE}/#firm', 'name': 'Ottavi Law Firm', 'url': SITE + u['home'],
         'description': t['descs']['home'], 'image': f'{SITE}/assets/og-{lang}.jpg', 'telephone': PHONE_TEL, 'email': EMAIL,
         'address': {'@type': 'PostalAddress', 'streetAddress': ADDRESS['street'], 'addressLocality': ADDRESS['city'], 'addressRegion': ADDRESS['region'],
                     'postalCode': ADDRESS['postcode'], 'addressCountry': ADDRESS['country']},
@@ -659,7 +688,7 @@ def structured_data(lang, page):
     if page in PAGES:
         graph += [firm, lawyer]
     if page == 'home':
-        graph.append({'@type': 'WebSite', '@id': f'{SITE}/#website', 'name': 'Ottavi Law Firm Inc.', 'url': SITE + u['home'], 'inLanguage': lang,
+        graph.append({'@type': 'WebSite', '@id': f'{SITE}/#website', 'name': 'Ottavi Law Firm', 'url': SITE + u['home'], 'inLanguage': lang,
                       'publisher': {'@id': f'{SITE}/#firm'}})
     else:
         graph.append({'@type': 'BreadcrumbList', 'itemListElement': [
@@ -672,6 +701,9 @@ def structured_data(lang, page):
             {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': plain(t[name]), 'provider': {'@id': f'{SITE}/#firm'}},
              'price': amount(t[cost]), 'priceCurrency': 'CAD', 'url': SITE + u['services'] + anchor}
             for name, cost, anchor in priced]}
+    if page == 'services':
+        graph.append({'@type': 'FAQPage', 'mainEntity': [
+            {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': ' '.join(plain(a).split())}} for q, a in t['faq']]})
     data = json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
     return f'<script type="application/ld+json">{data}</script>'
 
@@ -687,7 +719,7 @@ def render(lang, page):
                  '<meta name="referrer" content="no-referrer">\n')
         assets = ''.join(f'\n<link rel="stylesheet" href="/{a}?v={asset_version(a)}">' if a.endswith('.css')
                          else f'\n<script src="/{a}?v={asset_version(a)}" defer></script>' for a in PAGE_ASSETS[page])
-    title = t['titles'][page] if page == 'home' else f'{t["titles"][page]} — Ottavi Law Firm Inc.'
+    title = t['titles'][page] if page == 'home' else f'{t["titles"][page]} — Ottavi Law Firm'
     alts = '' if page in HIDDEN_PAGES else '\n'.join(f'<link rel="alternate" hreflang="{code}" href="{SITE}{URL[code][page]}">' for code in ('fr', 'en'))
     other = 'en' if lang == 'fr' else 'fr'
     return f'''<!doctype html>
@@ -701,7 +733,7 @@ def render(lang, page):
 <link rel="canonical" href="{SITE}{URL[lang][page]}">
 <meta name="theme-color" content="#FAF7F2">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Ottavi Law Firm Inc.">
+<meta property="og:site_name" content="Ottavi Law Firm">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{t["descs"][page]}">
 <meta property="og:url" content="{SITE}{URL[lang][page]}">

@@ -100,3 +100,8 @@ The full DNS list before any change is saved in the session notes (27 records, 2
 
 - [ ] Commit author shows the user's personal Gmail and computer name. Set this repo's git email to the GitHub
       noreply address or `contact@kallistesoft.ca` (and decide whether to rewrite past history: force-push)
+
+## Services page list (owner, 2026-11-26) — PR feature/services-faq-prix-nom
+- Anonymized sample audit report: waiting for Me Poughon's file; then add it under the audit (no client testimonials, ever: ethics rule).
+- CGV section 5 says audits are never refunded, even if not received; the new FAQ says "refund if the report is never sent". Align the CGV once she confirms the wording.
+- "OttaviLaw Firm Inc." / "vpavocat.com" variants are on the systeme.io pages (checkout, thank-you, injected header/footer), not in this repo: rename to "Ottavi Law Firm" in Chrome.

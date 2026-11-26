@@ -16,9 +16,9 @@ DRAFT_NOTE = {
 
 LEGAL = {
     'fr': {
-        'cgv': ("Conditions générales de vente", "Ces conditions s'appliquent aux achats effectués en ligne auprès d'Ottavi Law Firm Inc.", [
+        'cgv': ("Conditions générales de vente", "Ces conditions s'appliquent aux achats effectués en ligne auprès d'Ottavi Law Firm", [
             ("1. Le vendeur", [
-                "Ottavi Law Firm Inc., 204, rue du Saint-Sacrement, bureau 300, Montréal (Québec) H2Y 2S9. Téléphone : +1 579-372-8150. Courriel : contact@vpavocat.com.",
+                "Ottavi Law Firm, 204, rue du Saint-Sacrement, bureau 300, Montréal (Québec) H2Y 2S9. Téléphone : +1 579-372-8150. Courriel : contact@vpavocat.com.",
                 "Me Vanessa Poughon est avocate au Barreau du Québec (n° de membre 381467&#8209;0). Elle n'est pas membre du Barreau de l'Alberta.",
             ]),
             ("2. Les produits", [
@@ -58,9 +58,9 @@ LEGAL = {
                 "Pour toute question ou réclamation : contact@vpavocat.com.",
             ]),
         ]),
-        'privacy': ("Politique de confidentialité", "Comment Ottavi Law Firm Inc. recueille, utilise et protège vos renseignements personnels.", [
+        'privacy': ("Politique de confidentialité", "Comment Ottavi Law Firm recueille, utilise et protège vos renseignements personnels.", [
             ("1. Responsable", [
-                "Ottavi Law Firm Inc., 204, rue du Saint-Sacrement, bureau 300, Montréal (Québec) H2Y 2S9.",
+                "Ottavi Law Firm, 204, rue du Saint-Sacrement, bureau 300, Montréal (Québec) H2Y 2S9.",
                 "Responsable de la protection des renseignements personnels : Me Vanessa Poughon, contact@vpavocat.com.",
             ]),
             ("2. Renseignements recueillis", [
@@ -79,9 +79,9 @@ LEGAL = {
         ]),
     },
     'en': {
-        'cgv': ("Terms of sale", "These terms apply to purchases made online from Ottavi Law Firm Inc.", [
+        'cgv': ("Terms of sale", "These terms apply to purchases made online from Ottavi Law Firm", [
             ("1. The seller", [
-                "Ottavi Law Firm Inc., 204 Saint-Sacrement Street, Suite 300, Montréal, QC H2Y 2S9. Phone: +1 579-372-8150. Email: contact@vpavocat.com.",
+                "Ottavi Law Firm, 204 Saint-Sacrement Street, Suite 300, Montréal, QC H2Y 2S9. Phone: +1 579-372-8150. Email: contact@vpavocat.com.",
                 "Vanessa Poughon is a lawyer and member of the Barreau du Québec (no. 381467&#8209;0). She is not a member of the Law Society of Alberta.",
             ]),
             ("2. The products", [
@@ -121,9 +121,9 @@ LEGAL = {
                 "For any question or complaint: contact@vpavocat.com.",
             ]),
         ]),
-        'privacy': ("Privacy policy", "How Ottavi Law Firm Inc. collects, uses and protects your personal information.", [
+        'privacy': ("Privacy policy", "How Ottavi Law Firm collects, uses and protects your personal information.", [
             ("1. Who is responsible", [
-                "Ottavi Law Firm Inc., 204 Saint-Sacrement Street, Suite 300, Montréal, QC H2Y 2S9.",
+                "Ottavi Law Firm, 204 Saint-Sacrement Street, Suite 300, Montréal, QC H2Y 2S9.",
                 "Person in charge of the protection of personal information: Vanessa Poughon, contact@vpavocat.com.",
             ]),
             ("2. Information we collect", [

@@ -450,3 +450,25 @@ a.way:hover { border-color: var(--plum); color: var(--ink); }
 .embed .site-header, .embed .site-footer, .embed .mobile-bar, .embed .skip { display: none; }
 .embed .page-head { padding: 28px 0 20px; }
 .embed .section { padding-top: 24px; }
+
+/* Services: small print under the audit buttons, short bio, FAQ accordion (2026-11-26) */
+.after-buy { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13.5px; line-height: 1.5; color: var(--ink-3); text-align: left; }
+.after-buy strong { color: var(--ink-2); font-weight: 600; }
+.short-bio { display: flex; gap: 24px; align-items: center; margin-top: 48px; padding: 24px; max-width: 760px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.short-bio img { flex: 0 0 auto; width: 112px; height: 112px; border-radius: 50%; object-fit: cover; object-position: center 20%; }
+.short-bio .mini-title { margin-top: 0; }
+.short-bio p { margin: 6px 0 10px; color: var(--ink-2); line-height: 1.6; }
+@media (max-width: 600px) { .short-bio { flex-direction: column; text-align: center; } .short-bio .link-arrow { justify-content: center; } }
+.lawyer-photo.round img { aspect-ratio: 1; border-radius: 50%; max-width: 380px; }
+.faq-wrap { max-width: 860px; }
+.faq { display: grid; gap: 12px; }
+.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.faq summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 20px; font-weight: 600; color: var(--ink); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; flex: 0 0 auto; font-size: 22px; line-height: 1; color: var(--plum); transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq summary:focus-visible { outline: 2px solid var(--plum); outline-offset: 2px; border-radius: var(--radius-sm); }
+.faq-a { padding: 0 20px 18px; color: var(--ink-2); line-height: 1.6; }
+.faq-a p, .faq-a ol { margin: 0; }
+.faq-a ol { padding-left: 20px; }
+.faq-a a { color: var(--plum); }
