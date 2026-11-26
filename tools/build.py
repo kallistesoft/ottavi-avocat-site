@@ -552,10 +552,10 @@ def contact(lang):
 </section>'''
 
 
-def form(lang):
-    """Intake form: the page only holds the mount point; assets/formulaire/form.js builds the form."""
+def form(lang, page='form'):
+    """Intake form: the page only holds the mount point; assets/formulaire/form.js builds the form from the page's form-def file."""
     t = T[lang]
-    assets = posixpath.relpath('/assets/formulaire', URL[lang]['form']) + '/'
+    assets = posixpath.relpath('/assets/formulaire', URL[lang][page]) + '/'
     return f'''{page_head(t["formEyebrow"], t["formTitle"], t["formLead"])}
 
 <section class="intake-section">
@@ -579,11 +579,13 @@ def outil(lang):
 </section>'''
 
 
-BODY = {'home': home, 'services': services, 'ressources': ressources, 'cabinet': cabinet, 'contact': contact, 'form': form, 'outil': outil}
+BODY = {'home': home, 'services': services, 'ressources': ressources, 'cabinet': cabinet, 'contact': contact, 'form': form, 'formRP': lambda lang: form(lang, 'formRP'), 'outil': outil}
 
 # Scripts and styles of the hidden pages, after site.css/site.js.
 PAGE_ASSETS = {
     'form': ['assets/formulaire/form.css', 'assets/formulaire/ircc-lists.js', 'assets/formulaire/form-def.js', 'assets/formulaire/form.js'],
+    # Permanent residence: same engine, its own questions (own storage key, so both forms can be in progress).
+    'formRP': ['assets/formulaire/form.css', 'assets/formulaire/ircc-lists.js', 'assets/formulaire/form-def-rp.js', 'assets/formulaire/form.js'],
     'outil': ['assets/ircc/outil.css', 'assets/formulaire/vendor/pdf-lib.min.js', 'assets/formulaire/ircc-lists.js', 'assets/formulaire/form-def.js', 'assets/ircc/imm5710f.js',
               'assets/ircc/imm1295f.js', 'assets/ircc/imm5710-map.js', 'assets/ircc/imm1295-map.js', 'assets/ircc/outil.js'],
 }
@@ -705,7 +707,7 @@ def render(lang, page):
 <script src="/assets/site.js?v={asset_version("assets/site.js")}" defer></script>{assets}
 {'' if hidden else structured_data(lang, page)}
 </head>
-<body class="page-{page}">
+<body class="page-{'form' if page == 'formRP' else page}">
 {header(lang, page)}
 <main id="main">
 {BODY[page](lang)}

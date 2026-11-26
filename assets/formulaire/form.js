@@ -749,7 +749,8 @@
     newPage();
     const name = clientName() || UI.noName;
     text(UI.pdfFirm.toUpperCase(), M, 9, semi, PLUM); y -= 26;
-    for (const l of wrap(L(DEF.title), semi, 20, W - 2 * M)) { text(l, M, 20, semi, INK); y -= 26; }
+    // Leaves room on the right for the attached-data note at the top of page 1.
+    for (const l of wrap(L(DEF.title), semi, 20, W - 2 * M - 150)) { text(l, M, 20, semi, INK); y -= 26; }
     text(UI.pdfFilled(name, fmtDate(today())), M, 10, reg, GREY); y -= 30;
 
     const row = (label, answer) => {
