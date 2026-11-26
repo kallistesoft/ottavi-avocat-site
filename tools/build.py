@@ -57,6 +57,10 @@ BRAND = ('<span class="brand-rule" aria-hidden="true"></span>'
          '<span class="brand-text"><span class="brand-name">Ottavi</span><span class="brand-sub">Law Firm Inc.</span></span>')
 
 
+# Client questionnaires under /formulaire/.
+FORM_PAGES = ('form', 'formRP')
+
+
 def header(lang, page):
     t, u = T[lang], URL[lang]
     nav = '\n'.join(
@@ -68,6 +72,14 @@ def header(lang, page):
             return f'<span lang="{code}" aria-current="true">{code.upper()}</span>'
         return f'<a href="{URL[code][page]}" lang="{code}" hreflang="{code}">{code.upper()}</a>'
 
+    if page in FORM_PAGES:
+        # Questionnaires (/formulaire/…): the firm's name only, no menu, language switch or booking button.
+        return f'''<a class="skip" href="#main">{t["skip"]}</a>
+<header class="site-header">
+  <div class="wrap header-row">
+    <span class="brand">{BRAND}</span>
+  </div>
+</header>'''
     return f'''<a class="skip" href="#main">{t["skip"]}</a>
 <header class="site-header">
   <div class="wrap header-row">
@@ -89,6 +101,8 @@ def header(lang, page):
 
 
 def footer(lang, page=''):
+    if page in FORM_PAGES:
+        return ''  # questionnaires: no footer and no phone bar (owner)
     t, u = T[lang], URL[lang]
     # On the services page the phone bar sells the audit; elsewhere it books a consultation.
     book = (f'<a class="btn btn-primary" href="{AUDIT}" rel="noopener">{t["auditCta"]}</a>' if page == 'services'

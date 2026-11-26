@@ -20,6 +20,11 @@
   const from = (more) => ({ id: 'from', type: 'month', required: true, label: t('Du (année et mois)', 'From (year and month)'), ...more });
   const to = (more) => ({ id: 'to', type: 'month', required: true, notBefore: 'from', label: t('Au (année et mois)', 'To (year and month)'), ...more });
 
+  // IRCC province codes, shown by name.
+  const PROVINCES = opts([['09', 'Alberta'], ['11', 'Colombie-Britannique', 'British Columbia'], ['02', 'Île-du-Prince-Édouard', 'Prince Edward Island'], ['07', 'Manitoba'],
+    ['04', 'Nouveau-Brunswick', 'New Brunswick'], ['03', 'Nouvelle-Écosse', 'Nova Scotia'], ['64', 'Nunavut'], ['06', 'Ontario'], ['05', 'Québec', 'Quebec'], ['08', 'Saskatchewan'],
+    ['01', 'Terre-Neuve-et-Labrador', 'Newfoundland and Labrador'], ['10', 'Territoires du Nord-Ouest', 'Northwest Territories'], ['12', 'Yukon']]);
+
   // Spouse or common-law partner: married or common-law.
   const SPOUSE = { field: 'marital', in: ['01', '03'] };
   const WITH_SPOUSE = { field: 'spouseComes', in: ['Y'] };
@@ -50,17 +55,16 @@
     id, type: 'repeat', min: who ? 0 : 1, max: 6, showIf,
     label: t(`Diplôme${who}`, `Diploma${who ? ' (spouse)' : ''}`), add: t('Ajouter un diplôme', 'Add a diploma'),
     fields: [
-      { id: 'diplomaNote', type: 'note', text: t('Le plus élevé ou le plus récent en premier. Incluez les études secondaires, collégiales, universitaires et professionnelles.', 'Highest or most recent first. Include secondary, college, university and trade studies.') },
       from(), to(),
       txt('type', 'Type de diplôme ou de certificat obtenu', 'Type of diploma or certificate obtained', { hint: t('Par exemple : brevet professionnel, baccalauréat, maîtrise, doctorat. « Aucun » si les études n’ont pas mené à un diplôme.', 'For example: trade certificate, bachelor’s, master’s, doctorate. “None” if the studies led to no diploma.') }),
       txt('field', 'Domaine d’études ou spécialité', 'Field of study or specialty'),
       txt('school', 'Nom de l’établissement', 'Name of the institution'),
       txt('city', 'Ville de l’établissement', 'City of the institution'),
       country('country', 'Pays de l’établissement', 'Country of the institution'),
-      { id: 'years', type: 'number', required: true, min: 0, max: 15, label: t('Nombre d’années d’études complètes réussies (selon le dernier relevé de notes)', 'Number of full years of study completed (as on the last transcript)') },
+      { id: 'years', type: 'number', required: true, min: 0, max: 15, label: t('Années d’études réussies', 'Years of study completed'), hint: t('Le nombre d’années complètes, selon le dernier relevé de notes.', 'The number of full years, as on the last transcript.') },
       { id: 'completion', type: 'select', required: true, label: t('Résultat', 'Outcome'),
-        options: opts([['done', 'Réussi, avec diplôme ou certificat', 'Completed, with a diploma or certificate'], ['noDiploma', 'Réussi, sans diplôme ni certificat', 'Completed, without a diploma or certificate'], ['unfinished', 'Non terminé', 'Not completed'], ['ongoing', 'En cours', 'Ongoing']]) },
-      { id: 'mode', type: 'radio', required: true, label: t('Modalités', 'Study mode'), options: opts([['full', 'Temps plein', 'Full time'], ['part', 'Temps partiel', 'Part time']]) },
+        options: opts([['done', 'Diplôme obtenu', 'Diploma obtained'], ['noDiploma', 'Réussi, sans diplôme', 'Passed, no diploma'], ['unfinished', 'Non terminé', 'Not completed'], ['ongoing', 'En cours', 'Ongoing']]) },
+      { id: 'mode', type: 'select', required: true, label: t('Modalités', 'Study mode'), options: opts([['full', 'Temps plein', 'Full time'], ['part', 'Temps partiel', 'Part time']]) },
       {
         id: 'canadaBox', type: 'group', label: t('Études au Canada', 'Studies in Canada'), showIf: CANADA,
         fields: [
@@ -91,7 +95,7 @@
       id: id + 'Box', type: 'group', label: t('Certificat de qualification', 'Certificate of qualification'), showIf: yes(id),
       fields: [
         { id: id + 'Auth', type: 'radio', required: true, label: t('Autorité émettrice', 'Issuing authority'), options: opts([['prov', 'Provinciale ou territoriale', 'Provincial or territorial'], ['fed', 'Fédérale', 'Federal']]) },
-        txt(id + 'Trade', 'Métier spécialisé (appellation et code CNP)', 'Skilled trade (title and NOC code)')
+        txt(id + 'Trade', 'Métier et code CNP', 'Trade and NOC code', { hint: t('Le nom du métier spécialisé et son code CNP.', 'The name of the skilled trade and its NOC code.') })
       ]
     }
   ];
@@ -103,19 +107,19 @@
       { id: 'kind', type: 'select', required: true, label: t('Type d’activité', 'Type of activity'),
         options: opts([['job', 'Emploi ou stage rémunéré', 'Job or paid internship'], ['self', 'Travail autonome', 'Self-employed'], ['study', 'Études', 'Studies'], ['search', 'Recherche d’emploi', 'Job search'], ['inactive', 'Inactivité (maladie, maternité, voyage, détention, etc.)', 'Inactivity (illness, maternity, travel, detention, etc.)']]) },
       txt('title', 'Intitulé exact du poste ou de l’activité', 'Exact job or activity title', { hint: t('« Recherche d’emploi », « Études » ou « Inactivité » pour une période sans emploi.', '“Job search”, “Studies” or “Inactivity” for a period without work.') }),
-      txt('employer', 'Nom de l’employeur ou de l’établissement', 'Name of the employer or institution', { hint: t('Intérim : le nom de l’agence. Aucun : « s.o. ».', 'Temp work: the agency’s name. None: “n/a”.') }),
+      txt('employer', 'Employeur ou établissement', 'Employer or institution', { hint: t('Intérim : le nom de l’agence. Aucun : « s.o. ».', 'Temp work: the agency’s name. None: “n/a”.') }),
       txt('city', 'Ville', 'City'),
       country('country'),
-      date('from', 'Du', 'From', { notFuture: true }),
-      { id: 'current', type: 'checkbox', label: t('C’est mon activité actuelle', 'This is my current activity') },
-      date('to', 'Au', 'To', { notFuture: true, notBefore: 'from', showIf: { field: 'current', notIn: ['Y'] } }),
       { id: 'inactiveWhy', type: 'text', required: true, showIf: { field: 'kind', in: ['inactive'] }, label: t('Raison de l’inactivité', 'Reason for inactivity') },
       { id: 'hours', type: 'text', required: true, showIf: { field: 'kind', in: ['job', 'self'] }, label: t('Heures par semaine', 'Hours per week'), hint: t('Si c’est un forfait, précisez.', 'If it is a flat rate, say so.') },
+      { id: 'current', type: 'checkbox', label: t('C’est mon activité actuelle', 'This is my current activity') },
+      date('from', 'Du', 'From', { notFuture: true }),
+      date('to', 'Au', 'To', { notFuture: true, notBefore: 'from', showIf: { field: 'current', notIn: ['Y'] } }),
       { id: 'salary', type: 'text', required: true, showIf: { field: 'kind', in: ['job', 'self'] }, label: t('Salaire annuel (avec la devise)', 'Annual salary (with the currency)') },
-      { id: 'duties', type: 'textarea', required: true, showIf: { field: 'kind', in: ['job', 'self'] }, label: t('Fonctions principales', 'Main duties') },
       { id: 'noc', type: 'text', showIf: { field: 'kind', in: ['job', 'self'] }, label: t('Code CNP (si vous le connaissez)', 'NOC code (if you know it)') },
-      { id: 'qualified', type: 'date', notFuture: true, showIf: { field: 'kind', in: ['job', 'self'] }, label: t('Date où vous êtes devenu(e) qualifié(e) pour cet emploi', 'Date you became qualified for this job'),
-        hint: t('En pratique : la date du diplôme, de la réussite d’un concours, etc.', 'In practice: the date of the diploma, of passing an exam, etc.') }
+      { id: 'duties', type: 'textarea', required: true, showIf: { field: 'kind', in: ['job', 'self'] }, label: t('Fonctions principales', 'Main duties') },
+      { id: 'qualified', type: 'date', notFuture: true, showIf: { field: 'kind', in: ['job', 'self'] }, label: t('Date de qualification', 'Date qualified'),
+        hint: t('La date où vous êtes devenu(e) qualifié(e) pour cet emploi : en pratique, celle du diplôme, de la réussite d’un concours, etc.', 'The date you became qualified for this job: in practice, that of the diploma, of passing an exam, etc.') }
     ]
   });
 
@@ -135,7 +139,7 @@
     txt('job', 'Profession', 'Occupation', { showIf: { field: 'deceased', notIn: ['Y'] } }),
     { id: 'birthCountry', type: 'select', list: 'CountryOfBirth', required: true, label: t('Pays de naissance', 'Country of birth') },
     { id: 'citizen', type: 'select', list: 'CountryOfCitizenship', required: true, label: t('Citoyenneté', 'Citizenship') },
-    txt('address', 'Adresse actuelle (ville et pays au minimum)', 'Current address (at least city and country)', { showIf: { field: 'deceased', notIn: ['Y'] } })
+    txt('address', 'Adresse actuelle', 'Current address', { showIf: { field: 'deceased', notIn: ['Y'] }, hint: t('La ville et le pays au minimum.', 'At least the city and country.') })
   ];
 
   const address = (p, label, showIf) => ({
@@ -144,7 +148,7 @@
       txt(p + 'Street', 'Numéro, rue, appartement', 'Number, street, apartment'),
       txt(p + 'City', 'Ville', 'City'),
       country(p + 'Country'),
-      { id: p + 'Prov', type: 'select', list: 'ProvinceAbbrev', required: true, showIf: { field: p + 'Country', in: ['511'] }, label: t('Province', 'Province') },
+      { id: p + 'Prov', type: 'select', options: PROVINCES, required: true, showIf: { field: p + 'Country', in: ['511'] }, label: t('Province', 'Province') },
       { id: p + 'Region', type: 'text', showIf: { field: p + 'Country', notIn: ['511'] }, label: t('Province, État ou région', 'Province, state or region') },
       { id: p + 'Postal', type: 'text', label: t('Code postal', 'Postal code') }
     ]
@@ -173,7 +177,7 @@
                   ['NL', 'Terre-Neuve-et-Labrador', 'Newfoundland and Labrador'], ['NT', 'Territoires du Nord-Ouest', 'Northwest Territories'], ['YT', 'Yukon']]) },
               yn('pnp', 'Avez-vous un certificat de désignation d’une province ou d’un territoire?', 'Do you have a nomination certificate from a province or territory?'),
               txt('pnpDetails', 'Province, numéro et date du certificat', 'Province, number and date of the certificate', { showIf: yes('pnp') }),
-              { id: 'liveAt', type: 'text', label: t('Où comptez-vous vivre au Canada? (adresse complète si vous la connaissez)', 'Where do you plan to live in Canada? (full address if known)') }
+              { id: 'liveAt', type: 'text', label: t('Où comptez-vous vivre au Canada?', 'Where do you plan to live in Canada?'), hint: t('L’adresse complète si vous la connaissez, sinon la ville.', 'The full address if you know it, otherwise the city.') }
             ]
           },
           { id: 'funds', type: 'text', required: true, inputmode: 'numeric', label: t('Fonds d’établissement disponibles (en $ CA)', 'Settlement funds available (in CAD)'),
@@ -311,7 +315,7 @@
               txt('name', 'Prénom et nom', 'Given name and family name'),
               { id: 'age', type: 'number', required: true, min: 0, max: 120, label: t('Âge', 'Age') },
               { id: 'status', type: 'select', required: true, label: t('Statut au Canada', 'Status in Canada'), options: opts([['citizen', 'Citoyen(ne) canadien(ne)', 'Canadian citizen'], ['pr', 'Résident(e) permanent(e)', 'Permanent resident'], ['temp', 'Résident(e) temporaire', 'Temporary resident'], ['other', 'Autre', 'Other']]) },
-              { id: 'prov', type: 'select', list: 'ProvinceAbbrev', required: true, label: t('Province de résidence', 'Province of residence') },
+              { id: 'prov', type: 'select', options: PROVINCES, required: true, label: t('Province de résidence', 'Province of residence') },
               txt('address', 'Adresse complète', 'Full address'),
               { id: 'phone', type: 'tel', label: t('Téléphone', 'Phone') }
             ]
@@ -342,6 +346,7 @@
               { id: 'yTrade', type: 'number', required: true, min: 0, max: 15, label: t('Professionnel ou métier', 'Trade or vocational') }
             ]
           },
+          { id: 'diplomaNote', type: 'note', text: t('Vos diplômes, le plus élevé ou le plus récent en premier. Incluez les études secondaires, collégiales, universitaires et professionnelles.', 'Your diplomas, highest or most recent first. Include secondary, college, university and trade studies.') },
           diplomas('diplomas', ''),
           ...qualif('qualYN', 'Avez-vous un certificat de qualification (ou d’aptitude) dans un métier, délivré au Canada?', 'Do you have a certificate of qualification in a trade, issued in Canada?'),
           { id: 'spEduNote', type: 'note', showIf: WITH_SPOUSE, text: t('Les études de votre époux(se) ou conjoint(e), le plus élevé en premier.', 'Your spouse’s or partner’s education, highest first.') },
@@ -371,11 +376,11 @@
               txt('offerEmployer', 'Nom de l’employeur', 'Employer’s name'),
               txt('offerHours', 'Heures par semaine', 'Hours per week'),
               txt('offerWage', 'Salaire horaire', 'Hourly wage'),
-              { id: 'offerProv', type: 'select', list: 'ProvinceAbbrev', required: true, label: t('Province', 'Province') },
+              { id: 'offerProv', type: 'select', options: PROVINCES, required: true, label: t('Province', 'Province') },
               txt('offerCity', 'Ville', 'City'),
               area('offerDuties', 'Fonctions principales', 'Main duties'),
               { id: 'offerNoc', type: 'text', label: t('Code CNP (si vous le connaissez)', 'NOC code (if you know it)') },
-              { id: 'offerLmia', type: 'text', label: t('Numéro d’EIMT ou code de dispense (s’il y a lieu)', 'LMIA number or exemption code (if any)') }
+              { id: 'offerLmia', type: 'text', label: t('EIMT ou code de dispense', 'LMIA or exemption code'), hint: t('Le numéro d’EIMT ou le code de dispense, s’il y a lieu.', 'The LMIA number or the exemption code, if any.') }
             ]
           }
         ]
@@ -389,7 +394,7 @@
             id: 'addresses', type: 'repeat', min: 1, max: 25,
             label: t('Adresse', 'Address'), add: t('Ajouter une adresse', 'Add an address'),
             fields: [
-              from(), { id: 'current', type: 'checkbox', label: t('J’y habite encore', 'I still live there') },
+              { id: 'current', type: 'checkbox', label: t('J’y habite encore', 'I still live there') }, from(),
               to({ showIf: { field: 'current', notIn: ['Y'] } }),
               txt('street', 'Numéro, rue', 'Number, street'),
               txt('city', 'Ville', 'City'),
@@ -435,7 +440,7 @@
           {
             id: 'orgs', type: 'repeat', min: 1, max: 15, showIf: yes('orgYN'),
             label: t('Organisation', 'Organization'), add: t('Ajouter une organisation', 'Add an organization'),
-            fields: [from(), { id: 'current', type: 'checkbox', label: t('J’en fais encore partie', 'I am still a member') }, to({ showIf: { field: 'current', notIn: ['Y'] } }),
+            fields: [{ id: 'current', type: 'checkbox', label: t('J’en fais encore partie', 'I am still a member') }, from(), to({ showIf: { field: 'current', notIn: ['Y'] } }),
               txt('name', 'Nom de l’organisation (sans abréviation)', 'Name of the organization (no abbreviation)'), txt('place', 'Ville et pays', 'City and country'),
               txt('type', 'Type d’organisation', 'Type of organization'), txt('role', 'Activités ou postes occupés', 'Activities or positions held')]
           },
@@ -444,7 +449,7 @@
             id: 'military', type: 'repeat', min: 1, max: 5, showIf: yes('militaryYN'),
             label: t('Service', 'Service'), add: t('Ajouter un service', 'Add a service'),
             fields: [country('country', 'Pays servi', 'Country served'), from(), to(),
-              txt('unit', 'Branche, numéro de l’unité et nom du commandant', 'Branch, unit number and commanding officer’s name'),
+              txt('unit', 'Unité et commandant', 'Unit and commanding officer', { hint: t('La branche, le numéro de l’unité et le nom du commandant.', 'The branch, the unit number and the commanding officer’s name.') }),
               txt('rank', 'Grade(s)', 'Rank(s)'),
               { id: 'combat', type: 'textarea', label: t('Dates et lieux de tout combat actif (s’il y a lieu)', 'Dates and places of any active combat (if any)') }]
           }

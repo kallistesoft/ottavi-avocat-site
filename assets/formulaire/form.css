@@ -29,6 +29,11 @@
 .ik-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 10px; }
 .ik-f { margin-bottom: 24px; min-width: 0; }
 .ik-grid > .ik-f.wide { grid-column: 1 / -1; }
+/* Side-by-side questions: label, box, hint and error share rows, so both boxes start on the same line
+   even when one label wraps. Groups, notes and lists always take the full width. */
+.ik-grid:not(.cols-3) > .ik-f:not(.wide) { display: grid; grid-row: span 4; grid-template-rows: subgrid; align-content: start; }
+.ik-grid:not(.cols-3) > .ik-f:not(.wide) > .ik-label { align-self: end; }
+.ik-grid > .ik-group, .ik-grid > .ik-info, .ik-grid > .ik-repeat { grid-column: 1 / -1; }
 .ik-label { display: block; font-weight: 500; font-size: 15px; line-height: 1.4; margin-bottom: 8px; color: var(--ink); padding: 0; }
 .ik-f input, .ik-f select, .ik-f textarea {
   width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: #fff; border: 1px solid var(--line-2); border-radius: var(--radius-sm);
@@ -59,6 +64,7 @@
 
 .ik-repeat { display: grid; gap: 16px; margin-bottom: 28px; }
 .ik-item { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 16px 18px 4px; margin: 0; background: var(--bg); min-width: 0; }
+.ik-item > .ik-grid { clear: both; } /* full width under the floated « Retirer » link */
 .ik-item > legend { font-family: var(--serif); font-size: 18px; padding: 0 6px; margin-left: -6px; }
 .ik-remove { all: unset; cursor: pointer; float: right; font-size: 13px; color: var(--ink-3); margin: -4px 0 8px; text-decoration: underline; text-underline-offset: 3px; }
 .ik-remove:hover { color: var(--bad); }
