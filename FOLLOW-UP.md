@@ -103,5 +103,5 @@ The full DNS list before any change is saved in the session notes (27 records, 2
 
 ## Services page list (owner, 2026-11-26) — PR feature/services-faq-prix-nom
 - Anonymized sample audit report: waiting for Me Poughon's file; then add it under the audit (no client testimonials, ever: ethics rule).
-- CGV section 5 says audits are never refunded, even if not received; the new FAQ says "refund if the report is never sent". Align the CGV once she confirms the wording.
+- Checkout checkbox on the systeme.io order pages: make its wording match CGV section 5 (refund only if the report is never sent).
 - "OttaviLaw Firm Inc." / "vpavocat.com" variants are on the systeme.io pages (checkout, thank-you, injected header/footer), not in this repo: rename to "Ottavi Law Firm" in Chrome.
