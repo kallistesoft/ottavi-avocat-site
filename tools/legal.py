@@ -8,7 +8,7 @@ def todo(text):
     return f'<mark class="legal-todo">{text}</mark>'
 
 
-UPDATED = {'fr': 'Dernière mise à jour : 1er novembre 2026', 'en': 'Last updated: November 1, 2026'}
+UPDATED = {'fr': 'Dernière mise à jour : 26 novembre 2026', 'en': 'Last updated: November 26, 2026'}
 DRAFT_NOTE = {
     'fr': "<strong>Projet :</strong> ce document doit être validé par Me Poughon. Les passages surlignés sont à confirmer.",
     'en': "<strong>Draft:</strong> this document must be approved by Me Poughon. Highlighted passages need confirmation.",
@@ -37,8 +37,9 @@ LEGAL = {
                 "<strong>Guide :</strong> accès au PDF dès la confirmation du paiement.",
             ]),
             ("5. Annulation et remboursement", [
-                "Les audits et le guide ne sont pas remboursables une fois le paiement effectué.",
-                "Vous reconnaissez ce point en cochant la case prévue avant le paiement. Si vous n'avez pas reçu votre produit, écrivez à contact@vpavocat.com : nous vous le transmettons dans les meilleurs délais, idéalement sous quelques jours ouvrables, sans que ce délai soit garanti. Aucun remboursement n'est accordé dans ce cas.",
+                "<strong>Audits :</strong> un audit n'est pas remboursable une fois le paiement effectué, sauf si votre bilan ne vous est jamais envoyé après réception de votre questionnaire complété. Si le cabinet prouve qu'il vous a adressé votre bilan, aucun remboursement n'est accordé.",
+                "<strong>Guide :</strong> le guide n'est pas remboursable une fois le paiement effectué.",
+                "Vous reconnaissez ces conditions en cochant la case prévue avant le paiement. Si vous n'avez pas reçu votre bilan ou votre guide, écrivez à contact@vpavocat.com : nous vous le transmettons dans les meilleurs délais.",
                 "Ces conditions ne limitent pas les droits que la loi vous accorde et auxquels il n'est pas possible de renoncer, notamment en matière de protection du consommateur.",
                 "<strong>Clients résidant en France ou dans l'Union européenne :</strong> lorsque le droit de votre pays vous l'accorde, vous disposez d'un droit de rétractation de 14 jours à compter de votre achat, à exercer en écrivant à contact@vpavocat.com. Ce droit prend fin avant ce délai si vous demandez à recevoir le guide ou le bilan immédiatement et y renoncez expressément : pour le guide, dès que vous y avez accès ; pour un audit, dès que le bilan vous a été transmis.",
             ]),
@@ -100,8 +101,9 @@ LEGAL = {
                 "<strong>Guide:</strong> access to the PDF as soon as payment is confirmed.",
             ]),
             ("5. Cancellation and refunds", [
-                "Audits and the guide are non-refundable once paid.",
-                "You acknowledge this by ticking the box before payment. If you have not received your product, write to contact@vpavocat.com: we will send it as soon as we can, ideally within a few business days, though this timeframe is not guaranteed. No refund is given in this case.",
+                "<strong>Audits:</strong> an audit is non-refundable once paid, unless your report is never sent to you after we receive your completed questionnaire. If the firm can show that your report was sent to you, no refund is given.",
+                "<strong>Guide:</strong> the guide is non-refundable once paid.",
+                "You acknowledge these terms by ticking the box before payment. If you have not received your report or your guide, write to contact@vpavocat.com: we will send it as soon as we can.",
                 "These terms do not limit any rights the law grants you that cannot be waived, including under consumer protection law.",
                 "<strong>Clients living in France or the European Union:</strong> where the law of your country grants it, you have a 14-day right of withdrawal from your purchase, exercised by writing to contact@vpavocat.com. This right ends earlier if you ask to receive the guide or report immediately and expressly waive it: for the guide, once you have access to it; for an audit, once the report has been sent to you.",
             ]),
