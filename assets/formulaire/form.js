@@ -58,7 +58,7 @@
       conflictTitle: 'Quelles réponses garder ?',
       conflictText: (a, b) => `Ce navigateur contient déjà des réponses (modifiées le ${a}). Le fichier date du ${b}.`,
       useFile: 'Utiliser le fichier', keepCurrent: 'Garder celles du navigateur',
-      pdfFirm: 'Ottavi Law Firm Inc.', pdfFilled: (name, date) => `${name} · rempli le ${date}`, pdfFoot: 'Ottavi Law Firm Inc. · Confidentiel',
+      pdfFirm: 'Ottavi Law Firm', pdfFilled: (name, date) => `${name} · rempli le ${date}`, pdfFoot: 'Ottavi Law Firm · Confidentiel',
       pdfAttach: 'Réponses du questionnaire (données, pour import)', pdfClip: (f) => `Données jointes : ${f}`, pdfName: 'Questionnaire', progressName: 'questionnaire-ottavi',
       noName: 'Sans nom', empty: '—'
     },
@@ -103,7 +103,7 @@
       conflictTitle: 'Which answers should we keep?',
       conflictText: (a, b) => `This browser already holds answers (changed on ${a}). The file is from ${b}.`,
       useFile: 'Use the file', keepCurrent: "Keep this browser's answers",
-      pdfFirm: 'Ottavi Law Firm Inc.', pdfFilled: (name, date) => `${name} · completed on ${date}`, pdfFoot: 'Ottavi Law Firm Inc. · Confidential',
+      pdfFirm: 'Ottavi Law Firm', pdfFilled: (name, date) => `${name} · completed on ${date}`, pdfFoot: 'Ottavi Law Firm · Confidential',
       pdfAttach: 'Questionnaire answers (data, for import)', pdfClip: (f) => `Attached data: ${f}`, pdfName: 'Questionnaire', progressName: 'ottavi-questionnaire',
       noName: 'No name', empty: '—'
     }

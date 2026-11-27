@@ -35,7 +35,7 @@ T = {
     'fr': dict(
         legalNav={'cgv': 'CGV', 'privacy': 'Confidentialité'}, legalEyebrow='Informations légales',
         nav={'home': 'Accueil', 'services': 'Services', 'ressources': 'Ressources', 'cabinet': 'Le cabinet', 'contact': 'Contact'},
-        homeLabel='Ottavi Law Firm Inc. — accueil', navLabel='Principale', langLabel='Langue', cta='Réserver',
+        homeLabel='Ottavi Law Firm — accueil', navLabel='Principale', langLabel='Langue', cta='Consultation',
         skip='Aller au contenu', footNav='Pied de page', footNavTitle='Navigation', footContact='Nous joindre',
         address='204, rue du Saint-Sacrement, bureau 300<br>Montréal (Québec) H2Y 2S9',
         legal="Me Vanessa Poughon, avocate au Barreau du Québec · n° de membre 381467&#8209;0 · Non membre du Barreau de l'Alberta.",
@@ -44,7 +44,7 @@ T = {
         photo='[Photo actuelle du site]', photoLabel='Me Vanessa Poughon, avocate en immigration canadienne',
         audit="Audit Éclair — Travailleur", auditBlurb="Un questionnaire de 3 minutes, une analyse personnelle de vos réponses et un bilan détaillé sous 48 h.",
         auditSteps=["Réglez votre audit en toute sécurité.", "Répondez au questionnaire personnalisé (3 minutes).", "J'analyse personnellement votre profil.", "Recevez votre bilan stratégique détaillé sous 48 h (points forts, points faibles, programmes ciblés)."],
-        auditPrice='49 $', auditUnit='CAD + tx', auditEuro='environ 30 €', auditCta="Réserver mon audit", auditCardCta='Obtenir un audit', heroAudit='Audit Éclair · 49 $ CAD',
+        auditPrice='49 $', auditUnit='CAD + taxes applicables', auditEuro='Crédité en cas de consultation ultérieure', auditCta="Réserver mon audit", auditCardCta='Obtenir un audit', heroAudit='Audit Éclair · 49 $ CAD',
         auditHook="Immigrer au Canada : évitez les faux pas coûteux.",
         auditPitch="Votre projet d'immigration est un investissement. Ne laissez pas le hasard décider de votre avenir.",
         auditStakes=["Avant de dépenser des milliers de dollars inutilement ou de perdre des mois précieux, assurez-vous de prendre la bonne voie.",
@@ -58,7 +58,7 @@ T = {
         auditImg="Brochure de l'Audit Éclair d'Ottavi Law Firm ouverte sur un bureau, avec ses quatre étapes",
         howTitle='Un processus simple et sécurisé',
         tagline="Votre cabinet juridique de confiance pour concrétiser votre projet d'immigration, partout au Canada.",
-        bio=["Avocate franco-canadienne, forte de neuf années d'expérience en droit criminel et immigration en France, Me Vanessa Poughon a poursuivi son engagement juridique au Canada en obtenant son admission au Barreau du Québec.", "Aujourd'hui établie en Alberta après avoir vécu six ans au Québec, elle met son expertise au service des personnes et des familles souhaitant concrétiser leur projet d'immigration canadienne.", "À travers son cabinet Ottavi Law Firm Inc., elle offre un accompagnement juridique stratégique, rigoureux et humain dans le droit de l'immigration canadienne.", "Ses domaines de prédilection sont les programmes d'immigration fédéraux et provinciaux, notamment l'Entrée express et la Mobilité francophone.", "L'accompagnement juridique dans votre projet d'immigration au Canada, d'un océan à l'autre."],
+        bio=["Avocate franco-canadienne, forte de neuf années d'expérience en droit criminel et immigration en France, Me Vanessa Poughon a poursuivi son engagement juridique au Canada en obtenant son admission au Barreau du Québec.", "Aujourd'hui établie en Alberta après avoir vécu six ans au Québec, elle met son expertise au service des personnes et des familles souhaitant concrétiser leur projet d'immigration canadienne.", "À travers son cabinet Ottavi Law Firm, elle offre un accompagnement juridique stratégique, rigoureux et humain dans le droit de l'immigration canadienne.", "Ses domaines de prédilection sont les programmes d'immigration fédéraux et provinciaux, notamment l'Entrée express et la Mobilité francophone.", "L'accompagnement juridique dans votre projet d'immigration au Canada, d'un océan à l'autre."],
         phoneLabel='Téléphone', mailLabel='Courriel',
         consult='Consultation stratégique 1&nbsp;h', heroConsult='Consultation stratégique',
         consultBlurb="Avec Vanessa Poughon. Ce rendez-vous s'adresse à toute personne souhaitant faire le point sur sa situation, évaluer la faisabilité d'un projet d'immigration au Canada et définir la meilleure stratégie à adopter.",
@@ -83,21 +83,21 @@ T = {
         mailMe='Contactez-moi par courriel', facts='Coordonnées professionnelles',
         nlBlurb='Abonnez-vous à notre newsletter pour vous tenir informé des derniers changements en immigration canadienne.',
         subscribe="S'abonner", barLabel='Barreau', addrLabel='Adresse', specialty='Immigration canadienne',
-        titles={'cgv': 'Conditions générales de vente', 'privacy': 'Politique de confidentialité', 'home': 'Avocate en immigration canadienne — Ottavi Law Firm Inc.', 'services': 'Audit et consultation en immigration', 'ressources': 'Guide gratuit pour immigrer au Canada', 'cabinet': 'Me Vanessa Poughon, avocate', 'contact': 'Contacter une avocate en immigration'},
+        titles={'cgv': 'Conditions générales de vente', 'privacy': 'Politique de confidentialité', 'home': 'Avocate en immigration canadienne — Ottavi Law Firm', 'services': 'Audit et consultation en immigration', 'ressources': 'Guide gratuit pour immigrer au Canada', 'cabinet': 'Me Vanessa Poughon, avocate', 'contact': 'Contacter une avocate en immigration'},
         descs={
             'home': "Avocate en immigration canadienne à Montréal, membre du Barreau du Québec. Audit de profil dès 49 $ et consultation stratégique à distance, partout au Canada.",
             'services': "Audit Éclair travailleur ou étudiant, consultation stratégique, mandat complet et ebook Alberta : l'accompagnement en immigration canadienne qu'il vous faut.",
             'ressources': "Guide gratuit « Immigrer au Canada » (édition 2026) : voies d'immigration, Entrée express, erreurs à éviter. Et un modèle de CV au format canadien.",
             'cabinet': "Me Vanessa Poughon, avocate au Barreau du Québec, 9 ans d'expérience : programmes fédéraux et provinciaux, Entrée express, Mobilité francophone.",
             'contact': "Écrivez à Me Vanessa Poughon ou réservez une consultation en immigration canadienne, à distance, où que vous soyez dans le monde.",
-            'cgv': "Conditions générales de vente d'Ottavi Law Firm Inc. pour les achats en ligne : audits, consultations et ebook.",
-            'privacy': "Politique de confidentialité d'Ottavi Law Firm Inc. : renseignements recueillis, utilisation, conservation et vos droits.",
+            'cgv': "Conditions générales de vente d'Ottavi Law Firm pour les achats en ligne : audits, consultations et ebook.",
+            'privacy': "Politique de confidentialité d'Ottavi Law Firm : renseignements recueillis, utilisation, conservation et vos droits.",
         },
     ),
     'en': dict(
         legalNav={'cgv': 'Terms of sale', 'privacy': 'Privacy'}, legalEyebrow='Legal',
         nav={'home': 'Home', 'services': 'Services', 'ressources': 'Resources', 'cabinet': 'The firm', 'contact': 'Contact'},
-        homeLabel='Ottavi Law Firm Inc. — home', navLabel='Main', langLabel='Language', cta='Book',
+        homeLabel='Ottavi Law Firm — home', navLabel='Main', langLabel='Language', cta='Consultation',
         skip='Skip to content', footNav='Footer', footNavTitle='Navigate', footContact='Contact',
         address='204 Saint-Sacrement Street, Suite 300<br>Montréal, QC H2Y 2S9',
         legal='Vanessa Poughon, lawyer, member of the Barreau du Québec · no. 381467&#8209;0 · Not a member of the Law Society of Alberta.',
@@ -106,7 +106,7 @@ T = {
         photo='[Current site photo]', photoLabel='Vanessa Poughon, Canadian immigration lawyer',
         audit='Express Audit — Worker', auditBlurb='A 3-minute questionnaire, a personal analysis of your answers and a detailed report within 48 hours.',
         auditSteps=['Pay for your audit securely.', 'Answer the personalized questionnaire (3 minutes).', 'I personally analyze your profile.', 'Receive your detailed strategic report within 48 hours (strengths, weaknesses, programs to target).'],
-        auditPrice='$49', auditUnit='CAD + tax', auditEuro='about €30', auditCta='Book my audit', auditCardCta='Get an audit', heroAudit='Express audit · CAD $49',
+        auditPrice='$49', auditUnit='CAD + applicable taxes', auditEuro='Credited toward a later consultation', auditCta='Book my audit', auditCardCta='Get an audit', heroAudit='Express audit · CAD $49',
         auditHook='Immigrating to Canada: avoid costly missteps.',
         auditPitch="Your immigration project is an investment. Don't leave your future to chance.",
         auditStakes=['Before spending thousands of dollars for nothing or losing precious months, make sure you are on the right path.',
@@ -120,7 +120,7 @@ T = {
         auditImg='Ottavi Law Firm Express Audit brochure open on a desk, showing its four steps',
         howTitle='A simple, secure process',
         tagline='Your trusted law firm for your immigration project, anywhere in Canada.',
-        bio=['A French-Canadian lawyer with nine years of experience in criminal and immigration law in France, Vanessa Poughon continued her legal career in Canada by being admitted to the Barreau du Québec.', 'Now based in Alberta after living six years in Québec, she helps individuals and families make their Canadian immigration plans a reality.', 'Through her firm Ottavi Law Firm Inc., she offers strategic, rigorous and human legal support in Canadian immigration law.', 'Her areas of focus are federal and provincial immigration programs, including Express Entry and Francophone Mobility.', 'Legal support for your immigration project in Canada, from coast to coast.'],
+        bio=['A French-Canadian lawyer with nine years of experience in criminal and immigration law in France, Vanessa Poughon continued her legal career in Canada by being admitted to the Barreau du Québec.', 'Now based in Alberta after living six years in Québec, she helps individuals and families make their Canadian immigration plans a reality.', 'Through her firm Ottavi Law Firm, she offers strategic, rigorous and human legal support in Canadian immigration law.', 'Her areas of focus are federal and provincial immigration programs, including Express Entry and Francophone Mobility.', 'Legal support for your immigration project in Canada, from coast to coast.'],
         phoneLabel='Phone', mailLabel='Email',
         consult='1-hour strategy consultation', heroConsult='Strategy consultation',
         consultBlurb='With Vanessa Poughon. This appointment is for anyone who wants to take stock of their situation, assess whether an immigration project to Canada is feasible, and define the best strategy to follow.',
@@ -145,15 +145,15 @@ T = {
         mailMe='Contact me by email', facts='Professional details',
         nlBlurb='Subscribe to our newsletter to stay informed about the latest changes in Canadian immigration.',
         subscribe='Subscribe', barLabel='Bar', addrLabel='Address', specialty='Canadian immigration',
-        titles={'cgv': 'Terms of sale', 'privacy': 'Privacy policy', 'home': 'Canadian Immigration Lawyer — Ottavi Law Firm Inc.', 'services': 'Immigration audit and consultation', 'ressources': 'Free guide to immigrating to Canada', 'cabinet': 'Vanessa Poughon, lawyer', 'contact': 'Contact an immigration lawyer'},
+        titles={'cgv': 'Terms of sale', 'privacy': 'Privacy policy', 'home': 'Canadian Immigration Lawyer — Ottavi Law Firm', 'services': 'Immigration audit and consultation', 'ressources': 'Free guide to immigrating to Canada', 'cabinet': 'Vanessa Poughon, lawyer', 'contact': 'Contact an immigration lawyer'},
         descs={
             'home': 'Canadian immigration lawyer in Montréal, member of the Barreau du Québec. Profile audit from $49 and remote strategy consultations, anywhere in Canada.',
             'services': 'Express Audit for workers and students, strategy consultation, full mandate and Alberta ebook: the Canadian immigration support that fits your situation.',
             'ressources': 'Free “Immigrating to Canada” guide (2026 edition): immigration pathways, Express Entry, mistakes to avoid. Plus a Canadian-format CV template.',
             'cabinet': 'Vanessa Poughon, member of the Barreau du Québec, 9 years of experience: federal and provincial programs, Express Entry, Francophone Mobility.',
             'contact': 'Write to Vanessa Poughon or book a Canadian immigration consultation, remotely, wherever you are in the world.',
-            'cgv': 'Terms of sale of Ottavi Law Firm Inc. for online purchases: audits, consultations and ebook.',
-            'privacy': 'Privacy policy of Ottavi Law Firm Inc.: what information is collected, how it is used and kept, and your rights.',
+            'cgv': 'Terms of sale of Ottavi Law Firm for online purchases: audits, consultations and ebook.',
+            'privacy': 'Privacy policy of Ottavi Law Firm: what information is collected, how it is used and kept, and your rights.',
         },
     ),
 }
@@ -177,7 +177,7 @@ T['fr'].update(
     servicesLead="De la première vérification à la prise en charge complète : choisissez le niveau d'accompagnement dont vous avez besoin.",
     servicesTitle='Nos services en immigration canadienne', resourcesTitle='Ressources gratuites pour immigrer au Canada', contactTitle='Contacter votre avocate en immigration',
     jump='Aller à', mandateMore='Sur devis, selon votre dossier.',
-    menu='Menu', close='Fermer', mobileBook='Réserver', mobileAudit='Audit 49 $',
+    menu='Menu', close='Fermer', mobileBook='Consultation', mobileAudit='Audit 49 $',
     contactLead='Une question sur votre projet ? Écrivez-nous ou réservez directement un rendez-vous.',
     remote='Consultations à distance, où que vous soyez dans le monde.',
     bookTitle='Réserver un rendez-vous', writeTitle='Nous écrire', findTitle='Nous trouver',
@@ -213,7 +213,7 @@ T['en'].update(
     servicesLead='From a first check to full support: choose the level of help you need.',
     servicesTitle='Our Canadian immigration services', resourcesTitle='Free resources for immigrating to Canada', contactTitle='Contact your immigration lawyer',
     jump='Jump to', mandateMore='On quote, depending on your file.',
-    menu='Menu', close='Close', mobileBook='Book', mobileAudit='Audit $49',
+    menu='Menu', close='Close', mobileBook='Consultation', mobileAudit='Audit $49',
     contactLead='A question about your project? Write to us or book an appointment directly.',
     remote='Remote consultations, wherever you are in the world.',
     bookTitle='Book an appointment', writeTitle='Write to us', findTitle='Find us',
@@ -259,7 +259,7 @@ T['fr'].update(
     formNoscript="Ce questionnaire a besoin de JavaScript. Activez-le dans votre navigateur, ou écrivez-nous à",
 )
 T['fr']['titles']['form'] = 'Questionnaire client'
-T['fr']['descs']['form'] = "Questionnaire client d'Ottavi Law Firm Inc. : vos réponses restent sur votre appareil."
+T['fr']['descs']['form'] = "Questionnaire client d'Ottavi Law Firm : vos réponses restent sur votre appareil."
 T['en'].update(
     formEyebrow='Client questionnaire', formTitle='Your questionnaire',
     formLead='Answer at your own pace: your answers are saved on your device and sent nowhere. At the end, you create a PDF and email it to Ms. Poughon.',
@@ -269,7 +269,7 @@ T['en'].update(
 T['fr']['titles']['formRP'] = T['fr']['titles']['form']
 T['fr']['descs']['formRP'] = T['fr']['descs']['form']
 T['en']['titles']['form'] = 'Client questionnaire'
-T['en']['descs']['form'] = 'Ottavi Law Firm Inc. client questionnaire: your answers stay on your device.'
+T['en']['descs']['form'] = 'Ottavi Law Firm client questionnaire: your answers stay on your device.'
 T['en']['titles']['formRP'] = T['en']['titles']['form']
 T['en']['descs']['formRP'] = T['en']['descs']['form']
 
@@ -279,4 +279,48 @@ T['fr']['descs']['outil'] = 'Outil interne : remplir le formulaire IMM 5710 ou I
 T['fr'].update(
     outilEyebrow='Outil interne', outilTitle='Mobilité francophone : IMM 5710 ou IMM 1295',
     outilLead="Déposez le PDF du questionnaire envoyé par le client : le formulaire d’IRCC est rempli dans votre navigateur : IMM 5710 si le client est au Canada, IMM 1295 s’il est à l’extérieur. Rien n'est envoyé sur Internet.",
+)
+
+# Under the audit buttons, FAQ and short bio on the services page (owner's list, 2026-11-26).
+T['fr'].update(
+    auditAfter=["<strong>Délai :</strong> votre bilan sous 48 h ouvrables après réception du questionnaire complété.",
+                "<strong>Remboursement :</strong> aucun, sauf si votre bilan ne vous est jamais envoyé.",
+                "<strong>Ensuite :</strong> après le paiement, vous recevez un questionnaire à remplir, puis votre bilan par courriel."],
+    shortBioTitle='Qui analyse votre dossier',
+    shortBio="Me Vanessa Poughon, avocate au Barreau du Québec, neuf ans d'expérience en droit de l'immigration et en droit criminel en France. Elle analyse personnellement chaque questionnaire et rédige votre bilan.",
+    shortBioCta='Découvrir le cabinet',
+    faqEyebrow='FAQ', faqTitle="Questions fréquentes sur l'Audit Éclair",
+    faq=[
+        ("Qu'est-ce que l'Audit Éclair ?", "<p>C'est une analyse rapide de votre situation, faite par une avocate en immigration canadienne : vous recevez un bilan écrit qui fait le point sur les options possibles pour votre projet.</p>"),
+        ("Combien ça coûte ?", "<p>49 $ CAD + taxes applicables. Ce montant est crédité si vous prenez ensuite une consultation avec moi.</p>"),
+        ("Comment ça se passe ?", "<ol><li>Vous réglez l'audit en ligne.</li><li>Vous remplissez le questionnaire.</li><li>Vous recevez votre bilan par courriel, sous 48 h ouvrables.</li></ol>"),
+        ("Quel est le délai pour recevoir mon bilan ?", "<p>48 h ouvrables après réception du questionnaire complété.</p>"),
+        ("Puis-je être remboursé(e) ?", "<p>Pas de remboursement, sauf si l'audit n'est jamais envoyé. Si je prouve que votre bilan vous a été adressé, il n'est pas remboursé.</p>"),
+        ("Est-ce un avis juridique ?", "<p>L'audit donne une information générale et une orientation sur votre situation. Pour un avis juridique complet sur votre dossier, il faut prendre une consultation.</p>"),
+        ("Je vis en France / hors du Canada : puis-je faire l'audit ?", "<p>Oui, l'audit se fait entièrement en ligne, quel que soit votre pays de résidence.</p>"),
+        ("Mes documents et informations sont-ils confidentiels ?", "<p>Oui, les informations que vous transmettez sont traitées de façon confidentielle et ne servent qu'à préparer votre bilan.</p>"),
+        ("Puis-je choisir la consultation directement, sans audit ?", f'<p>Oui, vous pouvez <a href="{CALENDLY}" rel="noopener">réserver une consultation de 60 minutes</a>.</p>'),
+        ("Garantissez-vous un résultat ?", "<p>Non. Personne ne peut garantir l'issue d'une demande d'immigration : la décision revient toujours à IRCC. Mon rôle est de vous aider à choisir la bonne voie et à présenter un dossier solide.</p>"),
+    ],
+)
+T['en'].update(
+    auditAfter=["<strong>Timeframe:</strong> your report within 48 business hours of receiving your completed questionnaire.",
+                "<strong>Refunds:</strong> none, unless your report is never sent to you.",
+                "<strong>Next:</strong> after payment, you receive a questionnaire to fill in, then your report by email."],
+    shortBioTitle='Who reviews your file',
+    shortBio="Vanessa Poughon, member of the Barreau du Québec, with nine years of experience in immigration and criminal law in France. She personally reviews every questionnaire and writes your report.",
+    shortBioCta='About the firm',
+    faqEyebrow='FAQ', faqTitle='Express Audit: frequently asked questions',
+    faq=[
+        ("What is the Express Audit?", "<p>A quick review of your situation by a Canadian immigration lawyer: you receive a written report that sets out the possible options for your project.</p>"),
+        ("How much does it cost?", "<p>CAD $49 + applicable taxes. This amount is credited if you then book a consultation with me.</p>"),
+        ("How does it work?", "<ol><li>You pay for the audit online.</li><li>You fill in the questionnaire.</li><li>You receive your report by email, within 48 business hours.</li></ol>"),
+        ("How long until I get my report?", "<p>48 business hours after we receive your completed questionnaire.</p>"),
+        ("Can I get a refund?", "<p>No refund, unless the audit is never sent. If I can show that your report was sent to you, it is not refunded.</p>"),
+        ("Is this legal advice?", "<p>The audit gives general information and guidance on your situation. For full legal advice on your file, you need to book a consultation.</p>"),
+        ("I live in France / outside Canada: can I take the audit?", "<p>Yes, the audit is done entirely online, whatever your country of residence.</p>"),
+        ("Are my documents and information confidential?", "<p>Yes, the information you send is treated confidentially and is used only to prepare your report.</p>"),
+        ("Can I book a consultation directly, without the audit?", f'<p>Yes, you can <a href="{CALENDLY}" rel="noopener">book a 60-minute consultation</a>.</p>'),
+        ("Do you guarantee a result?", "<p>No. No one can guarantee the outcome of an immigration application: the decision always rests with IRCC. My role is to help you choose the right path and present a strong application.</p>"),
+    ],
 )
